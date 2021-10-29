@@ -1,0 +1,74 @@
+G:
+cd G:\TP_CMD
+
+::1:
+	notepad bonjour1.bat
+	@echo off
+	cls
+	echo Bonjour
+	pause
+	echo au revoir
+
+	Ce script efface l'écran avec cls, affiche bonjour, effectue une pause et affiche au revoir.
+
+::2:
+	Le commutateur /T permet d'afficher uniquement la date. Sans cet argument, "date" demande une nouvelle date après avoir affiché la date actuelle.
+	echo date /t>d.bat
+	echo time /t>t.bat
+	notepad dt.bat
+	@echo off
+	call d.bat
+	call t.bat
+	Nous sommes obligés d'utiliser call, car initialement un .bat(appelons X) appelé dans un .bat(appelons Y) ne rend pas la main au .bat Y, alors que c'est LUI qui appelle X.
+
+::3:
+	copy con bonjour2.bat
+	@echo off
+	echo Bonjour %1[CTRL+Z]
+	bonjour2 toto affiche bien Bonjour toto.
+
+	notepad param2.bat
+	G:\TP_CMD>param2
+	entrer un parametre
+	G:\TP_CMD>param2 hi
+	le parametre est:hi
+
+::3.1:
+	notepad agentsecret.bat
+	@echo off
+	IF "%1"=="bond" (
+		IF "%2"=="007" ( echo Bienvenue MR Bond ! ) ELSE echo argument 2 doit être 007 
+	) ELSE (
+		echo argument 1 doit être bond
+	)
+
+
+::4:
+	J'ai remplacé %1 et %2 par des variables d'environnement utilisateur.
+	@echo off
+	IF "%VAR1%"=="bond" (
+		IF "%VAR2%"=="007" ( echo Bienvenue MR Bond ! ) ELSE echo argument 2 doit être 007 
+	) ELSE (
+		echo argument 1 doit être bond
+	)
+
+::4.1:
+	notepad affParam.bat
+	@echo off
+	:start
+	IF [%1]==[] EXIT /B 0
+	echo %1
+	SHIFT
+	GOTO :start
+	::5:
+	help set
+	help if
+
+::5.1
+	notepad aleatoire.bat
+	@echo off
+	set /a myVar=%RANDOM% %% 9 + 1
+	echo %myVar%
+
+::5.2:
+

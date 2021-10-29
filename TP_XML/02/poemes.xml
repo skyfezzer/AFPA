@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<poemes>
+	<!----------WHAT A WONDERFUL WORLD---------->
+	<poeme id="WAWW">
+		<titre>WHAT A WONDERFUL WORLD</titre>
+		<auteur>Louis Armstrong</auteur>
+		<date>2021/09/01</date>
+		<contenu>
+			<strophe>
+				<ver>I see trees of green, red roses too</ver>
+				<ver>I see them bloom for me and you</ver>
+				<ver>And I think to myself, what a wonderful world</ver>
+			</strophe>
+			<strophe>
+				<ver>I see skies of blue and clouds of white</ver>
+				<ver>The bright blessed day, the dark sacred night</ver>
+				<ver>And I think to myself, what a wonderful world</ver>
+			</strophe>
+			<strophe>
+				<ver>The colours of the rainbow, so pretty in the sky</ver>
+				<ver>Are also on the faces of people going by</ver>
+				<ver>I see friends shakin' hands, sayin' "How do you do?"</ver>
+				<ver>They're really saying "I love you"</ver>
+			</strophe>
+			<strophe>
+				<ver>I hear babies cryin', I watch them grow</ver>
+				<ver>They'll learn much more than I'll ever know</ver>
+				<ver>And I think to myself, what a wonderful world</ver>
+				<ver>Yes, I think to myself, what a wonderful world</ver>
+			</strophe>
+		</contenu>
+	</poeme>
+	
+	
+	<!----------IMAGINE BY JOHN LENNON---------->
+	<poeme id="imagine">
+		<titre>Imagine</titre>
+		<auteur>John Lennon</auteur>
+		<date>1988/12/04</date>
+		<contenu>
+			<strophe>
+			<ver>Imagine there's no heaven[[</ver>
+			<ver>It's easy if you try</ver>
+			<ver>No hell below us</ver>
+			<ver>Above us only sky</ver>
+			<ver>Imagine all the people</ver>
+			<ver>Living for today...</ver>
+			</strophe>
+			<strophe>
+			<ver>Imagine there's no countries</ver>
+			<ver>It isn't hard to do</ver>
+			<ver>Nothing to kill or die for</ver>
+			<ver>And no religion too</ver>
+			<ver>Imagine all the people</ver>
+			<ver>Living life in peace...</ver>
+			</strophe>
+			<strophe>
+			<ver>You may say I'm a dreamer</ver>
+			<ver>But I'm not the only one</ver>
+			<ver>I hope someday you'll join us</ver>
+			<ver>And the world will be as one</ver>
+			</strophe>
+			<strophe>
+			<ver>Imagine no possession</ver>
+			<ver>I wonder if you can</ver>
+			<ver>No need for greed or hunger</ver>
+			<ver>A brotherhood of man</ver>
+			<ver>Imagine all the people</ver>
+			<ver>Sharing all the world...</ver>
+			</strophe>
+			<strophe>
+			<ver>You may say I'm a dreamer</ver>
+			<ver>But I'm not the only one</ver>
+			<ver>I hope someday you'll join us</ver>
+			<ver>And the world will live as one]]</ver>
+			</strophe>
+		</contenu>
+	</poeme>
+	
+	
+	<!--------------DORMEUR DU VAL-------------->
+	<poeme id="dormeurDuVal">
+		<titre>Le dormeur du val</titre>
+		<auteur>Arthur Rimbaud</auteur>
+		<date>1870/10</date>
+		<contenu>
+			<strophe>
+				<ver>C'est un trou de verdure où chante une rivière,</ver>
+				<ver>Accrochant follement aux herbes des haillons</ver>
+				<ver>D'argent ; où le soleil, de la montagne fière,</ver>
+				<ver>Luit : c'est un petit val qui mousse de rayons.</ver>
+			</strophe>
+			<strophe>
+				<ver>Un soldat jeune, bouche ouverte, tête nue,</ver>
+				<ver>Et la nuque baignant dans le frais cresson bleu,</ver>
+				<ver>Dort ; il est étendu dans l'herbe, sous la nue,</ver>
+				<ver>Pâle dans son lit vert où la lumière pleut.</ver>
+			</strophe>
+			<strophe>
+				<ver>Les pieds dans les glaïeuls, il dort. Souriant comme</ver>
+				<ver>Sourirait un enfant malade, il fait un somme :</ver>
+				<ver>Nature, berce-le chaudement : il a froid.</ver>
+			</strophe>
+			<strophe>
+				<ver>Les parfums ne font pas frissonner sa narine ;</ver>
+				<ver>Il dort dans le soleil, la main sur sa poitrine,</ver>
+				<ver>Tranquille. Il a deux trous rouges au côté droit.</ver>
+			</strophe>
+		</contenu>
+	</poeme>
+</poemes>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<tournoi>
+	<partie id="1">
+		<date>1998</date>
+		<lieu>Moscou</lieu>
+		<blanc>Karpov</blanc>
+		<noir>Kasparov</noir>
+		<coups>
+			<coup id="1">
+				<demiCoupBlanc>E4</demiCoupBlanc>
+				<demiCoupNoir>E5</demiCoupNoir>
+			</coup>
+			<coup id="2">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="3">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="4">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>nE7</demiCoupNoir>
+			</coup>
+			<coup id="5">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="6">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="7">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="8">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="9">
+				<demiCoupBlanc>??</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+			<coup id="10">
+				<demiCoupBlanc>RxE7</demiCoupBlanc>
+				<demiCoupNoir>??</demiCoupNoir>
+			</coup>
+		</coups>
+		<gagnant>??</gagnant>
+	</partie>
+</tournoi>

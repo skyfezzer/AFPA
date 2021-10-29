@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<inventaire>
+	<livre>
+		<titre>La fille de brooklyn</titre>
+		<auteur>G.Musso</titre>
+	</livre>
+		<titre>Astérix</titre>
+		<auteur>R.Goscinny</titre>
+	</livre>
+		<titre>Toto</titre>
+		<auteur>Tata</titre>
+	</livre>
+</inventaire>

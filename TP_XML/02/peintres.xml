@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<peintres>
+	<!-- GUSTAVE CAILLEBOTTE -->
+	<peintre id="caillebotte">
+		<nomcomplet>
+			<nom>CAILLEBOTTE</nom>
+			<prenom>Gustave</prenom>
+		</nomcomplet>
+		<famille_artistique>Impressionniste</famille_artistique>
+		<naissance>
+			<lieu>Paris</lieu>
+			<date>1848/08/19</date>
+		</naissance>
+		<deces>
+			<lieu>Gennevilliers, France</lieu>
+			<date>1894/02/21</date>
+		</deces>
+		<biographie>
+			Gustave Caillebotte, dont les oeuvres personnelles furent, jusqu'à peu, oubliées, fut à la fois un peintre reconnu et un mécène généreux du mouvement impressionniste.
+			Il naquit en 1848 dans une famille très aisée qui batit sa fortune dans les textiles puis dans les biens immobiliers à l'occasion du redéveloppement du Paris du Baron Haussmann.
+			Ingénieur de profession, mais aussi ancien élève de l'Ecole des Beaux-Arts de Paris où il fut l'élève de Léon Bonnat, il rencontra Edgar Degas, Claude Monet, et Pierre Auguste Renoir dès 1874 et les aida à organiser la 1ère exposition des Impressionnistes à Paris cette même année.
+			<portrait src="./images/caillebotte/artist.jpg"/>
+			<oeuvres>
+				<oeuvre>
+					Les raboteurs de parquet
+					<image src="./images/caillebotte/raboteurs_parquet.jpg"/>
+				</oeuvre>
+				<oeuvre>
+					Rue de Paris par temps de pluie
+					<image src="./images/caillebotte/ruedeparis_tempsdepluie.jpg"/>
+				</oeuvre>
+			</oeuvres>
+		</biographie>
+	</peintre>
+	
+	<!-- MONET -->
+	<peintre id="monet">
+		<nomcomplet>
+			<nom>MONET</nom>
+			<prenom>CLAUDE</prenom>
+		</nomcomplet>
+		<famille_artistique>Impressionniste</famille_artistique>
+		<naissance>
+			<lieu>Paris, France</lieu>
+			<date>1840/11/14</date>
+		</naissance>
+		<deces>
+			<lieu>Giverny, France</lieu>
+			<date>1926/12/05</date>
+		</deces>
+		<biographie>
+			Monet est reconnu comme étant l'un des créateurs de l'impressionnisme, le plus convaincu et le plus constant des peintres impressionnistes, en même temps que le chef de file du mouvement impressionniste.
+			Depuis ses débuts comme artiste, il fut encouragé à toujours écouter et transmettre ses perceptions, et toutes les critiques qu'il dut subir ne l'éloignèrent jamais de cette quête.
+			Claude Monet naquit à Paris le 14 Novembre 1840 mais toutes ses impressions d'enfant et d'adolescent sont liées à la ville du Havre où sa famille déménagea vers 1845. Son père y tenait un commerce d'articles coloniaux.
+			<portrait src="./images/monet/artist.jpg"/>
+			<oeuvres>
+				<oeuvre>
+					La rue de la Bavolle à Honfleur
+					<image src="./images/monet/rue_honfleur.jpg"/>
+				</oeuvre>
+				<oeuvre>
+					Gare Saint-Lazare
+					<image src="./images/monet/saint_lazare.jpg"/>
+				</oeuvre>
+			</oeuvres>
+		</biographie>
+	</peintre>
+	
+	<peintre id="vangogh">
+		<nomcomplet>
+			<nom>VAN GOGH</nom>
+			<prenom>Vincent</prenom>
+		</nomcomplet>
+		<famille_artistique>Impressionniste</famille_artistique>
+		<naissance>
+			<lieu>Groot-Zundert,Pays-Bas</lieu>
+			<date>1853/03/30</date>
+		</naissance>
+		<deces>
+			<lieu>Auvers-sur-Oise, France</lieu>
+			<date>1890/07/29</date>
+		</deces>
+		<biographie>
+			Fils d'un pasteur néerlandais, neveu de son homonyme Vincent Van Gogh qui co-dirigeait la firme de négoce d'art international Goupil &amp; Cie à La Haye, Vincent, comme son frère Théo, commença par suivre la tradition familiale en juillet 1869 en entrant en apprentissage chez Goupil &amp; Cie.
+			Il devait y rester plus de 5 ans, à La Haye, puis dans les filiales, à Bruxelles, Londres (juin 1873 à mai 1875), Paris (jusqu'à fin 1875), où il commenca à développer un dégoût pour le commerce de l'art. Il se mit alors à mener une vie de reclus et à lire intensément la Bible.
+			Il quitte son emploi et retourne chez ses parents à Etten en 1876, avant de retourner en Angleterre comme professeur dans un internat, puis prédicateur.
+			L'année suivante, il commence des études de théologie à Amsterdam, qu'il abandonne un an après, avant de partir pour le Borinage, en Belgique, comme prédicateur et évangéliste auprès des mineurs de charbon de cette région désolée.
+			Son tempérament fougueux et ses opinions politiques et sociales avancées le font se heurter aux autorités de l'Eglise et Vincent abandonne sa vocation.
+			<portrait src="./images/vangogh/artist.jpg"/>
+			<oeuvres>
+				<oeuvre>
+					Fritillaires couronne impériale dans un vase de cuivre
+					<image src="./images/vangogh/fritillaires.jpg"/>
+				</oeuvre>
+				<oeuvre>
+					Le semeur au soleil couchant
+					<image src="./images/vangogh/semeur_soleil_couchant.jpg"/>
+				</oeuvre>
+			</oeuvres>
+		</biographie>
+	</peintre>
+</peintres>
+
+

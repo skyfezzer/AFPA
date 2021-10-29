@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project name="monProjet" default="cree">
+	<target name="cree">
+		<mkdir dir="rep1"/>
+
+	</target>
+	<target name="detruit">
+		<delete dir="rep1"/>
+	</target>
+</project>

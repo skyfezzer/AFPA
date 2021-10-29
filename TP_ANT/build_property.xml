@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="monProjet" default="init" basedir=".">
+	<property name="projet.nom" value="mon_projet"/>
+	<property name="projet.version" value="0.0.10"/>
+	<target name="init">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/r1"/>
+		<mkdir dir="${basedir}/r2"/>
+	</target>
+	<target name="clean">
+		<echo message="Nettoyage du projet ${projet.nom}"/>
+		<delete dir="${basedir}/r1"/>
+		<delete dir="${basedir}/r2"/>
+	</target>
+</project>

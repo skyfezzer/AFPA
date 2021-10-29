@@ -1,0 +1,5 @@
+::1.1:
+7z a archive.zip D:\TP_CMD\repertoire1\*
+7z t archive.zip
+7z e archive.zip -o%temp%
+

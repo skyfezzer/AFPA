@@ -1,0 +1,14 @@
+::1:
+mkdir D:\TP_CMD\bin
+cd D:\TP_CMD\
+move ./*.bat ./bin/
+
+::2:
+path %PATH%;D:\TP_CMD\bin
+path 
+:: Le path contient bien notre répertoire bin. Les commandes marchent en dehors du dossier bin/.
+
+::3:
+rundll32 sysdm.cpl,EditEnvironmentVariables
+::ouvre aussi directement l'éditeur de variables d'environnement.
+::Changer %path% ici le changera indépendament de la session cmd.

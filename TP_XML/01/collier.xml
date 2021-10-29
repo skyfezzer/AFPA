@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<bijou>
+	<collier>
+		<diamant/>
+		<rubis>
+			<quantité>2</quantité>
+		</rubis>
+		<perle>
+			<quantité>3</quantité>
+			<couleur>Blanc</couleur>
+		</perle>
+		<perle>
+			<quantité>3</quantité>
+			<couleur>Noir</couleur>
+		</perle>
+	</collier>
+</bijou>

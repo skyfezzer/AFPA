@@ -1,0 +1,31 @@
+D:\TP_ANT>doskey npp=start notepad++ $*
+D:\TP_ANT>npp build.xml
+
+D:\TP_ANT>ant
+Buildfile: D:\TP_ANT\build.xml
+
+cree:
+    [mkdir] Created dir: D:\TP_ANT\rep1
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+D:\TP_ANT>ant detruit
+Buildfile: D:\TP_ANT\build.xml
+
+detruit:
+   [delete] Deleting directory D:\TP_ANT\rep1
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+D:\TP_ANT>move build.xml build_test0.xml
+        1 fichier(s) déplacé(s).
+
+D:\TP_ANT>ant -f build_test0.xml detruit
+Buildfile: D:\TP_ANT\build_test0.xml
+
+detruit:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

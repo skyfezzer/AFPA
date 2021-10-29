@@ -1,0 +1,47 @@
+::1:
+ren D:/TP_CMD TP_CMD_SAUV
+mkdir D:\TP_CMD\repertoire1\r5
+mkdir D:\TP_CMD\r2
+mkdir D:\TP_CMD\r3
+mkdir D:\TP_CMD\r4\r6
+mkdir D:\TP_CMD\r4\r7
+mkdir D:\TP_CMD\r4\r8
+copy NUL D:\TP_CMD\repertoire1\fichier1
+copy NUL D:\TP_CMD\repertoire1\f2
+copy NUL D:\TP_CMD\r4\r8\f1
+
+rmdir /S D:\TP_CMD\
+
+::2:
+copy con cree.bat
+mkdir D:\TP_CMD\repertoire1\r5
+mkdir D:\TP_CMD\r2
+mkdir D:\TP_CMD\r3
+mkdir D:\TP_CMD\r4\r6
+mkdir D:\TP_CMD\r4\r7
+mkdir D:\TP_CMD\r4\r8
+[CTRL+Z] [ENTER]
+copy NUL D:\TP_CMD\repertoire1\fichier1
+copy NUL D:\TP_CMD\repertoire1\f2
+copy NUL D:\TP_CMD\r4\r8\f1
+
+copy con D:\TP_CMD\supprime.bat
+rmdir /S D:\TP_CMD\repertoire1
+rmdir /S D:\TP_CMD\r2
+rmdir /S D:\TP_CMD\r3
+rmdir /S D:\TP_CMD\r4
+[CTRL+Z] [ENTER]
+
+::3:
+echo %temp%
+::Les fichiers cree/supprime.bat peuvent être éxécutés depuis %temp%, car le %path% pointera vers D:/TP_CMD après avoir pointé vers tous les autres dossiers.
+
+::4:
+::Les commandes sont toujours accessibles, maintenant D:\TP_CMD est dans le path système (indépendant de la session)
+
+::5:
+::L'arborescence est créée dans le dossier temp(dossier actuel) au lieu du dossier D:\TP_CMD.
+::Pour retrouver le fonctionnement d'origine, nous pouvons ajouter:
+D:\
+cd D:\TP_CMD 
+::en première commande des fichiers cree/supprime

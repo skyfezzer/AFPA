@@ -1,0 +1,36 @@
+Structure du dossier pour le volume DATA
+Le num‚ro de s‚rie du volume est 2896-D882
+D:.
+³   arbre_ANSI.txt
+³   arbre_EOM.txt
+³   arbre_UTF8.txt
+³   projet_OEM.txt
+³   
+ÃÄÄÄbin
+³       affParam.bat
+³       agentsecret.bat
+³       agentsecret_envvar.bat
+³       agentsecret_var.bat
+³       aleatoire.bat
+³       bonjour1.bat
+³       bonjour2.bat
+³       chkzip.bat
+³       cree.bat
+³       d.bat
+³       dt.bat
+³       param2.bat
+³       supprime.bat
+³       t.bat
+³       trouve.bat
+³       _trier_TPCMD.bat
+³       
+ÃÄÄÄle‡on
+ÃÄÄÄresources
+³       OSM_Vendargues_ecole_polygon.zip
+³       path_bak_afpa.txt
+³       path_bak_pcperso.txt
+³       _ZIP TXT IMG... GOES HERE
+³       
+ÀÄÄÄ‚ph‚mŠre
+        ast‚ro‹de
+        

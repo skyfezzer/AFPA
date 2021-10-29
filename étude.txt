@@ -1,0 +1,13 @@
+attrib C:\*
+attrib -a -h C:\*
+attrib C:\users\
+
+set myVar=value
+
+set result=erreur
+IF "%1" == "OUI" set result=affirmatif
+IF "%1" == "NON" set result=négatif
+echo %result%
+
+pour connaitre son adresse ip, 'ipconfig' suffit théoriquement.
+Pour faire des requetes ICMP en continu, soit ping -n -1 ou ping -t.

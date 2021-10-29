@@ -1,0 +1,9 @@
+::Pour connaitre son adresse ip, 'ipconfig' suffit théoriquement.
+::Pour faire des requetes ICMP en continu, soit ping -n -1 ou ping -t.
+
+::netstat -an permet d'afficher toutes les connexions TCP/UDP ouvertes, et de forcer l'affichage en chiffres des émetteurs/cibles. |find "TCP" va tronquer ce résultat pour nous afficher uniquement les lignes contenant "TCP", soit uniquement les connexions TCP.
+
+::Sauvegarder interface réseau :
+netsh -c interface dump > G:/interface-backup.txt
+::pour restaurer : 
+netsh -f G:/interface-backup.txt

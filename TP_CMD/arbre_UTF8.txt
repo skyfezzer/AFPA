@@ -1,0 +1,33 @@
+﻿Structure du dossier pour le volume DATA
+Le numéro de série du volume est 2896-D882
+D:.
+│   arbre_EOM.txt
+│   
+├───bin
+│       affParam.bat
+│       agentsecret.bat
+│       agentsecret_envvar.bat
+│       agentsecret_var.bat
+│       aleatoire.bat
+│       bonjour1.bat
+│       bonjour2.bat
+│       chkzip.bat
+│       cree.bat
+│       d.bat
+│       dt.bat
+│       param2.bat
+│       supprime.bat
+│       t.bat
+│       trouve.bat
+│       _trier_TPCMD.bat
+│       
+├───leçon
+├───resources
+│       OSM_Vendargues_ecole_polygon.zip
+│       path_bak_afpa.txt
+│       path_bak_pcperso.txt
+│       _ZIP TXT IMG... GOES HERE
+│       
+└───éphémère
+        astéroïde
+        

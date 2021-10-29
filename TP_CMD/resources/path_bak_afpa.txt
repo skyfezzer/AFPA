@@ -1,0 +1,1 @@
+PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\77011-05-10\AppData\Local\Microsoft\WindowsApps;;D:\TP_CMD

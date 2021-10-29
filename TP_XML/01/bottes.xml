@@ -1,0 +1,12 @@
+<?xml version="1.0">
+<magasin>
+	<paire id="1" type="botte">
+		<chaussure pied="d"/>
+		<chaussure pied="g"/>
+	</paire>
+	
+	<paire id="2" type="sneakers">
+		<chaussure pied="d"/>
+		<chaussure pied="g"/>
+	</paire>
+</magasin>

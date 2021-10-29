@@ -1,0 +1,7 @@
+::1:
+set TP_HOME=D:\TP_CMD
+set tp_home fonctionne correctement et affiche D:\TP_CMD
+
+::2:
+::Par le GUI de modification des variables d'env., j'ai remplacé D:\TP_CMD\bin par "%TP_HOME%\bin".
+::Afficher le path dans la console n'affichera pas %tp_home% mais directement le chemin entier.

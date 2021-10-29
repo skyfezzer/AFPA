@@ -1,0 +1,65 @@
+::1:
+	D:
+	cd %TP_HOME%
+	md éphémère leçon
+	copy nul éphémère\astéroïde
+
+::2:
+	tree /f
+
+	Structure du dossier pour le volume DATA
+	Le numéro de série du volume est 2896-D882
+	D:.
+	├───bin
+	│       affParam.bat
+	│       agentsecret.bat
+	│       agentsecret_envvar.bat
+	│       agentsecret_var.bat
+	│       aleatoire.bat
+	│       bonjour1.bat
+	│       bonjour2.bat
+	│       chkzip.bat
+	│       cree.bat
+	│       d.bat
+	│       dt.bat
+	│       param2.bat
+	│       supprime.bat
+	│       t.bat
+	│       trouve.bat
+	│       _trier_TPCMD.bat
+	│
+	├───leçon
+	├───resources
+	│       OSM_Vendargues_ecole_polygon.zip
+	│       path_bak_afpa.txt
+	│       path_bak_pcperso.txt
+	│       _ZIP TXT IMG... GOES HERE
+	│
+	└───éphémère
+			astéroïde
+
+::3:
+	type arbre_EOM.txt
+
+::5:
+Le copier coller dans word fonctionne aussi, mais l'indentation/l'espacement des lignes est différent. Le texte est moins lisible.
+
+::6:
+3 octets de BOM : 0xEFBBBF
+
+::7:
+En UTF-8, les caractères 'A' et 'a' se codent sur un octet. 'a'=0x61, 'A'=0x41.
+
+::8:
+L'offset minuscule->majuscule est de 0x20, soit 32.
+Cet offset est le même dans tous les jeux de caractères.
+
+::9:
+'é', en UTF-8, se code sur deux octets : 0xC3A9
+
+::10:
+La table UTF-16 hérite des caractères UTF-8.
+En UTF-16, le caractère 'A' se code donc sur un octet : 0x41
+
+::11:
+L'octet 0x0D indique un RETOUR CHARIOT (carriage return, le curseur retourne au début de la ligne), et l'octet 0x0A une nouvelle ligne qui commence (NEW LINE FEED)

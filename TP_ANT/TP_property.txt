@@ -1,0 +1,43 @@
+D:\TP_ANT>ant
+Buildfile: D:\TP_ANT\build.xml
+
+init:
+     [echo] Init du projet mon_projet
+    [mkdir] Created dir: D:\TP_ANT\r1
+    [mkdir] Created dir: D:\TP_ANT\r2
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+D:\TP_ANT>ant clean
+Buildfile: D:\TP_ANT\build.xml
+
+clean:
+     [echo] Nettoyage du projet mon_projet
+   [delete] Deleting directory D:\TP_ANT\r1
+   [delete] Deleting directory D:\TP_ANT\r2
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+D:\TP_ANT>ant init
+Buildfile: D:\TP_ANT\build.xml
+
+init:
+     [echo] Init du projet mon_projet
+    [mkdir] Created dir: D:\TP_ANT\r1
+    [mkdir] Created dir: D:\TP_ANT\r2
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+D:\TP_ANT>ant clean
+Buildfile: D:\TP_ANT\build.xml
+
+clean:
+     [echo] Nettoyage du projet mon_projet
+   [delete] Deleting directory D:\TP_ANT\r1
+   [delete] Deleting directory D:\TP_ANT\r2
+
+BUILD SUCCESSFUL
+Total time: 0 seconds

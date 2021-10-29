@@ -1,0 +1,151 @@
+D:\TP_ANT>doskey npp=start notepad++ $*
+D:\TP_ANT>npp build.xml
+
+	<!--			Q3 			-->
+<?xml version="1.0"?>
+<project name="tpant.copy" default="init" basedir=".">
+	<property name="projet.nom" value="mon_projet"/>
+	<property name="projet.version" value="0.0.10"/>
+
+	<target name="init">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/r1"/>
+		<touch file="${basedir}/r1/tata"/>
+		<touch file="${basedir}/r1/ab12"/>
+		<touch file="${basedir}/r1/tutu"/>
+		<touch file="${basedir}/r1/titi"/>
+		<touch file="${basedir}/r1/toto"/>
+		<touch file="${basedir}/r1/trivial"/>
+		<touch file="${basedir}/r1/t632"/>
+		<touch file="${basedir}/r1/tbc2"/>
+		<touch file="${basedir}/r1/tnt"/>
+		<touch file="${basedir}/r1/t"/>
+	</target>
+</project> 
+
+
+D:\TP_ANT>ant copy
+Buildfile: D:\TP_ANT\build.xml
+
+copy:
+     [echo] Copie des fichiers du projet tp_ant_copy
+     [copy] Copying 10 files to C:\Users\77011-~1\AppData\Local\Temp\r1
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
+<!--			Q4 			-->
+<property name="dest" location="${env.TEMP}/r1"/>
+<property environment="env"/>
+<target name="copy" depends="init">
+	<echo message="Copie des fichiers du projet ${projet.nom}"/>
+	<copy todir="${copy.dest}">
+		<fileset dir="${basedir}/r1"/>
+	</copy>
+</target>
+
+D:\TP_ANT>ant copy
+Buildfile: D:\TP_ANT\build.xml
+
+init:
+     [echo] Init du projet tp_ant_copy
+
+copy:
+     [echo] Copie des fichiers du projet tp_ant_copy
+     [copy] Copying 10 files to C:\Users\77011-~1\AppData\Local\Temp\r1
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+<!--			Q5 			-->
+<target name="clean" >
+	<echo message="Nettoyage du projet ${projet.nom}"/>
+	<delete includeEmptyDirs="true" verbose="true">
+		<fileset dir="${dest}"/>
+	</delete>
+</target>
+	
+	D:\TP_ANT>ant clean
+Buildfile: D:\TP_ANT\build.xml
+
+clean:
+     [echo] Nettoyage du projet tp_ant_copy
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\ab12
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\t
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\t632
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\tata
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\tbc2
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\titi
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\tnt
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\toto
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\trivial
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1\tutu
+   [delete] Deleting C:\Users\77011-~1\AppData\Local\Temp\r1
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+<!--			Q6 			-->
+<target name="copy2">
+	<echo>Copie des fichiers du projet ${projet.nom}
+	dont la 3e lettre est "t"</echo>
+	<copy todir="${dest}" verbose="true">
+		<fileset dir="${basedir}/r1" includes="**/??t*"/>
+	</copy>
+</target>
+
+D:\TP_ANT>ant copy2
+Buildfile: D:\TP_ANT\build.xml
+
+copy2:
+     [echo] Copie des fichiers du projet tp_ant_copy
+     [echo]             dont la 3e lettre est "t"
+     [copy] Copying 5 files to C:\Users\77011-~1\AppData\Local\Temp\r1
+     [copy] Copying D:\TP_ANT\r1\tata to C:\Users\77011-~1\AppData\Local\Temp\r1\tata
+     [copy] Copying D:\TP_ANT\r1\titi to C:\Users\77011-~1\AppData\Local\Temp\r1\titi
+     [copy] Copying D:\TP_ANT\r1\tnt to C:\Users\77011-~1\AppData\Local\Temp\r1\tnt
+     [copy] Copying D:\TP_ANT\r1\toto to C:\Users\77011-~1\AppData\Local\Temp\r1\toto
+     [copy] Copying D:\TP_ANT\r1\tutu to C:\Users\77011-~1\AppData\Local\Temp\r1\tutu
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+<!--			Q7 			-->
+J'ai renommé <target name="init"> d'origine par <target name="init_old"> afin de faire une cible avec <filelist>
+	<!-- INIT avec FILELIST -->
+	<target name="init">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/r1"/>
+		<touch>
+			<filelist 
+				dir="${basedir}/r1" 
+				files="tata,ab12,tutu,titi,toto,trivial,t632,tbc2,tnt,t"/>
+		</touch>
+	</target>
+	
+D:\TP_ANT>ant init
+Buildfile: D:\TP_ANT\build.xml
+
+init:
+     [echo] Init du projet tp_ant_copy
+    [mkdir] Created dir: D:\TP_ANT\r1
+    [touch] Creating D:\TP_ANT\r1\tata
+    [touch] Creating D:\TP_ANT\r1\ab12
+    [touch] Creating D:\TP_ANT\r1\tutu
+    [touch] Creating D:\TP_ANT\r1\titi
+    [touch] Creating D:\TP_ANT\r1\toto
+    [touch] Creating D:\TP_ANT\r1\trivial
+    [touch] Creating D:\TP_ANT\r1\t632
+    [touch] Creating D:\TP_ANT\r1\tbc2
+    [touch] Creating D:\TP_ANT\r1\tnt
+    [touch] Creating D:\TP_ANT\r1\t
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
+
+
+
+

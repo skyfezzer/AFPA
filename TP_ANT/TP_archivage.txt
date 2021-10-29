@@ -1,0 +1,30 @@
+
+<!--					Q1 					-->
+<target name="archive">
+	<zip destfile="${src}.zip" basedir="${src}"/>
+</target>
+
+
+D:\TP_ANT>ant archive
+Buildfile: D:\TP_ANT\build.xml
+
+archive:
+      [zip] Building zip: D:\TP_ANT\r1.zip
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+<!--					Q2 & 3 					-->
+<target name="deploy" depends="archive">
+	<unzip src="${src}.zip" dest="${env.TEMP}/backup"/>
+</target>
+D:\TP_ANT>ant deploy
+Buildfile: D:\TP_ANT\build.xml
+
+deploy:
+    [unzip] Expanding: D:\TP_ANT\r1.zip into C:\Users\77011-~1\AppData\Local\Temp\backup
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+copy build.xml build_zip.xml

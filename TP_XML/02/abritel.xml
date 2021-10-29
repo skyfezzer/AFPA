@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abritel>
+	<annonce>
+		<type_location>Bungalow</type_location>
+		<titre>Location bungalow au Saut d'Acomat - Pointe-Noire Rentcar https://locasgp.com</titre>
+		<coeur_like>false</coeur_like>
+		<lieu>
+			<ville>Pointe-Noire</ville>
+			<gps>
+				<lat>16.216965</lat>
+				<long>-61.759157</long>
+			</gps>
+		</lieu>
+
+		<contenu>
+			<carousel>
+				<image src="./images/abritel/01_interieur.jpg"/>
+				<image src="./images/abritel/01_exterieur.jpg"/>
+			</carousel>
+			<distance_plage unite="minute" distance-a-pied="false">6</distance_plage>
+			<nb_personnes_max>2</nb_personnes_max>
+			<nb_chambres>1</nb_chambres>
+			<nb_lits></nb_lits>
+			<nb_wc></nb_wc>
+			<delai_annul unite="jour">14</delai_annul>
+			<prix_moy unite="jour">52€</prix_moy>
+		</contenu>
+		
+		<avis>
+			<nb_avis from="particulier">22</nb_avis>
+			<moy_avis>4.9</moy_avis>
+			<superlatif>Fabuleux</superlatif>
+		</avis>
+
+	</annonce>
+	
+	<annonce>
+		<type_location>Villa</type_location>
+		<titre>Tres Belle villa avec piscine et magnifique vue sur la Mer des Caraibes</titre>
+		<coeur_like>false</coeur_like>
+		<lieu>
+			<ville>Pointe-Noire</ville>
+			<gps>
+				<lat>16.218863</lat>
+				<long>-61.782833</long>
+			</gps>
+		</lieu>
+		
+		<contenu>
+			<carousel>
+				<image src="./images/abritel/02_interieur.jpg"/>
+				<image src="./images/abritel/02_exterieur.jpg"/>
+			</carousel>
+			<distance_plage unite="minute" distance-a-pied="true">13</distance_plage>
+			<nb_personnes_max>6</nb_personnes_max>
+			<nb_chambres>3</nb_chambres>
+			<nb_lits>3</nb_lits>
+			<nb_wc></nb_wc>
+			<delai_annul unite="jour">30</delai_annul>
+			<prix_moy unite="jour">290€</prix_moy>
+		</contenu>
+		
+		<avis>
+			<nb_avis from="particulier">18</nb_avis>
+			<moy_avis>4.9</moy_avis>
+			<superlatif>Fabuleux</superlatif>
+		</avis>
+
+	</annonce>
+</abritel>

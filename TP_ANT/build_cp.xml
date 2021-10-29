@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project name="tp.ant.copy" default="init" basedir=".">
+	<property name="projet.nom" value="tp_ant_copy"/>
+	<property name="projet.version" value="0.0.10"/>
+	<property environment="env"/>
+	<property name="dest" location="${env.TEMP}/r1"/>
+	
+	<!-- INIT avec FILELIST -->
+	<target name="init">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/r1"/>
+		<touch>
+			<filelist 
+				dir="${basedir}/r1" 
+				files="tata,ab12,tutu,titi,toto,trivial,t632,tbc2,tnt,t"/>
+		</touch>
+	</target>
+	
+	<!-- INIT sans FILELIST -->
+	<target name="init_old">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/r1"/>
+		<touch file="${basedir}/r1/tata"/>
+		<touch file="${basedir}/r1/ab12"/>
+		<touch file="${basedir}/r1/tutu"/>
+		<touch file="${basedir}/r1/titi"/>
+		<touch file="${basedir}/r1/toto"/>
+		<touch file="${basedir}/r1/trivial"/>
+		<touch file="${basedir}/r1/t632"/>
+		<touch file="${basedir}/r1/tbc2"/>
+		<touch file="${basedir}/r1/tnt"/>
+		<touch file="${basedir}/r1/t"/>
+	</target>
+	
+	<!-- COPY -->
+	<target name="copy" depends="init">
+		<echo message="Copie des fichiers du projet ${projet.nom}"/>
+		<copy todir="${dest}">
+			<fileset dir="${basedir}/r1"/>
+		</copy>
+	</target>
+	
+	<!-- COPY2 -->
+	<target name="copy2">
+		<echo>Copie des fichiers du projet ${projet.nom}
+		dont la 3e lettre est "t"</echo>
+		<copy todir="${dest}" verbose="true">
+			<fileset dir="${basedir}/r1" includes="**/??t*"/>
+		</copy>
+	</target>
+	
+	<!-- CLEAN -->
+	<target name="clean">
+		<echo message="Nettoyage du projet ${projet.nom}"/>
+		<delete includeEmptyDirs="true" verbose="true">
+			<fileset dir="${dest}"/>
+		</delete>
+	</target>
+</project> 
