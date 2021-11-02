@@ -1,3 +1,4 @@
 # ignore not project-related folders
 PDFs/
 System Volume Information/
+$RECYCLE.BIN/
