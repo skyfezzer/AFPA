@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="ragot.ecf" default="init" basedir=".">
+	<target name="init">
+		<echo message="Init du projet ${projet.nom}"/>
+		<mkdir dir="${basedir}/src"/>
+		<mkdir dir="${basedir}/build/classes"/>
+		<mkdir dir="${basedir}/dist"/>
+		<touch>
+			<filelist 
+				dir="${basedir}" 
+				files="src/MonApp.Java, build/classes/MonApp.class, dist/MonApp.jar"/>
+		</touch>
+	</target>
+	
+	<target name="clean">
+		<echo message="Nettoyage du projet ${projet.nom}"/>
+		<delete includeEmptyDirs="true" verbose="true">
+			<fileset dir="${basedir}" excludes="*.xml"/>
+		</delete>
+	</target>
+
+</project>

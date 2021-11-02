@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<magasin>
+	<article>Kingston - SDC4 - Carte Micro SDHC 8 Go (Classe 4) - Adaptateur SD
+		<fournisseur>Kingston Technology</fournisseur>
+		<facturation>
+			<prixTTC unite="eur">6,55</prixTTC>
+			<minFreeShipping lieu="FRANCE" unite="eur">25</minFreeShipping>
+		</facturation>
+		
+		<!-- Stocker des booleans dans un xml me parait incorrect, 
+		j'aurais plutôt mis la quantité exacte mais elle n'est pas fournie.-->
+		<enStock>true</enStock>
+
+		
+		<feedback>
+			<nbAvis>2040</nbAvis>
+			<nbEtoilesMoyen>4</nbEtoilesMoyen>
+			<nbQuestions>
+				<nbReponses>84</nbReponses>
+			</nbQuestions>
+		</feedback>
+		
+	</article>
+</magasin>
