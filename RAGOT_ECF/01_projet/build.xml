@@ -15,7 +15,7 @@
 	<target name="clean">
 		<echo message="Nettoyage du projet ${projet.nom}"/>
 		<delete includeEmptyDirs="true" verbose="true">
-			<fileset dir="${basedir}" excludes="*.xml"/>
+			<fileset dir="${basedir}" excludes="build.xml"/>
 		</delete>
 	</target>
 
