@@ -1,0 +1,13 @@
+Q1:
+6:double a=(double)x/y;
+
+Q2:
+5:System.out.println(a + " + " + b + " = " + (a + b));
+
+Q3:
+e = (byte)(c + d);
+Le résultat devient négatif car nous dépassons 127, le type "byte" est signé.
+
+Q4:
+le résultat affiché est: 36.900000000000006
+il interprète les nombres comme des double, sauf que la précision comme nous l'avons tapé (1 seule décimale) n'est pas suffisante.
