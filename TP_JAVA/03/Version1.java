@@ -39,9 +39,11 @@ public class Version1 {
             System.out.println("Chevaux ; " + Arrays.toString(chevauxPref));
 
             // MESSAGE DE FIN
-            System.out.print("\n\nVoulez-vous continuer (O/N) ?");
-            rep = sc.nextLine().charAt(0);
-        }while(rep != 'o');
+            do{
+            System.out.print("Voulez-vous continuer (O/N) ?");
+            rep = sc.nextLine().toLowerCase().charAt(0);
+            }while(!(rep == 'o' || rep == 'n'));
+        }while(rep == 'o');
 
         sc.close();
     }
