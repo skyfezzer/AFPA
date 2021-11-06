@@ -41,7 +41,12 @@ public class Version1 {
             // MESSAGE DE FIN
             do{
             System.out.print("Voulez-vous continuer (O/N) ?");
-            rep = sc.nextLine().toLowerCase().charAt(0);
+            try{
+                rep = sc.nextLine().toLowerCase().charAt(0);
+            }catch(Exception e){
+                rep = ' ';
+                continue;
+            }
             }while(!(rep == 'o' || rep == 'n'));
         }while(rep == 'o');
 
