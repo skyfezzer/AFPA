@@ -12,23 +12,16 @@ public class Exo3_06 {
 		sc.close();
 		
 		switch(val) {
-			case 11:
-			case 10:
+			case 11: case 10:
 				System.out.println("Minime");
 				break;
-			case 9:
-			case 8:
+			case 9: case 8:
 				System.out.println("Pupille");
 				break;
-			case 7:
-			case 6:
+			case 7: case 6:
 				System.out.println("Poussin");
 				break;
-			case 5:
-			case 4:
-			case 3:
-			case 2:
-			case 1:
+			case 5:	case 4:	case 3:	case 2:	case 1:
 				System.out.println("Trop jeune.");
 				break;
 			default:
