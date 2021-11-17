@@ -10,17 +10,30 @@ public class Exo5_02 {
 	}
 	
 	private static int askNumberBetween(int min, int max) {
-		int i;
+		int i = 0;
 		Scanner sc = new Scanner(System.in);
 		do{
 			System.out.printf("Entrez un nombre entre %d et %d : ",min,max);
 			try{
 				
 				i = sc.nextInt();
-				sc.nextLine();
+				if(sc.hasNextLine()) {
+					sc.nextLine();
+				}
+
+				if(i > max) {
+					System.out.println("Plus petit !");
+				}
+				if(i < min) {
+					System.out.println("Plus grand !");
+				}
+					
+				
 				
 			}catch(Exception e){
-				i = min-1;
+				i = 0;
+				sc.close();
+				sc = new Scanner(System.in);
 				continue;
 			}
 			
