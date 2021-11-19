@@ -12,6 +12,7 @@ public class Exo5_06 {
 		if (sc.hasNextLine()) {
 			sc.nextLine();
 		}
+		sc.close();
 		int i = 1;
 		while (i <= value) {
 			result += i++;

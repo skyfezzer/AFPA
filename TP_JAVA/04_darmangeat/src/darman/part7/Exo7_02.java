@@ -28,6 +28,7 @@ public class Exo7_02 {
 			}
 			i++;
 		}
+		sc.close();
 		int[] tab2 = myTab.clone();
 		System.out.println("BEFORE SORT SELECTION: " + Arrays.toString(myTab));
 		triParSelecDecroissant(myTab);

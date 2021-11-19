@@ -1,6 +1,5 @@
 package darman.part7;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Exo7_01 {

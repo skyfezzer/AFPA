@@ -34,7 +34,7 @@ public class Exo6_08 {
 			}
 			i++;
 		}
-		
+		sc.close();
 		System.out.printf("Le tableau contient %d entiers positif et %d entiers négatif",nbPos,nbNeg);
 		
 		

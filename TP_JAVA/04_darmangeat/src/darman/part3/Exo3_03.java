@@ -9,14 +9,14 @@ public class Exo3_03 {
 		Scanner sc = new Scanner(System.in);
 		
 		for(int i=0;i<noms.length;i++) {
-			System.out.printf("Entrez le prénom num.%d : ",i+1);
+			System.out.printf("Entrez le prï¿½nom num.%d : ",i+1);
 			noms[i] = sc.nextLine();
 		}
-
+		sc.close();
 		String testNoms[] = noms.clone();
 		Arrays.sort(testNoms);
 		
-		System.out.printf("Les prénoms %s triés dans l'ordre alphabétique.",Arrays.equals(noms, testNoms)?"sont":"ne sont pas");
+		System.out.printf("Les prï¿½noms %s triï¿½s dans l'ordre alphabï¿½tique.",Arrays.equals(noms, testNoms)?"sont":"ne sont pas");
 		
 	}
 }

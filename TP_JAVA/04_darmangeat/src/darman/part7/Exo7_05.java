@@ -19,8 +19,6 @@ public class Exo7_05 {
 		if(min>=max){
 			return false;
 		}
-		
-		boolean didFind = false;
 		int milieu = (min+max)/2;
 		/*
 		 * System.out.printf("\nSEARCHING BETWEEN %d and %d",min,max);

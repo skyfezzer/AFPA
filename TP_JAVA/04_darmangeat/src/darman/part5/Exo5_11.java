@@ -11,7 +11,7 @@ public class Exo5_11 {
 		nbPartants = Integer.parseInt(sc.nextLine());
 		System.out.println("Nb de chevaux joués :");
 		nbJoues = Integer.parseInt(sc.nextLine());
-
+		sc.close();
 		
 		int x = fact(nbPartants) / fact(nbPartants - nbJoues);
 		int y = fact(nbPartants) / (fact(nbJoues)*fact(nbPartants - nbJoues));

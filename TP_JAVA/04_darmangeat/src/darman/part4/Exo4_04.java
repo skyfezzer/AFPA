@@ -6,12 +6,11 @@ public class Exo4_04 {
 
 	public static void main(String[] args) {
 		int nbCopies;
-		float montant;
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Nombre de photocopies à effectuer:");
+		System.out.print("Nombre de photocopies ï¿½ effectuer:");
 		nbCopies = sc.nextInt();
 		sc.close();
-		System.out.printf("Le prix des reprographies sera de %.2f €", calculerPrix(nbCopies));
+		System.out.printf("Le prix des reprographies sera de %.2f ï¿½", calculerPrix(nbCopies));
 		
 
 	}

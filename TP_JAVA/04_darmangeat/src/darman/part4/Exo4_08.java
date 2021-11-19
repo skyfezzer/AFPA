@@ -15,10 +15,10 @@ public class Exo4_08 {
 		System.out.println("Entrez un mois (FORMAT NUMERIQUE)");
 		mois = sc.nextInt();
 		sc.nextLine();
-		System.out.println("Entrez une année (FORMAT NUMERIQUE)");
+		System.out.println("Entrez une annï¿½e (FORMAT NUMERIQUE)");
 		annee = sc.nextInt();
 		sc.nextLine();
-		
+		sc.close();
 		bissex = ((annee%4==0) && (annee%100!=0)) || (annee%400==0);
 		
 		maxDaysMonth=mois==2?bissex?29:28:mois%2==0?mois<8?30:31:31;

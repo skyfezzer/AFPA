@@ -8,7 +8,6 @@ public class Exo4_05 {
 	public static void main(String[] args) {
 		int age;
 		boolean isHomme, paieImpots = false;
-		char rep;
 		sc = new Scanner(System.in);
 		System.out.print("Entrez votre age : ");
 		age = sc.nextInt();

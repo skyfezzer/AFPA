@@ -19,7 +19,7 @@ public class Exo4_06 {
 			}
 			
 		}
-
+		sc.close();
 		gagne1 = scores[0] > scores[1];
 		gagne2 = scores[0] > scores[2];
 		gagne3 = scores[0] > scores[3];

@@ -12,6 +12,7 @@ public class Exo5_05 {
 		if (sc.hasNextLine()) {
 			sc.nextLine();
 		}
+		sc.close();
 		System.out.printf("Table de %d :",value);
 		int i = 1;
 		while (i <= 10) {

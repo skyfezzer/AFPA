@@ -13,17 +13,17 @@ public class Exo2_04 {
 		if(sc.hasNextLine())
 			sc.nextLine();
 		
-		System.out.print("Quantité d'articles : ");
+		System.out.print("Quantitï¿½ d'articles : ");
 		quantity = sc.nextInt();
 		if(sc.hasNextLine())
 			sc.nextLine();
 		
-		System.out.print("Taux de la TVA (en % de 1 à 100) : ");
+		System.out.print("Taux de la TVA (en % de 1 ï¿½ 100) : ");
 		tvaRate = sc.nextFloat();
 		if(sc.hasNextLine())
 			sc.nextLine();
-		
-		System.out.printf("%s\t%s\t%s\t%s\n","Prix HT","Qté","TVA","Prix TTC");
+		sc.close();
+		System.out.printf("%s\t%s\t%s\t%s\n","Prix HT","Qtï¿½","TVA","Prix TTC");
 		System.out.printf("%.2f\t%d\t%.2f%%\t%.2f",prixHT,quantity,tvaRate,(prixHT * (1+(tvaRate/100)) * quantity));
 
 	}
