@@ -3,13 +3,9 @@ package darman.part8;
 import java.util.Scanner;
 
 public class Exo8_07 {
-	/*class BadMovementException extends RuntimeException{
-		public BadMovementException(String errorMessage, Throwable error) {
-	        super(errorMessage, error);
-	    }
-	}*/
 	final static char JOUEUR = 'X';
 	final static char CASE_VIDE = 'O';
+	
 	public static void main(String[] args) {
 		
 		char[][] damier = new char[10][10];
@@ -20,10 +16,10 @@ public class Exo8_07 {
 		
 		for(int i = 0;i<damier.length;i++) {
 			for(int j = 0; j < damier[i].length;j++) {
-				damier[i][j] = 'O';
+				damier[i][j] = CASE_VIDE;
 			}
 		}
-		damier[9][0] = 'X';
+		damier[9][0] = JOUEUR;
 		jX = 9;
 		jY = 0;
 		
@@ -72,7 +68,6 @@ public class Exo8_07 {
 				}
 			}
 		}
-		//afficheDamier(damier);
 		
 	}
 	
@@ -80,7 +75,6 @@ public class Exo8_07 {
 		for(int i = 0;i<damier.length;i++) {
 			for(int j = 0; j < damier[i].length;j++) {
 				System.out.print(damier[i][j]+" ");
-				//System.out.print(i+""+j+" ");
 			}
 			System.out.print("\n");
 		}
