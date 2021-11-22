@@ -9,16 +9,16 @@ public class Exo4_07 {
 		String result = "";
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println( "Entrez l’âge: ");
+		System.out.println( "Entrez l'age: ");
 		age = sc.nextInt();
 		sc.nextLine();
-		System.out.println( "Entrez le nombre d'années de permis: ");
+		System.out.println( "Entrez le nombre d'annÃ©es de permis: ");
 		annPermis = sc.nextInt();
 		sc.nextLine();
 		System.out.println( "Entrez le nombre d'accidents: ");
 		nbAccidents = sc.nextInt();
 		sc.nextLine();
-		System.out.println( "Entrez le nombre d'années d'assurance: ");
+		System.out.println( "Entrez le nombre d'annÃ©es d'assurance: ");
 		annFid = sc.nextInt();
 		sc.close();
 		
@@ -32,7 +32,7 @@ public class Exo4_07 {
 		}else if(age >= 25 && annPermis >= 2 && nbAccidents == 0) {
 			result = annFid<5?"VERT":"BLEU";
 		}else {
-			result = "REFUSÉ";
+			result = "REFUSÃ‰";
 		}
 
 		System.out.printf("L'assurance vous propose un contrat %s",result);
