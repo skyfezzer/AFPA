@@ -27,6 +27,10 @@ public class Exo4_06 {
 			System.out.println("Score total différent de 100, votes truqués !");
 			return;
 		}else {
+			/*
+			RESULT :
+			1= gagnant,	2= en tête du 2nd tour,	3= 2nd tour, 4 = éliminé
+			*/
 			if(scores[1] > 50 || scores[2] > 50 || scores[3] > 50) {
 				result = 4;
 			}else {
@@ -41,10 +45,6 @@ public class Exo4_06 {
 				}
 			}
 		}
-		/*
-			RESULT :
-			1= gagnant,	2= en t�te du 2nd tour,	3= 2nd tour, 4 = �limin�
-		*/
 		String output = "";
 		switch(result) {
 			case 1:
