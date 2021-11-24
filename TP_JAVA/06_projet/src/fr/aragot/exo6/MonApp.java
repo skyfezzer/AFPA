@@ -11,11 +11,12 @@ public class MonApp {
 		System.out.println("DISPLAY\tHEX\tVAL");
 		
 		// Pour chacun des caractères dans la table ASCII
+		int cpt = 0;
 		for(Character c : tableASCII) {
 			// Selon la constante déclarée en tête du fichier, on va chercher soit "JavaIdentifierPART" soit "JavaIdentifierSTART"
 			if(STARTING_IDENTIFIER_ONLY?Character.isJavaIdentifierStart(c):Character.isJavaIdentifierPart(c)) {
 				// Formatage pour l'affichage en tableau dans la console.
-				System.out.printf("%s\t%s\t%d\n"
+				System.out.printf("%s\t%s\t%d\t| "
 									// Si le caractère n'est pas affichable, affiche "ND?" (Ne devrait jamais arriver)
 									,Character.isISOControl(c)?"ND?":c
 									// Valeur HEX sous forme 0x00
@@ -23,18 +24,22 @@ public class MonApp {
 									// Valeur numérique du caractère
 									,(int)c
 								);
+				cpt++;
+				if(cpt%4==0) {
+					System.out.println();
+				}
 			}
 		}
 		
 	}
 	
 	private static char[] getAllASCIIChars() {
-		char[] result = new char[127-32];
+		char[] result = new char[127];
 		// Table ASCII jusqu'à 127
-		for( var i = 32; i <= 126; i++ )
+		for( var i = 0; i <= 126; i++ )
 		{
 			// Récupère le caractère qui a pour valeur i, et l'ajoute à String s.
-		    result[i-32] = (char)i;
+		    result[i] = (char)i;
 		}
 		return result;
 	}
