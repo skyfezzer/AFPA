@@ -12,7 +12,7 @@ public class Item4 {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Entrez une URL > ");
 		url = sc.nextLine();
-		
+		sc.close();
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(url);
 		while(matcher.find()) {
@@ -21,5 +21,6 @@ public class Item4 {
 			System.out.printf("Fichier : %s\n",matcher.group("file"));
 		}
 	}
+	
 
 }

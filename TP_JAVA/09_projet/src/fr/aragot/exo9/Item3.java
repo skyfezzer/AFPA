@@ -2,13 +2,13 @@ package fr.aragot.exo9;
 
 public class Item3 {
 
-	private static final String CHAINE = "MotDePasseSuperSecret";
+	private static final String CHAINE = "MotDePasseSuperSecretZ";
 	public static void main(String[] args) {
 		String pwd = CesarEncrypt(CHAINE, 3);
 		System.out.println(CHAINE);
 		System.out.println(pwd);
 		System.out.println(CesarDecrypt(pwd, 3));
-
+		System.out.println((int)'A');
 	}
 	
 	private static String CesarEncrypt(String s, int offset) {
