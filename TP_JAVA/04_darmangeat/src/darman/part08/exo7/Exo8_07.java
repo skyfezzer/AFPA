@@ -1,10 +1,10 @@
-package darman.part08;
+package darman.part08.exo7;
 
 import java.util.Scanner;
 
 public class Exo8_07 {
-	final static char JOUEUR = 'X';
-	final static char CASE_VIDE = 'O';
+	final static char JOUEUR = '\u25a0';
+	final static char CASE_VIDE = '\u25a1';
 	
 	public static void main(String[] args) {
 		
@@ -28,25 +28,25 @@ public class Exo8_07 {
 			while(!hasMoved) {
 				try {
 					afficheDamier(damier);
-					System.out.println("___________________\nMouvements:\n0 1\n X \n2 3");
+					System.out.println("___________________\nMouvements:\n7 \u25a1 9\n\u25a1 \u25a0 \u25a1\n1 \u25a1 3");
 					System.out.printf("Entrez la direction: ");
 					input = Integer.parseInt(sc.nextLine());
 					switch(input) {
-						case 0:
+						case 7:
 							damier[jX-1][jY-1] = JOUEUR;
 							damier[jX][jY] = CASE_VIDE;
 							jX = jX -1;
 							jY = jY -1;
 							hasMoved = true;
 							break;
-						case 1:
+						case 9:
 							damier[jX-1][jY+1] = JOUEUR;
 							damier[jX][jY] = CASE_VIDE;
 							jX = jX -1;
 							jY = jY +1;
 							hasMoved = true;
 							break;
-						case 2:
+						case 1:
 							damier[jX+1][jY-1] = JOUEUR;
 							damier[jX][jY] = CASE_VIDE;
 							jX = jX +1;
