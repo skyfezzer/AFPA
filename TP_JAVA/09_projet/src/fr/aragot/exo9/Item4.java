@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class Item4 {
 
 	public static void main(String[] args) {
-		String regex = "(?<prot>\\S+):\\/\\/(?<server>\\S*?)\\/(?<file>.+)";
+		String regex = "(?<prot>\\S+):\\/\\/(?<server>\\S*?)\\/(?<file>.*)";
 		String url;
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Entrez une URL > ");
