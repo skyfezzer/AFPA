@@ -9,14 +9,14 @@ public class Item1 {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Entrez un montant en € :");
-		int money = sc.nextInt();
+		System.out.print("Entrez un montant en EURO :");
+		double money = sc.nextDouble();
 		sc.close();
-		System.out.println(money + "€ = " + parseMoney(money));
+		System.out.println(money + "â‚¬ = " + parseMoney(money));
 		
 	}
 	
-	private static String parseMoney(int amount) {
+	private static String parseMoney(double amount) {
 		String str = String.valueOf(amount);
 		String result;
 		String mult = "";
@@ -31,10 +31,10 @@ public class Item1 {
 				result = str;
 			}
 		}
-		return String.format("$%.1f%s", euroToDollar(Integer.parseInt(result)),mult);
+		return String.format("$%.1f%s", euroToDollar(Float.parseFloat(result)),mult);
 	}
 	
-	private static float euroToDollar(float euro) {
+	private static double euroToDollar(double euro) {
 		return (euro*EUROUSD_RATE);
 	}
 

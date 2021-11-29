@@ -18,17 +18,17 @@ public class MultiplesV2 {
 				nbDiv = Integer.parseInt(sc.nextLine());
 				flag = false;
 			}catch(Exception e) {
-				System.out.println("Erreur, réessayons.");
+				System.out.println("Erreur, rï¿½essayons.");
 			}
 		}
 		flag = true;
 		while(flag) {
 			try {
-				System.out.print("Cherchons de 0 à n. Entrez n > ");
+				System.out.print("Cherchons de 0 ï¿½ n. Entrez n > ");
 				nMax = Integer.parseInt(sc.nextLine());
 				flag = false;
 			}catch(Exception e) {
-				System.out.println("Erreur, réessayons.");
+				System.out.println("Erreur, rï¿½essayons.");
 			}
 		}
 
