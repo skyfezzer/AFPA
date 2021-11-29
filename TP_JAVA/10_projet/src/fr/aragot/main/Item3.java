@@ -15,7 +15,7 @@ public class Item3 {
 		init();
 		do {
 			demanderNotes();
-			calculerMoyenne();
+			moyenne = calculerMoyenne();
 			trierNotes();
 			afficheResultats();
 		} while (userVeutContinuer());
@@ -72,7 +72,7 @@ public class Item3 {
 		return notes[(notes.length - 1 + emptyVars) / 2];
 	}
 
-	private static void calculerMoyenne() {
+	private static double calculerMoyenne() {
 		emptyVars = 0;
 		double cumul = 0;
 		for (int i = 0; i < notes.length; i++) {
@@ -82,7 +82,7 @@ public class Item3 {
 				cumul += notes[i];
 			}
 		}
-		moyenne = cumul / (notes.length - emptyVars);
+		return cumul / (notes.length - emptyVars);
 
 	}
 

@@ -7,7 +7,7 @@ public class Item3 {
 	static final int ITEM_PER_LINE = 20;
 	static final int MAX_LINES_BEFORE_PAUSE = 10;
 	static Scanner sc;
-	static int nbDiv, nMax;
+	static int nbr, nMax;
 
 	public static void main(String[] args) {
 		do{
@@ -17,14 +17,14 @@ public class Item3 {
 
 	}
 	
-	private static void recupererParams() {
+	public static void recupererParams() {
 		boolean flag = true;
 		sc = new Scanner(System.in);
 		
 		while(flag) {
 			try {
 				System.out.printf("Entrez le nombre pour lequel nous allons chercher les multiples (max:%d)> ",Integer.MAX_VALUE);
-				nbDiv = Integer.parseInt(sc.nextLine());
+				nbr = Integer.parseInt(sc.nextLine());
 				flag = false;
 			}catch(Exception e) {
 				System.out.println("Erreur, réessayons.");
@@ -41,10 +41,13 @@ public class Item3 {
 			}
 		}
 	}
-	
-	private static void affMultiples() {
+	/**
+	 * Affiche les multiples déjà calculés/préparés.
+	 * 
+	 */
+	public static void affMultiples() {
 		
-		System.out.printf("\nAffichage des MULTIPLES de %d entre 0 et %d\n", nbDiv, nMax);
+		System.out.printf("\nAffichage des MULTIPLES de %d entre 0 et %d\n", nbr, nMax);
 		for (int x = 0; x <= nMax; x++) {
 			if (x % ITEM_PER_LINE == 0)
 				System.out.println();
@@ -54,7 +57,7 @@ public class Item3 {
 				System.out.println("\nAPPUYEZ SUR ENTER POUR CONTINUER...");
 				sc.nextLine();
 			}
-			if (x % nbDiv == 0) {
+			if (x % nbr == 0) {
 				System.out.print("(" + x + ")\t");
 			} else {
 				System.out.print(" " + x + " \t");
