@@ -67,11 +67,13 @@ public class Item1 {
 		
 		//		TOOLS
 		public static double arrondi(double value, int virguleIndex){
-			return Math.round(value*Math.pow(10, virguleIndex))/Math.pow(10, virguleIndex);
+			return Math.round(value*Math.pow(10, virguleIndex))
+					/ Math.pow(10, virguleIndex);
 		}
 		
 		public static double troncature(double value, int index) {
-			return Math.floor(value*Math.pow(10, index))/Math.pow(10, index);
+			return Math.floor(value*Math.pow(10, index))
+					/ Math.pow(10, index);
 		}
 		
 	}
