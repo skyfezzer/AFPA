@@ -1,6 +1,8 @@
 package eval.question;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  * Cette classe contrôle la saisie d'un nom de famille :
  * Redemande l'entrée si la taille du nom n'est pas comprise entre 2 carac. et 10 carac.,
@@ -42,7 +44,15 @@ public class Quest4_ControleSaisieNom {
 				flag = true;
 			
 		}
-		sc.close();
+		
+		// ---- AVEC REGEX ----
+		System.out.println("Entrez un autre nom : ");
+		nom = sc.nextLine();
+		if(Pattern.matches(".*[0-9].*", nom)) {
+			System.out.println("Pas bon !");
+		}else {
+			System.out.println("OK");
+		}
 
 	}
 
