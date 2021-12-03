@@ -1,7 +1,5 @@
 package fr.afpa.util;
 
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
 import fr.afpa.math.Math;
@@ -9,7 +7,6 @@ import fr.afpa.math.Math;
 public class CalculFactor {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
 		long target;
 		do {
 			try {

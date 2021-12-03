@@ -1,6 +1,7 @@
 package fr.afpa.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 public class Math{
@@ -59,6 +60,36 @@ public class Math{
 		}
 		
 		return entier*(factorielle(entier-1));
+	}
+	
+	public static BigInteger factorielle(BigInteger entier) {
+		if(entier.compareTo(new BigInteger("1")) <= 0) {
+			if(entier.compareTo(new BigInteger("0")) < 0) {
+				throw new IllegalArgumentException("Ne peut pas calculer la factorielle d'un nombre négatif");
+			}
+			return new BigInteger("1");
+		}
+		/*if(entier >= 21) {
+			throw new IllegalArgumentException("Ne peut pas calculer la factorielle d'un nombre > 21.");
+		}*/
+		
+		return entier.multiply(factorielle(entier.subtract(new BigInteger("1"))));
+	}
+	
+	public static BigInteger factorielleFor(BigInteger entier) {
+		if(entier.compareTo(new BigInteger("1")) <= 0) {
+			if(entier.compareTo(new BigInteger("0")) <= 0) {
+				throw new IllegalArgumentException("Ne peut pas calculer la factorielle d'un nombre négatif");
+			}
+			return new BigInteger("1");
+		}
+		
+		BigInteger result = entier;
+		BigInteger big1 = new BigInteger("1");
+		for(BigInteger i = entier;i.compareTo(big1) > 0;i=i.subtract(big1)) {
+			result = result.multiply(i.subtract(big1));
+		}
+		return result;
 	}
 	
 	
