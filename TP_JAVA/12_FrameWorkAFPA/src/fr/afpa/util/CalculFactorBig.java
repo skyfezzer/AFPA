@@ -23,8 +23,8 @@ public class CalculFactorBig {
 				double dResult = (target.doubleValue()*java.lang.Math.log10(target.doubleValue()))
 						- (target.doubleValue()*java.lang.Math.log10(java.lang.Math.E))
 						+ (java.lang.Math.log10(java.lang.Math.sqrt((2.*target.doubleValue()+1f/3)*java.lang.Math.PI)));
-				BigInteger test = BigInteger.TEN.pow((int) java.lang.Math.round(dResult));
-				System.out.println("test.length(): " + test.toString().length());
+
+				System.out.printf("\nLongueur de factorielle de %d : %d",target,dResult);
 				//Chronometre
 				long debut = System.currentTimeMillis();
 				BigInteger result = Math.factorielleFor(target);
@@ -37,7 +37,6 @@ public class CalculFactorBig {
 				if(result.compareTo(BigInteger.ZERO) < 0) {
 					System.out.println("result negatif");
 				}
-				System.out.printf("\nLongueur de factorielle de %d : %d",target,sResult.length());
 				JOptionPane.showMessageDialog(null, String.format("\nLongueur de factorielle de %d : %d",target,sResult.length()));
 				
 				//System.out.printf("\nFactorielle de %d via factorielle BigInteger : %d",target,result);
