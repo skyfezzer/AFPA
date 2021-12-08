@@ -12,4 +12,4 @@ public class Exo3_01 {
 		
 		System.out.println("L'entier entr� est "+ (val<0?"n�gatif":"positif")+".");
 	}
-}
+} 

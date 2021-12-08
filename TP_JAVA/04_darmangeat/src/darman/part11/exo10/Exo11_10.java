@@ -84,7 +84,7 @@ public class Exo11_10 {
 	}
 
 	private static void fillGridRandomly(int[][] ar) {
-
+		
 		for (int i = 0; i < ar.length; i++) {
 			for (int j = 0; j < ar[i].length; j++) {
 				ar[i][j] = (int) (Math.random() * 9) + 1;

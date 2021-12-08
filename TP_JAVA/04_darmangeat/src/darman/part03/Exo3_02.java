@@ -15,5 +15,5 @@ public class Exo3_02 {
 		sc.close();
 		
 		System.out.printf("Le r�sultat du produit entre %d et %d est %s",val1, val2, val1>0^val2>0?"n�gatif":"positif");
-	}
+	} 
 }
