@@ -50,6 +50,7 @@ public class Quest7_De {
 	 */
 	public static int lanceUnDe(int min, int max) {
 		return ((int)(Math.random()*max))+min;
+		
 	}
 
 }
