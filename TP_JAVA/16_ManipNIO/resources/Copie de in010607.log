@@ -1,0 +1,100 @@
+IP, Heure de connexion, URI
+192.0.0.32;  07/06/01  12:55:40;  /default.htm
+192.0.0.32;  07/06/01  12:55:41;  /Images/toptxtr.gif
+192.0.0.32;  07/06/01  12:55:42;  /Info TSAII/Images/Afpa.gif
+192.0.0.32;  07/06/01  12:55:58;  /Download/default.htm
+192.0.0.32;  07/06/01  12:55:59;  /Download/Images/toptxtr.gif
+192.0.0.34;  07/06/01  12:56:28;  /default.htm
+192.0.0.34;  07/06/01  12:56:31;  /Images/toptxtr.gif
+192.0.0.34;  07/06/01  12:56:31;  /Info TSAII/Images/Afpa.gif
+192.0.0.202;  07/06/01  15:02:44;  /default.htm
+192.0.0.202;  07/06/01  15:02:45;  /Images/toptxtr.gif
+192.0.0.202;  07/06/01  15:02:45;  /Info TSAII/Images/Afpa.gif
+192.0.0.202;  07/06/01  15:03:22;  /default.htm
+192.0.0.202;  07/06/01  15:03:25;  /Images/toptxtr.gif
+192.0.0.202;  07/06/01  15:03:26;  /Info TSAII/Images/Afpa.gif
+192.0.0.202;  07/06/01  15:03:40;  /Info TSAII/default.htm
+192.0.0.202;  07/06/01  15:03:40;  /Info TSAII/Images/backgrnd.gif
+192.0.0.202;  07/06/01  15:03:40;  /Info TSAII/Images/bullet_d.gif
+192.0.0.202;  07/06/01  15:03:40;  /Info TSAII/Images/idf.gif
+192.0.0.202;  07/06/01  15:03:41;  /Info TSAII/Images/bullet_p.gif
+192.0.0.202;  07/06/01  15:03:41;  /Info TSAII/Images/bullet_t.gif
+192.0.0.202;  07/06/01  15:03:41;  /Info TSAII/Images/bullet_h.gif
+192.0.0.202;  07/06/01  15:03:41;  /Info TSAII/Images/bullet_s.gif
+192.0.0.202;  07/06/01  15:03:49;  /Info TSAII/emploi.htm
+192.0.0.36;  07/06/01  15:21:16;  /default.htm
+192.0.0.36;  07/06/01  15:21:18;  /Images/toptxtr.gif
+192.0.0.36;  07/06/01  15:21:18;  /Info TSAII/Images/Afpa.gif
+192.0.0.36;  07/06/01  15:21:39;  /Download/default.htm
+192.0.0.36;  07/06/01  15:21:39;  /Download/Images/toptxtr.gif
+192.0.0.36;  07/06/01  15:23:11;  /Download/HEX32setup.exe
+192.0.0.200;  07/06/01  15:23:45;  /default.htm
+192.0.0.200;  07/06/01  15:23:45;  /Images/toptxtr.gif
+192.0.0.200;  07/06/01  15:23:45;  /Info TSAII/Images/Afpa.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/default.htm
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/backgrnd.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/bullet_h.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/bullet_d.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/idf.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/bullet_p.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/bullet_s.gif
+192.0.0.200;  07/06/01  15:23:49;  /Info TSAII/Images/bullet_t.gif
+192.0.0.200;  07/06/01  15:23:52;  /Info TSAII/emploi.htm
+192.0.0.36;  07/06/01  15:26:21;  /default.htm
+192.0.0.36;  07/06/01  15:26:21;  /Images/toptxtr.gif
+192.0.0.36;  07/06/01  15:26:21;  /Info TSAII/Images/Afpa.gif
+192.0.0.36;  07/06/01  15:26:26;  /Download/default.htm
+192.0.0.36;  07/06/01  15:26:26;  /Download/Images/toptxtr.gif
+192.0.0.200;  07/06/01  15:31:20;  /default.htm
+192.0.0.200;  07/06/01  15:31:20;  /Images/toptxtr.gif
+192.0.0.200;  07/06/01  15:31:20;  /Info TSAII/Images/Afpa.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/default.htm
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/backgrnd.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/idf.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/bullet_h.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/bullet_p.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/bullet_d.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/bullet_t.gif
+192.0.0.200;  07/06/01  15:31:22;  /Info TSAII/Images/bullet_s.gif
+192.0.0.200;  07/06/01  15:31:24;  /Info TSAII/emploi.htm
+192.0.0.32;  07/06/01  15:40:41;  /default.htm
+192.0.0.32;  07/06/01  15:40:43;  /Images/toptxtr.gif
+192.0.0.32;  07/06/01  15:40:43;  /Info TSAII/Images/Afpa.gif
+192.0.0.32;  07/06/01  15:40:47;  /Info TSAII/default.htm
+192.0.0.32;  07/06/01  15:40:47;  /Info TSAII/Images/backgrnd.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/bullet_h.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/bullet_p.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/bullet_d.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/idf.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/bullet_s.gif
+192.0.0.32;  07/06/01  15:40:48;  /Info TSAII/Images/bullet_t.gif
+192.0.0.32;  07/06/01  15:41:56;  /Info TSAII/contenu.htm
+192.0.0.32;  07/06/01  15:41:56;  /Info TSAII/Images/Undo.gif
+192.0.0.32;  07/06/01  15:43:58;  /Download/default.htm
+192.0.0.32;  07/06/01  15:43:58;  /Download/Images/toptxtr.gif
+192.0.0.32;  07/06/01  15:44:56;  /Download/HEX32setup.exe
+192.0.0.48;  07/06/01  16:01:25;  /default.htm
+192.0.0.48;  07/06/01  16:01:26;  /Images/toptxtr.gif
+192.0.0.48;  07/06/01  16:01:26;  /Info TSAII/Images/Afpa.gif
+192.0.0.48;  07/06/01  16:01:35;  /Download/default.htm
+192.0.0.48;  07/06/01  16:01:35;  /Download/Images/toptxtr.gif
+192.0.0.35;  07/06/01  16:44:24;  /default.htm
+192.0.0.35;  07/06/01  16:44:25;  /Images/toptxtr.gif
+192.0.0.35;  07/06/01  16:44:25;  /Info TSAII/Images/Afpa.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/default.htm
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/backgrnd.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/idf.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/bullet_d.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/bullet_h.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/bullet_p.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/bullet_t.gif
+192.0.0.35;  07/06/01  16:44:38;  /Info TSAII/Images/bullet_s.gif
+192.0.0.35;  07/06/01  16:45:02;  /Info TSAII/place.htm
+192.0.0.35;  07/06/01  16:49:04;  /default.htm
+192.0.0.35;  07/06/01  16:49:05;  /Images/toptxtr.gif
+192.0.0.35;  07/06/01  16:49:05;  /Info TSAII/Images/Afpa.gif
+192.0.0.35;  07/06/01  16:49:11;  /Download/default.htm
+192.0.0.35;  07/06/01  16:49:11;  /Download/Images/toptxtr.gif
+192.0.0.35;  07/06/01  16:49:11;  /Info TSAII/Images/Afpa.gif
+192.0.0.35;  07/06/01  16:49:45;  /Download/HEX32setup.exe
+192.0.0.35;  07/06/01  16:50:03;  /Download/crc16.exe
