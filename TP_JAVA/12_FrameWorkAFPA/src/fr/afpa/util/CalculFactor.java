@@ -15,7 +15,7 @@ public class CalculFactor {
 					break;
 				}
 				target = Long.parseLong(messageBox);
-				JOptionPane.showMessageDialog(null, String.format("\nFactorielle de %d via factorielleFor : %d",target,Math.factorielleFor(target)));
+				//JOptionPane.showMessageDialog(null, String.format("\nFactorielle de %d via factorielleFor : %d",target,Math.factorielleFor(target)));
 				JOptionPane.showMessageDialog(null, String.format("\nFactorielle de %d via factorRecursif : %d",target,Math.factorielle(target)));
 			}catch(NumberFormatException e) {
 				JOptionPane.showMessageDialog(null, "Une erreur est survenue : La saisie n'est pas un nombre correct.");;

@@ -1,11 +1,19 @@
 package fr.aragot.bookstore.domain;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
-public class Livre {
+enum Status{
+	DISPONIBLE,EMPRUNTE,SUPPRIME
+};
+
+public class Livre implements Comparable<Livre>{
 
 	public static double PRIX_INCONNU = -1.;
 	public static double PRIX_GRATUIT = 0.;
+	
+	private static Comptable comptable = Comptable.getInstance();
 	
     private String titre;
     private String auteur;
@@ -13,7 +21,9 @@ public class Livre {
     private int nbPages;
     private double prix;
     private boolean prixFixe;
-    
+    private LocalDate dateAchat;
+    private Status status;
+    private TypeDonneesAnnee anneeParution;
     static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static int countNew;
 
@@ -78,27 +88,29 @@ public class Livre {
 	}
 	
 	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe) {
+		this(titre,auteur,editeur,nbPages,prix,prixFixe,Status.DISPONIBLE);
+	}
+	
+	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe, Status status) {
+		this(titre,auteur,editeur,nbPages,prix,prixFixe,status,null);
+	}
+	
+	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe, Status status, TypeDonneesAnnee anneeParution) {
 		super();
 		this.setTitre(titre)
 			.setAuteur(auteur)
 			.setEditeur(editeur)
 			.setNbPages(nbPages)
-			.setPrix(prix);
-		
+			.setPrix(prix)
+			.setStatus(status)
+			.setAnneeParution(anneeParution);
+		comptable.comptabilise(this);
+			
 		countNew++;
 	}
 
 	// ===== METHODES =====
-	@Override
-	public String toString() {
-		return "Livre [titre=" + getTitre() 
-				+ ", auteur=" + getAuteur() 
-				+ ", editeur=" + getEditeur() 
-				+ ", nbPages=" + getNbPages()
-				+ ", prix=" + getTextePrix()
-				+ "]";
-	}
-
+	// ===== GETTERS =====
 	public String getTitre() {
 		return titre;
 	}
@@ -112,7 +124,7 @@ public class Livre {
 	}
 	
 	public double getPrix() {		
-		return Double.parseDouble(String.format("%.2f", prix));
+		return Double.parseDouble(String.format("%.2f", prix).replace(',', '.'));
 	}
 	
 	public static int getCountNew() {
@@ -121,6 +133,10 @@ public class Livre {
 	
 	public int getNbPages() {
 		return nbPages;
+	}
+	
+	public boolean isPrixFixe() {
+		return prixFixe;
 	}
 	
 	private String getTextePrix() {
@@ -133,8 +149,21 @@ public class Livre {
 		return ""+prix;
 	}
 	
-	public boolean isPrixFixe() {
-		return prixFixe;
+	public Status getStatus() {
+		return status;
+	}
+	
+	public TypeDonneesAnnee getAnneeParution() {
+		return this.anneeParution;
+	}
+	// ===== SETTERS =====
+
+	public boolean isDisponible() {
+		return this.status.equals(Status.DISPONIBLE);
+	}
+
+	public LocalDate getDateAchat() {
+		return dateAchat;
 	}
 
 	public Livre setAuteur(String auteur) {
@@ -166,11 +195,31 @@ public class Livre {
 		if(prix < PRIX_INCONNU) {
 			throw new IllegalArgumentException("Le prix doit être sup. ou égal à 0");
 		}
-		this.prix = Double.parseDouble(String.format("%.2f", prix));
+		this.prix = Double.parseDouble(String.format("%.2f", prix).replace(',', '.'));
 		this.prixFixe = true;
 		return this;
 	}
+
+	public Livre setDateAchat(LocalDate dateAchat) {
+		this.dateAchat = dateAchat;
+		return this;
+	}
 	
+	public Livre setStatus(Status status) {
+		this.status = status;
+		return this;
+	}
+	
+	public Livre setAnneeParution(TypeDonneesAnnee anneeParution) {
+		this.anneeParution = anneeParution;
+		return this;
+	}
+	public Livre setAnneeParution(int anneeParution) {
+		this.anneeParution = new TypeDonneesAnnee(anneeParution,this);
+		return this;
+	}
+
+	// ===== COMPARATEURS =====
 	public int compare(Livre l) {
 		if(this.getNbPages() < l.getNbPages())
 			return -1;
@@ -189,6 +238,37 @@ public class Livre {
 			return 0;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Livre [titre=" + getTitre() 
+				+ ", auteur=" + getAuteur() 
+				+ ", editeur=" + getEditeur() 
+				+ ", nbPages=" + getNbPages()
+				+ ", prix=" + getTextePrix()
+				+ ", status=" + status
+				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nbPages, titre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Livre other = (Livre) obj;
+		return nbPages == other.nbPages && Objects.equals(titre, other.titre);
+	}
+
+	@Override
+	public int compareTo(Livre o) {
+		return compare(o);
+	}
 	
 }

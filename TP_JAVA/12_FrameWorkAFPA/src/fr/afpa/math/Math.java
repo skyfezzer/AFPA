@@ -56,7 +56,7 @@ public class Math{
 			return 1;
 		}
 		if(entier >= 21) {
-			throw new IllegalArgumentException("Ne peut pas calculer la factorielle d'un nombre > 21.");
+			//throw new IllegalArgumentException("Ne peut pas calculer la factorielle d'un nombre > 21.");
 		}
 		
 		return entier*(factorielle(entier-1));
