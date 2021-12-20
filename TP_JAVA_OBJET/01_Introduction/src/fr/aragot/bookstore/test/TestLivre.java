@@ -1,46 +1,129 @@
 package fr.aragot.bookstore.test;
 
+import java.time.LocalDate;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
-import fr.aragot.bookstore.domain.Comptable;
 import fr.aragot.bookstore.domain.Livre;
 
 public class TestLivre {
 
 	public static void main(String[] args) {
-    	Livre livre1 = new Livre("Harry Potter","J.K. Rowling",100,19.99);
-        Livre livre2 = new Livre("AstÈrix","Goscinny","Uderzo",150,15.00);
-        Livre livre3 = new Livre("La fille de brooklyn","Musso",200,20.00);
-        Livre livre4 = new Livre("Le labyrinthe","Dashner",250,20.00);
-        System.out.println("nbPages de livre1 : " + livre1.getNbPages());
-        System.out.println("nbPages de livre2 : " + livre2.getNbPages());
-        System.out.println("nbPages cumulÈs : " + (livre1.getNbPages() + livre2.getNbPages()));
-        System.out.println("Auteur du livre1 : " + livre1.getAuteur());
-        System.out.println("Auteur du livre2 : " + livre2.getAuteur());
-        // Prints an Object and then terminate the line. 
-        // This method calls at first String.valueOf(x) to get the printed object's string value, 
-        // then behaves as though it invokes print(String) and then println().
-        // valueOf : if the argument is null, then a string equal to "null"; otherwise, the value of obj.toString() is returned.
-        System.out.println(livre1);
-        System.out.println("Diff : " + livre1.compare(livre2));
-        System.out.println("Prix total : " + Comptable.getInstance().getTotalPrix());
-        System.out.println("Hascode l1 : " + livre1.hashCode());
-        System.out.println("Hascode l2 : " + livre2.hashCode());
-        Livre[] livres = new Livre[4];
-        livres[0] = livre1;
-        livres[1] = livre4;
-        livres[2] = livre3;
-        livres[3] = livre2;
-        System.out.println("=== Avant sort");
-        System.out.println(Arrays.toString(livres));
-        Arrays.sort(livres);
-        System.out.println("=== Apres sort normal");
-        System.out.println(Arrays.toString(livres));
-        Arrays.sort(livres,Comparator.reverseOrder());
-        System.out.println("=== Apres sort descendant");
-        System.out.println(Arrays.toString(livres));
-    }
-	
+		
+		//Livre livre = new Livre();
+//		System.out.println( "\nlivre.afficheToi()");
+//		System.out.println( "------------------");
+//		livre.afficheToi();
+//		System.out.println();
+//		System.out.println("Le contenu de mon objet :" + livre.toString());
+		
+		///////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////
+		// SCENARIO DE TEST pour un livre
+		//Emprunt du livre l1
+		//retrait de 3 pages du livre l1
+		//retour dans la librairie (bookshop) du livre l1
+		//////////////////////////////		
+		Livre l1 = new Livre("AstÈrix", "Uderzo", "Dargo", 64, null, true);
+		System.out.println("le livre l1 :" + l1);
+		System.out.println();
+		
+		Livre l2 = new Livre("Tintin", "ErgÈ", "Dargo", 133, null, true);
+		System.out.println("le livre l2 :" + l2);
+		
+		/////////////////////////
+		//Emprunt du livre l1
+		System.out.println("\nEmprunt du livre l1");
+		System.out.println("---------------------");	
+		//l1.disponible = false;
+		l1.setDisponible(false);
+		
+		//l1.dateEmprunt = LocalDate.now();
+		l1.setDateEmprunt(LocalDate.now());
+
+		System.out.println("le livre l1 :" + l1);
+		System.out.println();
+		
+		/////////////////////////
+		//retrait de 3 pages du livre l1
+		System.out.println("d√©gradation du livre");
+		System.out.println("--------------------");
+		//l1.nbPages -= 3;
+		l1.setNbPages(l1.getNbPages()-3);
+		System.out.println("le livre l1 :" + l1);
+		System.out.println();
+		
+		//QUESTION
+		//System.out.println("l1 est-il dispo? :" + (l1.disponible?"oui":"non"));
+		System.out.println("l1 est-il dispo? :" + l1.isDisponible());
+		System.out.println();
+
+		///////////////////////////
+		//retour dans le bookshop  du livre l1
+		System.out.println("\nretour du livre l1");
+		System.out.println("---------------------");
+		//l1.disponible = true;
+		l1.setDisponible(true);
+
+		System.out.println("le livre l1 :" + l1);
+		System.out.println();
+		//QUESTION
+		//System.out.println("l1 est-il dispo? :" + (l1.disponible?"oui":"non"));
+		System.out.println("l1 est-il dispo? :" + l1.isDisponible());
+		System.out.println();
+		
+		
+		/////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////
+		//Test des constructeurs
+		///////////////////////////
+		//constructeur avec tous les param√®tres
+		Livre l4 = new Livre("Torgal", "Vandamme", "Dargo", 200, null, true);
+		System.out.printf("le livre l4 :%s\n\n" , l4);
+		System.out.println();
+		
+		//constructeur avec 4 param√®tres
+		Livre l5 = new Livre("Asterix chez les Pictes; ", "Uderzo", "Dargo", 70);
+		System.out.printf("constructeur 4 param; le livre l5 :%s\n\n" , l5);
+		System.out.printf("le livre l5 :%s\n\n" , l5);
+		System.out.println();
+		
+		//constructeur sans param√®tre
+		Livre l6 = new Livre();
+		System.out.printf("constructeur ss param; le livre l6 :%s\n\n" , l6);
+		System.out.println(" on force le titre avec  : .... les PICTES");
+		l5.setTitre("Asterix chez les PICTES");
+		System.out.println("le getter  titre de l5 :" + l5.getTitre());
+		l5.setTitre(l5.getTitre().toUpperCase());
+		System.out.println("\nle getter  titre de l5 :" + l5.getTitre());
+		
+		//l5.titre = null;
+		l5.setTitre(null);
+		System.out.printf("le livre l5 :%s\n\n" , l5);
+		System.out.println();
+		//l5.setTitre(l5.getTitre().toLowerCase());
+		
+		//l5.setNbPages(-6);
+		
+		///////////////////////////
+		//Test des m√©thodes polymorphes:  toString, equals, hashCode
+		///////////////////////////
+		
+		Livre l7 = new Livre("Torgal", "Vandamme", "Dargo", 200, null, true);
+		System.out.printf("constructeur avec tout les param; le livre l7 :%s\n\n" , l7);
+		System.out.println();
+
+		System.out.println();
+		
+		if( l4.equals(l7)) {
+			System.out.println("Les livres sont √©gaux");
+		}
+		else
+			System.out.println("Les livres sont diff√©rents");
+
+		System.out.println();
+		System.out.println("le hashCode de l4 :0x" + Integer.toHexString(l4.hashCode()) );
+		System.out.println("le hashCode de l7 :0x" + Integer.toHexString(l7.hashCode()));
+
+		
+	}
+
 }

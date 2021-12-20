@@ -21,7 +21,7 @@ public class Livre implements Comparable<Livre>{
     private int nbPages;
     private double prix;
     private boolean prixFixe;
-    private LocalDate dateAchat;
+    private LocalDate dateEmprunt;
     private Status status;
     private TypeDonneesAnnee anneeParution;
     static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -83,26 +83,26 @@ public class Livre implements Comparable<Livre>{
 		this(titre,auteur,editeur,nbPages,PRIX_INCONNU);
 	}
 	
-	public Livre(String titre, String auteur, String editeur, int nbPages, double prix) {
+	public Livre(String titre, String auteur, String editeur, int nbPages, Double prix) {
 		this(titre,auteur,editeur,nbPages,prix,false);
 	}
 	
-	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe) {
+	public Livre(String titre, String auteur, String editeur, int nbPages, Double prix, boolean prixFixe) {
 		this(titre,auteur,editeur,nbPages,prix,prixFixe,Status.DISPONIBLE);
 	}
 	
-	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe, Status status) {
+	public Livre(String titre, String auteur, String editeur, int nbPages, Double prix, boolean prixFixe, Status status) {
 		this(titre,auteur,editeur,nbPages,prix,prixFixe,status,null);
 	}
 	
-	public Livre(String titre, String auteur, String editeur, int nbPages, double prix, boolean prixFixe, Status status, TypeDonneesAnnee anneeParution) {
+	public Livre(String titre, String auteur, String editeur, int nbPages, Double prix, boolean prixFixe, Status status, TypeDonneesAnnee anneeParution) {
 		super();
 		this.setTitre(titre)
 			.setAuteur(auteur)
 			.setEditeur(editeur)
 			.setNbPages(nbPages)
-			.setPrix(prix)
-			.setStatus(status)
+			.setPrix(prix==null?PRIX_INCONNU:prix)
+			.setStatus(status==null?status.DISPONIBLE:status)
 			.setAnneeParution(anneeParution);
 		comptable.comptabilise(this);
 			
@@ -163,7 +163,7 @@ public class Livre implements Comparable<Livre>{
 	}
 
 	public LocalDate getDateAchat() {
-		return dateAchat;
+		return dateEmprunt;
 	}
 
 	public Livre setAuteur(String auteur) {
@@ -178,6 +178,15 @@ public class Livre implements Comparable<Livre>{
 	
 	public Livre setEditeur(String editeur) {
 		this.editeur = editeur==null?"Editeur inconnu":editeur;
+		return this;
+	}
+	
+	public Livre setDisponible(boolean dispo) {
+		if(dispo) {
+			this.status = Status.DISPONIBLE;
+		}else {
+			this.status = Status.EMPRUNTE;
+		}
 		return this;
 	}
 
@@ -200,8 +209,8 @@ public class Livre implements Comparable<Livre>{
 		return this;
 	}
 
-	public Livre setDateAchat(LocalDate dateAchat) {
-		this.dateAchat = dateAchat;
+	public Livre setDateEmprunt(LocalDate dateEmprunt) {
+		this.dateEmprunt = dateEmprunt;
 		return this;
 	}
 	
