@@ -1,10 +1,13 @@
 package fr.aragot.bookstore.test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import fr.aragot.bookstore.domain.Auteur;
 import fr.aragot.bookstore.domain.IBavard;
+import fr.aragot.bookstore.domain.Livre;
 import fr.aragot.bookstore.domain.Personne;
+import fr.aragot.bookstore.domain.Status;
 import fr.aragot.bookstore.domain.Utilisateur;
 
 public class TestUtilisateur {
@@ -131,6 +134,35 @@ public class TestUtilisateur {
 		
 		//parle peut-elle Ãªtre abstract ??
 
+		///////////////////////////////////////////
+		//  LISTE DE LIVRES
+		// Ajout, affichage et suppression
+		///////////////////////////////////////////
+		Livre l1 = new Livre("Astérix et Obélix", "Uderzo", "Dargo", 64, null, true, Status.DISPONIBLE);
+		System.out.println("le livre l1 :" + l1);
+		System.out.println();
+		
+		Livre l2 = new Livre("Tintin", "Ergé", "Dargo", 133, null, true, Status.DISPONIBLE);
+		System.out.println("le livre l2 :" + l2);
+		
+		u1.addLivre(l1);
+		u1.addLivre(l2);
+		System.out.println(u1); // Les livres passent bien "Empruntés"
+		System.out.println("Livre emprunté par u1 qui contient 'Astérix' :");
+		System.out.println(u1.findLivreByTitre("Astérix"));
+		System.out.println();
+		System.out.println("On clear la liste des livres des u1");
+		u1.clearLivres();
+		System.out.println(l1);
+		System.out.println(l2);
+		System.out.println();
+		System.out.println("findLivreByTitre(\"Astérix\") = " + u1.findLivreByTitre("Astérix"));
+		System.out.println();
+		u1.addLivre(l1);
+		u1.addLivre(l2);
+		System.out.println(u1.findAllLivres());
+		u1.findLivreByTitre("Astérix").setDateEmprunt(LocalDate.of(2021, 12, 2));
+		System.out.println("Nombre de retards pour u1 : " + u1.getNbRetards());
 	}
 
 }

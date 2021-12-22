@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project 01_Introduction with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="${dir.workspace}/01_Introduction/dist"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/test.jar">
+            <manifest>
+                <attribute name="Main-Class" value="fr.aragot.bookstore.test.Test"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.workspace}/01_Introduction/classes"/>
+        </jar>
+        <delete dir="${dir.jarfile}/test_lib"/>
+        <mkdir dir="${dir.jarfile}/test_lib"/>
+    </target>
+</project>

@@ -27,6 +27,10 @@ public class Comptable {
 		livres.add(l);		
 	}
 	
+	
+	/**
+	 * @return La somme de tous les prix des livres comptabilisés
+	 */
 	public double getTotalPrix() {
 		return livres.stream().mapToDouble(x->x.getPrix()).sum();
 	}

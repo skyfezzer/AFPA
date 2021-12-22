@@ -1,5 +1,10 @@
 package fr.aragot.animal.domain2;
 
+/**
+ * Un Homme est un {@link Mammifere} pouvant parler.
+ * @author Alexis RAGOT
+ *
+ */
 public class Homme extends Mammifere {
 	
 	/**
@@ -7,12 +12,18 @@ public class Homme extends Mammifere {
 	 */
 	private static final long serialVersionUID = 1820798011402632323L;
 
+	/**
+	 *  Constructeur vide de la classe Homme
+	 */
 	public Homme() {
 		super();
 	}
+	/**
+	 * Constructeur de la classe Homme
+	 * @param nom Le nom de l'Homme
+	 */
 	public Homme(String nom) {
 		super(nom);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -20,6 +31,10 @@ public class Homme extends Mammifere {
 		return "Je suis un homme" + (this.getNom()!=null?" de nom "+this.getNom():"")+".";
 	}
 	
+	
+	/**
+	 * Affiche dans la sortie standard une parole de l'Homme.
+	 */
 	@Override
 	public void parle() {
 		System.out.println(this.getNom() + " parle : Vive le polymorphisme !");

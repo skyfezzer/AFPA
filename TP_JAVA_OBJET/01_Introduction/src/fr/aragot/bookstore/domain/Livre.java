@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-enum Status{
-	DISPONIBLE,EMPRUNTE,SUPPRIME
-};
 
 public class Livre implements Comparable<Livre>{
 
@@ -15,6 +12,7 @@ public class Livre implements Comparable<Livre>{
 	
 	private static Comptable comptable = Comptable.getInstance();
 	
+	private Utilisateur emprunteur;
     private String titre;
     private String auteur;
     private String editeur;
@@ -102,7 +100,7 @@ public class Livre implements Comparable<Livre>{
 			.setEditeur(editeur)
 			.setNbPages(nbPages)
 			.setPrix(prix==null?PRIX_INCONNU:prix)
-			.setStatus(status==null?status.DISPONIBLE:status)
+			.setStatus(status==null?Status.DISPONIBLE:status)
 			.setAnneeParution(anneeParution);
 		comptable.comptabilise(this);
 			
@@ -119,6 +117,9 @@ public class Livre implements Comparable<Livre>{
 		return auteur;
 	}
 	
+	public Utilisateur getEmprunteur() {
+		return this.emprunteur;
+	}
 	public String getEditeur() {
 		return editeur;
 	}
@@ -162,12 +163,17 @@ public class Livre implements Comparable<Livre>{
 		return this.status.equals(Status.DISPONIBLE);
 	}
 
-	public LocalDate getDateAchat() {
+	public LocalDate getDateEmprunt() {
 		return dateEmprunt;
 	}
 
 	public Livre setAuteur(String auteur) {
 		this.auteur = auteur==null?"Auteur inconnu":auteur;
+		return this;
+	}
+	
+	public Livre setEmprunteur(Utilisateur u) {
+		this.emprunteur = u;
 		return this;
 	}
 

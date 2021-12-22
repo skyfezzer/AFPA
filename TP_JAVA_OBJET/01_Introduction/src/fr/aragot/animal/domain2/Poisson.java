@@ -1,5 +1,10 @@
 package fr.aragot.animal.domain2;
 
+/**
+ * Un poisson est un {@link Animal}.
+ * @author Alexis RAGOT
+ *
+ */
 public class Poisson extends Animal {
 
 	@Override

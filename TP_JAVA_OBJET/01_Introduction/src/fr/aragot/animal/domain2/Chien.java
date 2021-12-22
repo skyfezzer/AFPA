@@ -1,12 +1,21 @@
 package fr.aragot.animal.domain2;
 
+/**
+ * Un chien est un {@link Mammifere} pouvant parler.
+ * Un chien aboie quand il parle.
+ * @author Alexis RAGOT
+ *
+ */
 public class Chien extends Mammifere {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8967579181704581195L;
+	/** Identifiant unique pour la sérialisation. */
+	private static final long serialVersionUID = -2204082218115704974L;
 
+	
+	/**
+	 * 	Constructeur de la classe Chien
+	 * @param nom Le nom du chien
+	 */
 	public Chien(String nom) {
 		super(nom);
 	}

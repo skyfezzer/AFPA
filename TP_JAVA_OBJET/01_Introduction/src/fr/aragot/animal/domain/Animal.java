@@ -2,7 +2,15 @@ package fr.aragot.animal.domain;
 
 import java.util.Objects;
 
+/**
+ * Animal est l'objet principal de ce programme.
+ * Toutes les classes vont dériver de cette classe principale
+ * @author Alexis RAGOT
+ *
+ */
 public class Animal implements Comparable<Animal>,Nommable{
+	
+	/** Le nom de l'animal */
 	private String nom;
 
 	

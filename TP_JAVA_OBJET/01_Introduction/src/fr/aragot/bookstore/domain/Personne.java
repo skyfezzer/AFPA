@@ -4,8 +4,6 @@ public class Personne implements IBavard{
 
 	protected String nom;
 	protected String prenom;
-	protected String id;
-
 	public Personne() {
 		super();
 	}
@@ -18,10 +16,6 @@ public class Personne implements IBavard{
 		return prenom;
 	}
 
-	public String getIdUtilisateur() {
-		return id;
-	}
-
 	public Personne setNom(String nom) {
 		this.nom = nom;
 		return this;
@@ -29,11 +23,6 @@ public class Personne implements IBavard{
 
 	public Personne setPrenom(String prenom) {
 		this.prenom = prenom;
-		return this;
-	}
-
-	public Personne setIdUtilisateur(String id) {
-		this.id = id;
 		return this;
 	}
 
