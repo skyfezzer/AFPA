@@ -28,7 +28,7 @@ public class Homme extends Mammifere {
 
 	@Override
 	public String toString() {
-		return "Je suis un homme" + (this.getNom()!=null?" de nom "+this.getNom():"")+".";
+		return super.toString() + "Je suis un homme.";
 	}
 	
 	

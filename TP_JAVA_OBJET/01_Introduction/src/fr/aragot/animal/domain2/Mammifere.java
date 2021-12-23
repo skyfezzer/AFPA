@@ -32,7 +32,7 @@ public class Mammifere extends Animal implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Je suis un mammifère" + (this.getNom()!=null?" de nom "+this.getNom():"")+".";
+		return super.toString() + "Je suis un mammifère.";
 	}
 	
 	

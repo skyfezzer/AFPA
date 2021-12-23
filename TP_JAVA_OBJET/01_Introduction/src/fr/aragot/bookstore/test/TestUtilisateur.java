@@ -153,6 +153,7 @@ public class TestUtilisateur {
 		System.out.println();
 		System.out.println("On clear la liste des livres des u1");
 		u1.clearLivres();
+		System.out.println(u1);
 		System.out.println(l1);
 		System.out.println(l2);
 		System.out.println();

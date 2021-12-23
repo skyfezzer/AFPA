@@ -222,11 +222,12 @@ public class Utilisateur extends Personne {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("Utilisateur %s %s (%s) a emprunté :\n", this.getNom(),this.getPrenom(),this.getIdUtilisateur()));
+		sb.append(String.format("%s (%s) a emprunté :\n", super.toString(),this.getIdUtilisateur()));
 		if(livres.isEmpty()) {
 			return sb.append("\t aucun livre.").toString();
+		}else {
+			livres.forEach(x->sb.append("\t" + x + "\n"));
 		}
-		livres.forEach(x->sb.append("\t" + x + "\n"));
 		return sb.toString();
 	}
 	

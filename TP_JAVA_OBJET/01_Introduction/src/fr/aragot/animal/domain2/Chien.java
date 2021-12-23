@@ -22,7 +22,7 @@ public class Chien extends Mammifere {
 
 	@Override
 	public String toString() {
-		return "Je suis un chien" + (this.getNom()!=null?" de nom "+this.getNom():"")+".";
+		return super.toString() + "Je suis un chien.";
 	}
 	
 	@Override

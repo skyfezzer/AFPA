@@ -50,6 +50,8 @@ public class TestChat {
 		Chat chat = new Chat("Félix");
 		System.out.println(chat);
 		chat.parle();
+
+		
 		
 
 	}

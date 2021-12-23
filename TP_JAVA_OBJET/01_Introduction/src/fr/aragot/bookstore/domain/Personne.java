@@ -32,4 +32,12 @@ public class Personne implements IBavard{
 		
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("%s %s", getNom(), getPrenom());
+	}
+	
+	
+
 }

@@ -2,9 +2,9 @@ package fr.aragot.animal.test;
 
 import java.util.Arrays;
 
-import fr.aragot.animal.domain.Animal;
-import fr.aragot.animal.domain.Chien;
-import fr.aragot.animal.domain.Homme;
+import fr.aragot.animal.domain2.Animal;
+import fr.aragot.animal.domain2.Chien;
+import fr.aragot.animal.domain2.Homme;
 
 public class TestAnimal {
 
