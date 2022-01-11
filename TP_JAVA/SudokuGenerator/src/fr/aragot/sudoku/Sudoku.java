@@ -2,7 +2,7 @@ package fr.aragot.sudoku;
 
 public class Sudoku
 {
-    int[] board[];
+    int[][] board;
     int size;
     int racineN;
     int amountToRemove;
