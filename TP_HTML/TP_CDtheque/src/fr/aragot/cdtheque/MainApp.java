@@ -14,14 +14,15 @@ public class MainApp {
 
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
-			FichierHTML html = new FichierHTML("cdaudio");
+			//FichierSortie<CD> html = new FichierHTML("cdaudio");
+			FichierSortie xml = new FichierXML("cdaudio");
 			FichierCSV csv = new FichierCSV(selectedFile.getAbsolutePath());
 			CD currentCd;
 			try {
 				while((currentCd = csv.obtenir()) != null) {
-					html.ajoute(currentCd);
+					xml.ajoute(currentCd);
 				}
-				html.fermer();
+				xml.fermer();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
