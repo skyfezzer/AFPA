@@ -17,7 +17,6 @@ public class MainApp {
 		properties.entrySet().stream().filter(x -> ((String)x.getKey()).contains("user.")).forEach(System.out::println);
 		
 		
-		
 		// OLD WAY :
 		/*for(Entry<Object, Object> entry : properties.entrySet()) {
 			String key = (String)entry.getKey();
