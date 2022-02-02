@@ -1,4 +1,9 @@
 
+TO_CHAR(SYSDATE,'                                                               
+-----------------                                                               
+02/02/22_15:19:51                                                               
+
+
 Table created.
 
 
@@ -32,10 +37,10 @@ TABLE_TYPE
 BIN$rHcUtrqcThmrRdms2r413Q==$0                                                  
 TABLE                                                                           
                                                                                 
-COMPTE                                                                          
+BIN$1iqoxh26SIiEZExupqQf4Q==$0                                                  
 TABLE                                                                           
                                                                                 
-BIN$1iqoxh26SIiEZExupqQf4Q==$0                                                  
+BIN$2qChM64aRleQniIv1aHolw==$0                                                  
 TABLE                                                                           
                                                                                 
 
@@ -43,10 +48,38 @@ TABLE_NAME
 --------------------------------------------------------------------------------
 TABLE_TYPE                                                                      
 -----------                                                                     
-BIN$2qChM64aRleQniIv1aHolw==$0                                                  
+BIN$rSsLSU/gRtOlcp5tYP2brA==$0                                                  
 TABLE                                                                           
                                                                                 
-BIN$rSsLSU/gRtOlcp5tYP2brA==$0                                                  
+BIN$Lk5r4I7YSUmMH07XfPd+4A==$0                                                  
+TABLE                                                                           
+                                                                                
+BIN$XtqcVKkdTcC4cGuc2jb0lw==$0                                                  
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+TABLE_TYPE                                                                      
+-----------                                                                     
+BIN$pm+EICWDT0yw0PlVZlWquw==$0                                                  
+TABLE                                                                           
+                                                                                
+COMPTE                                                                          
+TABLE                                                                           
+                                                                                
+BIN$8zY+XB0/SnO4/bEjdgmEaQ==$0                                                  
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+TABLE_TYPE                                                                      
+-----------                                                                     
+BIN$oSecJfgfQMGzOrsnjmaiXQ==$0                                                  
+TABLE                                                                           
+                                                                                
+BIN$x92Y1egSTludxRlb9N04dQ==$0                                                  
 TABLE                                                                           
                                                                                 
 CLIENT                                                                          
@@ -57,17 +90,17 @@ TABLE_NAME
 --------------------------------------------------------------------------------
 TABLE_TYPE                                                                      
 -----------                                                                     
-BIN$Lk5r4I7YSUmMH07XfPd+4A==$0                                                  
+BIN$l2OLCK2aQSWH4p2GITvH8Q==$0                                                  
 TABLE                                                                           
                                                                                 
-BIN$XtqcVKkdTcC4cGuc2jb0lw==$0                                                  
+BIN$p5GwDGc2SjGw6GAu2HU5zw==$0                                                  
 TABLE                                                                           
                                                                                 
 PRET                                                                            
 TABLE                                                                           
                                                                                 
 
-9 rows selected.
+15 rows selected.
 
 
 
@@ -89,103 +122,155 @@ BIN$0OfJZCUvRXOeWdp9     BIN$XtqcVKkdTcC solde >= 0
 2izCuw==$0               4cGuc2jb0lw==$0                                        
           ENABLED                                                               
                                                                                 
-SYS_C008308              COMPTE          solde >= 0                             
+BIN$KXTqwv1gRtORVjhY     BIN$oSecJfgfQMG solde >= 0                             
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
+Mc+eqQ==$0               zOrsnjmaiXQ==$0                                        
           ENABLED                                                               
+                                                                                
+BIN$DX9OhxBFRVqY0+9f C   BIN$p5GwDGc2SjG solde >= 0                             
+J3hZxQ==$0               w6GAu2HU5zw==$0                                        
+          ENABLED                                                               
+                                                                                
+SYS_C008320              COMPTE          solde >= 0                             
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
                                                                                 
 -------------------- ***                                                        
                                                                                 
                                                                                 
-                   3 cou                                                        
+                   5 cou                                                        
                                                                                 
                                                                                 
 BIN$S42x8/8lReKR7TRP P   BIN$1iqoxh26SIi                                        
+L2lEhA==$0               EZExupqQf4Q==$0                                        
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-L2lEhA==$0               EZExupqQf4Q==$0                                        
           ENABLED                                                               
                                                                                 
 BIN$RPmSKt2aQHGuf3iz     BIN$2qChM64aRle                                        
 BaW3iQ==$0               QniIv1aHolw==$0                                        
           ENABLED                                                               
                                                                                 
-BIN$AxkVsadnTyuhrKlQ     BIN$Lk5r4I7YSUm                                        
-SPSBaQ==$0               MH07XfPd+4A==$0                                        
+BIN$jZbRVlqQQnCWUg3M     BIN$8zY+XB0/SnO                                        
+qZOQig==$0               4/bEjdgmEaQ==$0                                        
+          ENABLED                                                               
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
+                                                                                
+BIN$AxkVsadnTyuhrKlQ P   BIN$Lk5r4I7YSUm                                        
+SPSBaQ==$0               MH07XfPd+4A==$0                                        
           ENABLED                                                               
                                                                                 
-BIN$BNieFmXJTOudvqM1 P   BIN$XtqcVKkdTcC                                        
+BIN$BNieFmXJTOudvqM1     BIN$XtqcVKkdTcC                                        
 mQgjvA==$0               4cGuc2jb0lw==$0                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$tup0oLlzQkG8bFgO P   BIN$l2OLCK2aQSW                                        
+jEbpJA==$0               H4p2GITvH8Q==$0                                        
+          ENABLED                                                               
+                                                                                
+BIN$pNol/EykRyCzLGZ5     BIN$oSecJfgfQMG                                        
+es9mDw==$0               zOrsnjmaiXQ==$0                                        
+          ENABLED                                                               
+                                                                                
+BIN$o48TKkpRSPWdiTIk     BIN$p5GwDGc2SjG                                        
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+ncNNcw==$0               w6GAu2HU5zw==$0                                        
+          ENABLED                                                               
+                                                                                
+BIN$nCnR3iMtTpKuf2SW P   BIN$pm+EICWDT0y                                        
+fGBnBA==$0               w0PlVZlWquw==$0                                        
           ENABLED                                                               
                                                                                 
 BIN$wq8v8GLuQ9iL+EG7     BIN$rHcUtrqcThm                                        
 Kl8pRA==$0               rRdms2r413Q==$0                                        
-          ENABLED                                                               
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
+          ENABLED                                                               
                                                                                 
 BIN$qzG9B9XERCuDZ5BX P   BIN$rSsLSU/gRtO                                        
 7iOzyw==$0               lcp5tYP2brA==$0                                        
           ENABLED                                                               
                                                                                 
-SYS_C008307              CLIENT                                                 
+BIN$h12eK/DTTsK5tOuL     BIN$x92Y1egSTlu                                        
+tsoQAA==$0               dxRlb9N04dQ==$0                                        
           ENABLED                                                               
-                                                                                
-SYS_C008309              COMPTE                                                 
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
+                                                                                
+SYS_C008319          P   CLIENT                                                 
           ENABLED                                                               
                                                                                 
-SYS_C008311          P   PRET                                                   
+SYS_C008321              COMPTE                                                 
           ENABLED                                                               
+                                                                                
+SYS_C008323              PRET                                                   
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
                                                                                 
 -------------------- ***                                                        
                                                                                 
                                                                                 
-                   9 cou                                                        
+                  15 cou                                                        
+                                                                                
+                                                                                
+SYS_C008322          R   COMPTE                                                 
+NO ACTION ENABLED                                                               
 
 CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
 -------------------- --- --------------- ------------------------------         
 DELETE_RU STATUS                                                                
 --------- --------                                                              
                                                                                 
-                                                                                
-SYS_C008310          R   COMPTE                                                 
-NO ACTION ENABLED                                                               
-                                                                                
-SYS_C008312              PRET                                                   
+SYS_C008324              PRET                                                   
 NO ACTION ENABLED                                                               
                                                                                 
 -------------------- ***                                                        
-
-CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
--------------------- --- --------------- ------------------------------         
-DELETE_RU STATUS                                                                
---------- --------                                                              
                                                                                 
                                                                                 
                    2 cou                                                        
                                                                                 
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
                                                                                 
 
-14 rows selected.
+22 rows selected.
 
 
 CONSTRAINT_NAME                                                                 
@@ -254,7 +339,63 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008308                                                                     
+BIN$KXTqwv1gRtORVjhYMc+eqQ==$0                                                  
+C                                                                               
+BIN$oSecJfgfQMGzOrsnjmaiXQ==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+solde >= 0                                                                      
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$DX9OhxBFRVqY0+9fJ3hZxQ==$0                                                  
+C                                                                               
+BIN$p5GwDGc2SjGw6GAu2HU5zw==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+solde >= 0                                                                      
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C008320                                                                     
 C                                                                               
 COMPTE                                                                          
 
@@ -338,6 +479,34 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
+BIN$jZbRVlqQQnCWUg3MqZOQig==$0                                                  
+P                                                                               
+BIN$8zY+XB0/SnO4/bEjdgmEaQ==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
 BIN$AxkVsadnTyuhrKlQSPSBaQ==$0                                                  
 P                                                                               
 BIN$Lk5r4I7YSUmMH07XfPd+4A==$0                                                  
@@ -369,6 +538,118 @@ DELETE_RU STATUS
 BIN$BNieFmXJTOudvqM1mQgjvA==$0                                                  
 P                                                                               
 BIN$XtqcVKkdTcC4cGuc2jb0lw==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$tup0oLlzQkG8bFgOjEbpJA==$0                                                  
+P                                                                               
+BIN$l2OLCK2aQSWH4p2GITvH8Q==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$pNol/EykRyCzLGZ5es9mDw==$0                                                  
+P                                                                               
+BIN$oSecJfgfQMGzOrsnjmaiXQ==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$o48TKkpRSPWdiTIkncNNcw==$0                                                  
+P                                                                               
+BIN$p5GwDGc2SjGw6GAu2HU5zw==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+BIN$nCnR3iMtTpKuf2SWfGBnBA==$0                                                  
+P                                                                               
+BIN$pm+EICWDT0yw0PlVZlWquw==$0                                                  
 
 CONSTRAINT_NAME                                                                 
 --------------------------------------------------------------------------------
@@ -450,7 +731,35 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008307                                                                     
+BIN$h12eK/DTTsK5tOuLtsoQAA==$0                                                  
+P                                                                               
+BIN$x92Y1egSTludxRlb9N04dQ==$0                                                  
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C008319                                                                     
 P                                                                               
 CLIENT                                                                          
 
@@ -478,7 +787,7 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008309                                                                     
+SYS_C008321                                                                     
 P                                                                               
 COMPTE                                                                          
 
@@ -506,7 +815,7 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008311                                                                     
+SYS_C008323                                                                     
 P                                                                               
 PRET                                                                            
 
@@ -534,7 +843,7 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008310                                                                     
+SYS_C008322                                                                     
 R                                                                               
 COMPTE                                                                          
 
@@ -562,7 +871,7 @@ SEARCH_CONDITION
 --------------------------------------------------------------------------------
 DELETE_RU STATUS                                                                
 --------- --------                                                              
-SYS_C008312                                                                     
+SYS_C008324                                                                     
 R                                                                               
 PRET                                                                            
 
@@ -580,7 +889,7 @@ DELETE_RU STATUS
 NO ACTION ENABLED                                                               
                                                                                 
 
-14 rows selected.
+22 rows selected.
 
 
 0 rows deleted.
