@@ -215,7 +215,7 @@ public class Utilisateur extends Personne {
 				livre.setStatus(Status.DISPONIBLE);
 			}
 		});
-		livres.removeAll(livres);
+		livres.clear();
 		return this;
 	}
 
