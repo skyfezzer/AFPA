@@ -1,0 +1,4 @@
+insert into REALISE (REACOD, REAPRE,REANOM) select seq_realise.nextval,'Jean-Pierre','AMERIS' from dual where not exists(select * from REALISE where (REAPRE ='Jean-Pierre' and REANOM = 'AMERIS'));
+
+INSERT INTO REALISE\(REACOD,REAPRE,REANOM\) VALUES\((.+),(.+),(.+)\);
+INSERT INTO REALISE (REACOD, REAPRE, REANOM) SELECT $1, $2, $3 FROM DUAL WHERE NOT EXISTS(SELECT * FROM REALISE WHERE ( REAPRE = $2 AND REANOM = $3));

@@ -1,0 +1,7 @@
+^\s?(?<titre>.+)\t\s\t(?<real>.+)\t(?<fid>.+)$
+^\s?(?<titrevhs>.+\(VHS\))\t\s\t(?<real>.+)\t(?<fid>.+)$
+
+
+
+^\s?(.+)\t\s\t(.+)\t(.+)$
+

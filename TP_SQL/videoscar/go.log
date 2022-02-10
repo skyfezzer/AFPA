@@ -1,0 +1,1962 @@
+SQL> -- pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> -- sortir en cas d'erreur
+SQL> WHENEVER OSERROR EXIT
+SQL> WHENEVER SQLERROR EXIT rollback
+SQL> set linesize 60
+SQL> set pagesize 200
+SQL> 
+SQL> @install_videoscar.sql
+SQL> --/*==============================================================*/
+SQL> --/* Nom de la base :  VIDEO				      */
+SQL> --/* Fichier	   :  install_videoscar.sql		       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : ACTEUR					       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> create sequence seq_acteur start with 120;
+
+Sequence created.
+
+SQL> 
+SQL> create table ACTEUR  (
+  2  	ACTCOD		     SMALLINT			      not null,
+  3  	ACTNOM		     CHAR(15)			      not null,
+  4  	ACTPRE		     CHAR(15),
+  5  	constraint PK_ACTEUR primary key (ACTCOD)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> comment on table ACTEUR is
+  2  'Les acteurs de films';
+
+Comment created.
+
+SQL> 
+SQL> comment on column ACTEUR.ACTCOD is
+  2  'Code de l''acteur';
+
+Comment created.
+
+SQL> 
+SQL> comment on column ACTEUR.ACTNOM is
+  2  'Nom de l''acteur';
+
+Comment created.
+
+SQL> 
+SQL> comment on column ACTEUR.ACTPRE is
+  2  'Prénom de l''acteur';
+
+Comment created.
+
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : CATEGORIE					       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> 
+SQL> create sequence seq_categorie start with 40
+  2  ;
+
+Sequence created.
+
+SQL> create table CATEGORIE  (
+  2  	CATCOD		     CHAR(2)			      not null,
+  3  	CATLIB		     CHAR(20)			      not null,
+  4  	constraint PK_CATEGORIE primary key (CATCOD)
+  5  );
+
+Table created.
+
+SQL> 
+SQL> comment on table CATEGORIE is
+  2  'Les catégorie de film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column CATEGORIE.CATCOD is
+  2  'Code de la catégorie';
+
+Comment created.
+
+SQL> 
+SQL> comment on column CATEGORIE.CATLIB is
+  2  'Libellé de la catégorie';
+
+Comment created.
+
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : REALISE					       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> create sequence seq_realise start with 60;
+
+Sequence created.
+
+SQL> create table REALISE  (
+  2  	REACOD		     SMALLINT			      not null,
+  3  	REANOM		     CHAR(15)			      not null,
+  4  	REAPRE		     CHAR(15)			      not null,
+  5  	constraint PK_REALISE primary key (REACOD)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> comment on table REALISE is
+  2  'Les réalisateurs des films';
+
+Comment created.
+
+SQL> 
+SQL> comment on column REALISE.REACOD is
+  2  'Code du réalisateur';
+
+Comment created.
+
+SQL> 
+SQL> comment on column REALISE.REANOM is
+  2  'Nom du réalisateur';
+
+Comment created.
+
+SQL> 
+SQL> comment on column REALISE.REAPRE is
+  2  'Prénom du réalisateur';
+
+Comment created.
+
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : FILM						       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> create sequence seq_film start with 80;
+
+Sequence created.
+
+SQL> create table FILM	(
+  2  	FILMCOD 	     SMALLINT			      not null,
+  3  	CATCOD		     CHAR(2),
+  4  	REACOD		     SMALLINT			      not null,
+  5  	FILMTIT 	     CHAR(40)			      not null,
+  6  	FILMAN		     smallint			      not null,
+  7  	FILNAT		     CHAR(3)			      not null,
+  8  	FILMDUR 	     SMALLINT,
+  9  	constraint PK_FILM primary key (FILMCOD),
+ 10  	constraint FK_FILM_EST_REALI_REALISE foreign key (REACOD)
+ 11  	      references REALISE (REACOD),
+ 12  	constraint FK_FILM_APPARTIEN_CATEGORI foreign key (CATCOD)
+ 13  	      references CATEGORIE (CATCOD)
+ 14  );
+
+Table created.
+
+SQL> --   FILMAN	       SMALLINT 			not null,
+SQL> 
+SQL> comment on table FILM is
+  2  'Les films loués ou vendus';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.FILMCOD is
+  2  'Code du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.CATCOD is
+  2  'Code de la catégorie';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.REACOD is
+  2  'Code du réalisateur';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.FILMTIT is
+  2  'Titre du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.FILMAN is
+  2  'Année de sortie du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.FILNAT is
+  2  'Nationalité du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column FILM.FILMDUR is
+  2  'Durée du film (en minute)';
+
+Comment created.
+
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : K7						       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> create sequence seq_k7 start with 20;
+
+Sequence created.
+
+SQL> 
+SQL> create table K7  (
+  2  	K7COD		     SMALLINT			      not null,
+  3  	FILMCOD 	     SMALLINT			      not null,
+  4  	K7TYP		     CHAR(3)			    default 'VHS'
+  5  	      constraint CKC_K7TYP_K7 check (K7TYP in ('V20','VHS')),
+  6  	K7LOC		     CHAR(3)			    default 'VEN'
+  7  	      constraint CKC_K7LOC_K7 check (K7LOC in ('LOC','VEN')),
+  8  	K7PRI		     NUMBER(7,2)		      not null,
+  9  	K7DAT		     DATE			   not null,
+ 10  	constraint PK_K7 primary key (K7COD),
+ 11  	constraint FK_K7_MEDIA_FILM foreign key (FILMCOD)
+ 12  	      references FILM (FILMCOD)
+ 13  );
+
+Table created.
+
+SQL> --   K7DAT 	       CHAR(6)				not null,
+SQL> 
+SQL> comment on table K7 is
+  2  'Les cassettes de films';
+
+Comment created.
+
+SQL> 
+SQL> comment on column K7.K7COD is
+  2  'Code de la cassette';
+
+Comment created.
+
+SQL> 
+SQL> comment on column K7.FILMCOD is
+  2  'Code du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column K7.K7LOC is
+  2  'Mode d''acquisition pour le client (location ou vente)';
+
+Comment created.
+
+SQL> 
+SQL> comment on column K7.K7PRI is
+  2  'Prix de la cassette';
+
+Comment created.
+
+SQL> 
+SQL> comment on column K7.K7DAT is
+  2  'Date d''entrée de la cassette';
+
+Comment created.
+
+SQL> 
+SQL> --/*==============================================================*/
+SQL> --/* Table : JOUER 					       */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table JOUER  (
+  2  	FILMCOD 	     SMALLINT			      not null,
+  3  	ACTCOD		     SMALLINT			      not null,
+  4  	constraint PK_JOUER primary key (FILMCOD, ACTCOD),
+  5  	constraint FK_JOUER_JOUER_FILM foreign key (FILMCOD)
+  6  	      references FILM (FILMCOD),
+  7  	constraint FK_JOUER_JOUER2_ACTEUR foreign key (ACTCOD)
+  8  	      references ACTEUR (ACTCOD)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> comment on table JOUER is
+  2  'L''acteur joue dans ce film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column JOUER.FILMCOD is
+  2  'Code du film';
+
+Comment created.
+
+SQL> 
+SQL> comment on column JOUER.ACTCOD is
+  2  'Code de l''acteur';
+
+Comment created.
+
+SQL> 
+SQL> @install_data_videoscar.sql
+SQL> --/*==============================================================*/
+SQL> --/* Nom de la base :  VIDEO				       */
+SQL> --/* Fichier	   :  install_data_videoscar.sql	       */
+SQL> --/*==============================================================*/
+SQL> delete from JOUER;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from K7;
+
+0 rows deleted.
+
+SQL> delete from FILM;
+
+0 rows deleted.
+
+SQL> delete from REALISE;
+
+0 rows deleted.
+
+SQL> delete from CATEGORIE;
+
+0 rows deleted.
+
+SQL> delete from ACTEUR;
+
+0 rows deleted.
+
+SQL> 
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (78,'Adjani','Isabelle');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (47,'Aimée','Anouk');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (53,'Anglade','Jean-Hugues');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (29,'Ardant','Fanny');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (7,'Auteuil','Daniel');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (16,'Azema','Sabine');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (20,'Bacri','Jean-Pierre');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (8,'Balasko','Josiane');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (61,'Banderas','Antonio');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (56,'Baye','Nathalie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (28,'Berling','Charles');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (88,'Beymer','Richard');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (10,'Bigard','Jean-Marie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (64,'Binoche','Juliette');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (12,'Blanc','Manuel');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (76,'Bogarde','Dirk');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (6,'Bouquet','Carole');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (72,'Branagh','Kenneth');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (46,'Cardinale','Claudia');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (67,'Carlyle','Robert');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (44,'Cassel','Vincent');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (21,'Chabat','Alain');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (77,'Chamberlain','Richard');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (17,'Close','Glenn');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (83,'Connery','Sean');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (65,'Dafoe','Willem');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (59,'Dalle','Béatrice');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (18,'Daniels','Jeff');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (19,'Depp','Johnny');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (68,'Dorléac','Françoise');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (34,'Dunaway','Faye');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (71,'Duperey','Annie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (55,'Dutronc','Jacques');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (58,'Eastwood','Clint');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (62,'Fiennes','Ralph');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (107,'Fisher','Carrie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (105,'Ford','Harrison');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (109,'Freeman','Morgan');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (1,'Gibson','Mel');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (108,'Goldblum','Jeff');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (75,'Goya','Chantal');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (100,'Hackman','Gene');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (106,'Hamill','Mark');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (101,'Harris','Ed');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (50,'Hart','Ian');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (82,'Helm','Brigitte');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (42,'Hunter','Holly');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (54,'Huppert','Isabelle');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (43,'Jacob','Irène');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (51,'Karyo','Tchéky');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (36,'Kassovitz','Mathieu');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (102,'Keitel','Harvey');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (13,'Kiberlain','Sandrine');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (85,'Kilmer','Val');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (9,'Lambert','Christophe');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (96,'Lang','Jessica');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (74,'Léaud','Jean-Pierre');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (27,'Lemercier','Valérie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (35,'Lewis','Jerry');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (11,'Luchini','Fabrice');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (99,'Mac Dorman','Frances');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (48,'Mac Dowell','Malcom');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (2,'Mac Goohan','Patrick');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (93,'Mac Lachlan','Kyle');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (60,'Madonna','');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (3,'Marceau','Sophie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (45,'Mastroianni','Marcello');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (24,'Mauduech','Julie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (37,'Minnelli','Liza');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (14,'Mitchell','Eddy');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (40,'Molina','Angela');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (33,'Moreau','Jeanne');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (79,'Neill','Sam');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (23,'Nicholson','Jack');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (89,'Oldman','Gary');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (22,'Olsen','Ole');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (98,'Pacino','Al');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (31,'Paradis','Vanessa');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (52,'Parillaud','Anne');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (104,'Pitt','Brad');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (69,'Pleasence','Donald');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (97,'Potter','Martin');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (84,'Rampling','Charlotte');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (32,'Reno','Jean');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (39,'Rey','Fernando');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (30,'Rochefort','Jean');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (49,'Roussel','Myriem');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (86,'Ryan','Meg');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (95,'Scheider','Roy');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (73,'Schneider','Romy');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (63,'Scott-Thomas','Kristin');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (15,'Serrault','Michel');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (41,'Spader','James');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (94,'Sting',null);
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (103,'Stowe','Madeleine');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (57,'Streep','Meryl');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (26,'Tati','Jacques');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (92,'Thurman','Uma');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (4,'Torreton','Philippe');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (90,'Travolta','John');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (81,'Trintignant','Jean-Louis');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (70,'Vlady','Marina');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (66,'Watson','Emily');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (5,'Williamson','Nicol');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (91,'Willis','Bruce');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (80,'Wilson','Lambert');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (87,'Wood','Natalie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (110,'Wood','Natalie');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (38,'York','Michael');
+
+1 row created.
+
+SQL> insert into ACTEUR (ACTCOD, ACTNOM, ACTPRE) values (25,'Zola','Jean-Pierre');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('AN','ANIMATION');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('AV','AVENTURE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('CD','COMEDIE DRAMATIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('CM','COMEDIE MUSICALE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('CO','COMEDIE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('CT','COURT METRAGE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('DA','DESSIN ANIME');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('DC','DOCUMENTAIRE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('DP','DRAME PSYCHOLOGIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('DR','DRAME');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('EP','EPOUVANTE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('ER','EROTIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('ES','ESPIONNAGE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FA','FANTASTIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FC','CATASTROPHE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FD','DANSE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FH','HISTORIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FM','MUSICAL');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FN','NOIR');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FO','OPERA');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('FP','POLITIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('GC','GRAND CLASSIQUE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('GR','GUERRE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('GS','GRAND SPECTACLE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('HO','HORREUR');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('KA','KARATE');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('PO','POLICIER');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('SF','SCIENCE FICTION');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('TH','THRILLER');
+
+1 row created.
+
+SQL> insert into CATEGORIE (CATCOD, CATLIB) values ('WS','WESTERN');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (24,'Anderson','Lindsay');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (29,'Beineix','Jean-Jacques');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (4,'Berri','Claude');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (27,'Besson','Luc');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (3,'Boorman','John');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (55,'Boorman','John');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (35,'Branagh','Kenneth');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (20,'Bunuel','Louis');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (12,'Burton','Tim');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (10,'Chabat','Alain');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (7,'Chatiliez','Etienne');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (48,'Coen','Joel');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (21,'Cronenberg','David');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (28,'Eastwood','Clint');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (53,'Emmerich','Roland');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (23,'Fellini','Frederico');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (54,'Fincher','David');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (19,'Fosse','Bob');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (1,'Gibson','Mel');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (49,'Gilliam','Terry');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (25,'Godard','Jean-Luc');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (8,'Herek','Stephen');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (9,'Jarmusch','Jim');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (13,'Kassovitz','Mathieu');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (51,'Kershner','Irvin');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (22,'Kieslowski','Krzysztof');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (39,'Kubrick','Stanley');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (18,'Kusturica','Emir');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (41,'Lang','Fritz');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (16,'Leconte','Patrice');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (15,'Lemercier','Valérie');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (26,'Loach','Ken');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (52,'Lucas','Georges');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (46,'Lynch','David');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (44,'Malle','Louis');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (17,'Manzor','René');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (32,'Minghella','Anthony');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (6,'Molinaro','Edouard');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (47,'Newell','Mike');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (30,'Parker','Alan');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (34,'Polanski','Roman');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (11,'Popper','H.S');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (38,'Russel','Ken');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (50,'Scott','Ridley');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (42,'Stone','Oliver');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (45,'Tarantino','Quentin');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (14,'Tati','Jacques');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (2,'Tavernier','Bertrand');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (40,'Téchiné','André');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (31,'Van Lamsweerde','Pino');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (37,'Visconti','Luchino');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (33,'Von Trier','Lars');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (43,'Wise','Robert');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (5,'Zidi','Claude');
+
+1 row created.
+
+SQL> insert into REALISE (REACOD, REANOM, REAPRE) values (36,'Zulawski','Andrej');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (001,'CO',8,'101 DALMATIENS',1996,'USA',102);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (002,'CD',29,'37°2 LE MATIN',1985,'F',180);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (003,'CO',17,'UN AMOUR DE SORCIERE',1996,'F',102);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (004,'CD',18,'ARIZONA DREAM',1992,'USA',110);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (005,'CO',5,'ARLETTE',1997,'F',100);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (006,'SF',49,'L'' ARMEE DES 12 SINGES',1995,'USA',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (007,'FN',44,'ASCENSEUR POUR L'' ECHAFAUD',1957,'F',63);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (008,'CD',13,'ASSASSIN(S)',1996,'F',130);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (009,'AN',31,'ASTERIX CHEZ LES BRETONS',1986,'F',80);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (010,'CO',6,'BEAUMARCHAIS L''INSOLENT',1995,'F',100);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (011,'SF',50,'BLADE RUNNER',1982,'USA',115);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (012,'CO',7,'LE BONHEUR EST DANS LE PRE',1995,'F',106);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (013,'AV',1,'BRAVEHEART',1995,'USA',165);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (014,'DP',33,'BREAKING THE WAVES',1996,'DNK',158);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (015,'CD',19,'CABARET',1972,'USA',160);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (016,'AV',2,'CAPITAINE CONAN',1996,'F',130);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (017,'DP',26,'CARLA'' S SONG',1995,'DAN',126);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (018,'CD',20,'CET OBSCUR OBJET DU DESIR',1977,'F',105);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (019,'DP',20,'LE CHARME DISCRET DE LA BOURGEOISIE',1972,'F',100);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (020,'SF',27,'LE CINQUIEME ELEMENT',1996,'F',126);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (021,'CD',21,'CRASH',1995,'CAN',100);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (022,'DP',34,'CUL DE SAC',1966,'UK',115);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (023,'CO',9,'DEAD MAN',1995,'USA',134);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (024,'DP',25,'2 OU 3 CHOSES QUE JE SAIS D''ELLE',1966,'F',80);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (025,'CO',10,'DIDIER',1996,'F',105);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (026,'PO',47,'DONNIE BRASCO',1996,'USA',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (027,'FM',42,'LES DOORS',1990,'USA',140);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (028,'CD',22,'LA DOUBLE VIE DE VERONIQUE',1990,'F',98);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (029,'GS',46,'DUNE',1984,'USA',140);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (030,'SF',52,'L''EMPIRE CONTRE-ATTAQUE',1980,'USA',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (031,'CM',30,'EVITA',1996,'USA',135);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (032,'AV',3,'EXCALIBUR',1980,'USA',135);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (033,'PO',48,'FARGO',1996,'USA',97);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (034,'SF',52,'LA GUERRE DES ETOILES',1977,'USA',120);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (035,'CD',13,'LA HAINE',1995,'F',95);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (036,'DP',35,'HAMLET',1997,'UK',241);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (037,'CO',11,'HELLZAPOPPIN',1941,'USA',85);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (038,'FH',35,'HENRI V',1990,'UK',138);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (039,'WS',28,'L''HOMME DES HAUTES PLAINES',1973,'USA',102);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (040,'CD',23,'HUIT ET DEMI',1962,'ITA',135);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (041,'CD',24,'IF',1969,'UK',115);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (042,'DP',36,'L''IMPORTANT C''EST D''AIMER',1974,'F',110);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (043,'SF',53,'INDEPENDENCE DAY',1996,'USA',140);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (044,'CD',25,'JE VOUS SALUE MARIE',1983,'F',70);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (045,'CD',26,'LAND AND FREEDOM',1994,'UK',109);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (046,'FN',27,'LEON',1993,'F',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (047,'AV',4,'LUCIE AUBRAC',1996,'F',115);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (050,'CO',12,'MARS ATTACKS !',1996,'USA',105);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (051,'DP',25,'MASCULIN-FEMININ',1966,'F',110);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (052,'CO',13,'METISSE',1993,'F',95);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (053,'FA',41,'METROPOLIS',1926,'ALL',90);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (054,'CO',14,'MON ONCLE',1958,'F',120);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (055,'DP',37,'MORT A VENISE',1970,'UK',130);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (056,'DP',38,'MUSIC LOVERS',1970,'UK',123);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (057,'CD',27,'NIKITA',1989,'F',117);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (058,'DP',39,'ORANGE MECANIQUE',1971,'UK',150);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (059,'DR',32,'LE PATIENT ANGLAIS',1996,'USA',160);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (060,'PO',28,'LES PLEINS POUVOIRS',1996,'USA',121);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (061,'DP',36,'POSSESSION',1980,'F',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (062,'FN',45,'PULP FICTION',1994,'USA',149);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (063,'CO',15,'QUADRILLE',1996,'F',96);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (064,'GS',19,'QUE LE SPECTACLE COMMENCE !',1979,'USA',125);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (065,'DP',40,'RENDEZ-VOUS',1985,'F',90);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (066,'PO',45,'RESERVOIR DOGS',1992,'USA',99);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (067,'CO',16,'RIDICULE',1996,'F',102);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (068,'GS',23,'SATYRICON',1969,'ITA',135);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (069,'',25,'SAUVE QUI PEUT LA VIE',1979,'F',90);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (070,'',54,'SEVEN',1995,'USA',130);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (071,'',28,'SUR LA ROUTE DE MADISON',1995,'USA',135);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (072,'',43,'WEST SIDE STORY',1960,'USA',155);
+
+1 row created.
+
+SQL> insert into FILM (FILMCOD, CATCOD, REACOD, FILMTIT, FILMAN, FILNAT, FILMDUR) values (073,'',3,'ZARDOZ',1973,'USA',106);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> insert into K7 (K7COD, FILMCOD, K7LOC, K7PRI, K7DAT) values (12,001,'LOC',0,to_date('01-05-2003','DD-MM-YYYY'));
+
+1 row created.
+
+SQL> insert into K7 (K7COD, FILMCOD, K7LOC, K7PRI, K7DAT) values (13,015,'VEN',0,to_date('01-05-2003','DD-MM-YYYY'));
+
+1 row created.
+
+SQL> insert into K7 (K7COD, FILMCOD, K7LOC, K7PRI, K7DAT) values (14,006,'',12,to_date('01-05-2003','DD-MM-YYYY'));
+
+1 row created.
+
+SQL> insert into K7 (K7COD, FILMCOD, K7LOC, K7PRI, K7DAT) values (15,055,null,12.3,to_date('01-05-2003','DD-MM-YYYY'));
+
+1 row created.
+
+SQL> insert into K7 (K7COD, FILMCOD, K7LOC, K7PRI, K7DAT) values (16,014,'LOC',5.12,to_date('01-05-2003','DD-MM-YYYY'));
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (001,17);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (001,18);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (002,53);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (002,59);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (003,31);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (003,33);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (004,19);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (004,34);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (004,35);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (005,8);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (005,9);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (006,91);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (007,33);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (008,15);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (008,36);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (010,11);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (010,12);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (010,13);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (011,105);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (012,14);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (012,15);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (012,16);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (013,1);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (013,3);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (014,66);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (015,37);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (015,38);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (016,4);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (017,67);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (018,6);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (018,39);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (018,40);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (019,39);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (020,89);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (020,91);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (021,41);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (021,42);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (022,68);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (022,69);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (023,19);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (024,70);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (024,71);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (025,20);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (025,21);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (026,19);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (026,98);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (027,85);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (027,86);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (028,43);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (029,93);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (029,94);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (030,105);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (030,106);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (030,107);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (031,60);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (031,61);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (034,105);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (034,106);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (034,107);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (035,44);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (036,72);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (037,22);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (038,72);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (039,58);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (040,45);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (040,46);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (040,47);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (041,48);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (042,55);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (042,73);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (043,108);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (044,64);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (046,32);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (046,89);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (047,6);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (047,7);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (050,17);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (050,23);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (051,74);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (051,75);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (052,36);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (053,82);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (054,25);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (054,26);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (055,76);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (056,77);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (057,51);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (057,52);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (057,53);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (058,48);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (059,62);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (059,63);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (059,64);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (059,65);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (060,58);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (060,100);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (060,101);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (061,78);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (061,79);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (062,90);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (062,91);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (062,92);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (063,13);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (063,27);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (064,95);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (064,96);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (065,64);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (065,80);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (066,102);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (067,28);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (067,29);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (067,30);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (068,97);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (069,54);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (069,55);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (069,56);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (070,104);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (070,109);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (071,57);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (071,58);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (072,87);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (072,88);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (073,83);
+
+1 row created.
+
+SQL> insert into JOUER (FILMCOD, ACTCOD) values (073,84);
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> --@install_data_videoscar_CD_v2.sql
+SQL> --@req_videoscar.sql
+SQL> --@install_post_videoscar.sql
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par dï¿½faut
+SQL> spool off

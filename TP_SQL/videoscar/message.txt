@@ -1,0 +1,1122 @@
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 2 de la commande -
+INSERT INTO CATEGORIE(CATCOD,CATLIB) VALUES (seq_categorie.nextval,'Comï¿½die dramatique')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."CATEGORIE"."CATLIB" (réelle : 23, maximum : 20)
+
+
+Erreur commençant à la ligne: 3 de la commande -
+INSERT INTO FILM (FILMCOD,CATCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_categorie.currval,seq_realise.currval,'C''est la vie (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_APPARTIEN_CATEGORI) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 5 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 7 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 9 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 11 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 14 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'C''est pas sorcier (avion, hï¿½licoptï¿½re)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 48, maximum : 40)
+
+
+Erreur commençant à la ligne: 15 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'C''est pas Sorcier (vol ï¿½ voil, dirigeable)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 47, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 66 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Chï¿½rie, j''ai agrandi le bï¿½bï¿½ (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 49, maximum : 40)
+
+
+Erreur commençant à la ligne: 67 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Chï¿½rie, j''ai rï¿½treci les gosses (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 47, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 86 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Cï¿½libataires, ou comment ne pas le rester ...',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 50, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 95 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Ceux qui m''aiment prendront le train (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 42, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 103 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'BARTABAS','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 104 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Chamane (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 118 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'McG','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 119 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Charlie et ses droles de dames (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+Erreur commençant à la ligne: 120 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Charlie''s angels - Les anges se dï¿½chainent ...',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 51, maximum : 40)
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 123 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Chasseur des tï¿½nï¿½bres, chasseur de miel (doc) (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 61, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 192 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'COLUCHE','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 193 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Coluche 1 FAUX nï¿½2 (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+Erreur commençant à la ligne: 195 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'MA.RO.KO','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 196 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Coluche, ni pour ...',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 216 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'SethGORDON','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 217 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Comment tuer son boss',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 222 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'Frï¿½dï¿½ric',' MERMOUD')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."REALISE"."REANOM" (réelle : 18, maximum : 15)
+
+
+Erreur commençant à la ligne: 223 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Complices',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 295 de la commande -
+INSERT INTO CATEGORIE(CATCOD,CATLIB) VALUES (seq_categorie.nextval,'Comï¿½die musicale')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."CATEGORIE"."CATLIB" (réelle : 21, maximum : 20)
+
+
+Erreur commençant à la ligne: 296 de la commande -
+INSERT INTO FILM (FILMCOD,CATCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_categorie.currval,seq_realise.currval,'Dancer in the dark (VHS)',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_APPARTIEN_CATEGORI) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 298 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 300 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 302 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 304 de la commande -
+INSERT INTO JOUER(FILMCOD,ACTCOD) VALUES (seq_film.currval,seq_acteur.currval)
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_JOUER_JOUER_FILM) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 331 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'Juan',' Josï¿½ CAMPANELLA')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."REALISE"."REAPRE" (réelle : 21, maximum : 15)
+
+
+Erreur commençant à la ligne: 332 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'Dans ses yeux',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 350 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'De battre mon coeur s''est arrï¿½tï¿½',1800,'TER')
+Rapport d'erreur -
+ORA-12899: valeur trop grande pour la colonne "VIDEOSCAR"."FILM"."FILMTIT" (réelle : 42, maximum : 40)
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 364 de la commande -
+INSERT INTO REALISE(REACOD,REANOM,REAPRE) VALUES(seq_realise.nextval,'NilsTAVERNIER','')
+Rapport d'erreur -
+ORA-01400: impossible d'insérer NULL dans ("VIDEOSCAR"."REALISE"."REAPRE")
+
+
+Erreur commençant à la ligne: 365 de la commande -
+INSERT INTO FILM (FILMCOD,REACOD,FILMTIT,FILMAN,FILNAT) VALUES(seq_film.nextval,seq_realise.currval,'De toutes nos forces',1800,'TER')
+Rapport d'erreur -
+ORA-02291: violation de contrainte d'intégrité (VIDEOSCAR.FK_FILM_EST_REALI_REALISE) - clé parent introuvable
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+1 ligne inséré.
+
+
+Erreur commençant à la ligne: 478 de la commande -
+INSERT INTO K7 (K7COD,FILMCOD,K7PRI,K7DAT) SELECT seq_k7.nextval,FILM.FILMCOD,0.00,to_date('01-01-1800','DD-MM-YYYY') FROM FILM WHERE FILMTIT LIKE '%VHS%'
+Rapport d'erreur -
+ORA-00001: violation de contrainte unique (VIDEOSCAR.PK_K7)
+
