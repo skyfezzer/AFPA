@@ -1,0 +1,5 @@
+\t?(?<titre>.+)\t\s\t(?<fullname>.+)\t(?<id>.+)
+
+define titre = '$1';\ndefine real = '$2';\n\n
+
+INSERT INTO REALISE (REACOD, REAPRE, REANOM) SELECT seq_realise.nextval, &titre, ' AMERIS' FROM DUAL WHERE NOT EXISTS(SELECT * FROM REALISE WHERE ( REAPRE = 'Jean-Pierre' AND REANOM = ' AMERIS'));
