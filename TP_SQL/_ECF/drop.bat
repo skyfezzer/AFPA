@@ -1,0 +1,17 @@
+prompt CMD$g
+if (%ORACLE_HOME%) == () goto nooraclehome
+set SOURCE=.
+%ORACLE_HOME%\bin\SQLPLUS livraison/livraison@localhost/xepdb1 @"%SOURCE%\drop_livraison.sql"
+pause
+goto exit
+
+:nooraclehome
+echo ORACLE_HOME variable d environement non positionnee
+pause
+exit 1
+
+:exit
+echo SCRIPT TERMINE SANS ERREUR
+exit 0
+
+

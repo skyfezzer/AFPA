@@ -1,0 +1,798 @@
+SQL> -- pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> -- sortir en cas d'erreur
+SQL> WHENEVER OSERROR EXIT
+SQL> WHENEVER SQLERROR EXIT rollback
+SQL> set linesize 60
+SQL> set pagesize 200
+SQL> 
+SQL> @install_livraison.sql
+SQL> --==============================================================
+SQL> --Nom de la base :  xxxxxxxx
+SQL> --Fichier		: xxxxxxx.sql
+SQL> --==============================================================
+SQL> CREATE TABLE Article
+  2  (noArticle 	     INTEGER NOT NULL,
+  3   description    VARCHAR(20),
+  4   prixUnitaire   DECIMAL(10,2) NOT NULL CHECK (prixUnitaire >= 0),
+  5   quantiteEnStock	     INTEGER	     DEFAULT 0 NOT NULL CHECK (quantiteEnStock >= 0),
+  6   CONSTRAINT PK_ARTICLE PRIMARY KEY (noArticle)
+  7  );
+
+Table created.
+
+SQL> CREATE TABLE Client
+  2  (noClient		     INTEGER NOT NULL,
+  3   nomClient 	     VARCHAR(20) NOT NULL,
+  4   noTelephone    VARCHAR(15) NOT NULL,
+  5   CONSTRAINT PK_CLIENT PRIMARY KEY (noClient)
+  6  );
+
+Table created.
+
+SQL> CREATE SEQUENCE seq_livraison MINVALUE 100;
+
+Sequence created.
+
+SQL> CREATE TABLE Livraison
+  2  (noLivraison    INTEGER NOT NULL,
+  3   dateLivraison  DATE NOT NULL,
+  4   CONSTRAINT PK_LIVRAISON PRIMARY KEY (noLivraison)
+  5  );
+
+Table created.
+
+SQL> CREATE TABLE Commande
+  2  (noCommande     INTEGER NOT NULL,
+  3   dateCommande   DATE NOT NULL,
+  4   noClient		     INTEGER NOT NULL,
+  5   CONSTRAINT PK_COMMANDE PRIMARY KEY (noCommande),
+  6   CONSTRAINT FK_COMMANDE_CLIENT FOREIGN KEY (noClient) REFERENCES CLIENT (noClient)
+  7  );
+
+Table created.
+
+SQL> CREATE TABLE LigneCommande
+  2  (noCommande     INTEGER NOT NULL,
+  3   noArticle 	     INTEGER NOT NULL,
+  4   quantite		     INTEGER NOT NULL CHECK (quantite >= 0),
+  5   CONSTRAINT PK_LIGNECOMMANDE PRIMARY KEY (noCommande,noArticle),
+  6   CONSTRAINT FK_LIGNECOMMANDE_COMMANDE FOREIGN KEY (noCommande) REFERENCES COMMANDE (noCommande),
+  7   CONSTRAINT FK_LIGNECOMMANDE_ARTICLE FOREIGN KEY (noArticle) REFERENCES ARTICLE (noArticle)
+  8  );
+
+Table created.
+
+SQL> CREATE TABLE DetailLivraison
+  2  (noLivraison    INTEGER NOT NULL,
+  3   noCommande     INTEGER NOT NULL,
+  4   noArticle 	     INTEGER NOT NULL,
+  5   quantiteLivree INTEGER NOT NULL CHECK (quantiteLivree >= 0),
+  6   CONSTRAINT PK_DETAILLIVRAISON PRIMARY KEY (noLivraison,noCommande,noArticle),
+  7   CONSTRAINT FK_DETAILLIVRAISON_LIGNECOMMANDE FOREIGN KEY (noCommande,noArticle) REFERENCES LigneCommande (noCommande,noArticle),
+  8   CONSTRAINT FK_DETAILLIVRAISON_LIVRAISON FOREIGN KEY (noLivraison) REFERENCES Livraison (noLivraison)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> Prompt ******************************
+******************************
+SQL> prompt Recapitulatif des Objets crï¿½ï¿½s
+Recapitulatif des Objets crï¿½ï¿½s
+SQL> Prompt ******************************
+******************************
+SQL> select * from user_catalog;
+
+TABLE_NAME                                                  
+------------------------------------------------------------
+TABLE_TYPE                                                  
+-----------                                                 
+ARTICLE                                                     
+TABLE                                                       
+                                                            
+SEQ_LIVRAISON                                               
+SEQUENCE                                                    
+                                                            
+CLIENT                                                      
+TABLE                                                       
+                                                            
+LIVRAISON                                                   
+TABLE                                                       
+                                                            
+COMMANDE                                                    
+TABLE                                                       
+                                                            
+LIGNECOMMANDE                                               
+TABLE                                                       
+                                                            
+DETAILLIVRAISON                                             
+TABLE                                                       
+                                                            
+
+7 rows selected.
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt ************************************
+************************************
+SQL> prompt Recapitulatif des contraintes posï¿½es
+Recapitulatif des contraintes posï¿½es
+SQL> prompt ************************************
+************************************
+SQL> 
+SQL> column constraint_name format A20
+SQL> column type format A3
+SQL> column table_name format A15
+SQL> column SEARCH_CONDITION format A30
+SQL> 
+SQL> break on type skip
+SQL> compute count of constraint_name on type report
+SQL> select  constraint_name, Constraint_type as type,
+  2  	     table_name , SEARCH_CONDITION, DELETE_RULE, STATUS
+  3  from user_constraints
+  4  order by type, table_name;
+
+CONSTRAINT_NAME      TYP TABLE_NAME                         
+-------------------- --- ---------------                    
+SEARCH_CONDITION               DELETE_RU STATUS             
+------------------------------ --------- --------           
+SYS_C009087          C   ARTICLE                            
+"PRIXUNITAIRE" IS NOT NULL               ENABLED            
+                                                            
+SYS_C009088              ARTICLE                            
+"QUANTITEENSTOCK" IS NOT NULL            ENABLED            
+                                                            
+SYS_C009089              ARTICLE                            
+prixUnitaire >= 0                        ENABLED            
+                                                            
+SYS_C009090              ARTICLE                            
+quantiteEnStock >= 0                     ENABLED            
+                                                            
+SYS_C009086              ARTICLE                            
+"NOARTICLE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C009094              CLIENT                             
+"NOTELEPHONE" IS NOT NULL                ENABLED            
+                                                            
+SYS_C009092              CLIENT                             
+"NOCLIENT" IS NOT NULL                   ENABLED            
+                                                            
+SYS_C009093              CLIENT                             
+"NOMCLIENT" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C009100              COMMANDE                           
+"DATECOMMANDE" IS NOT NULL               ENABLED            
+                                                            
+SYS_C009099              COMMANDE                           
+"NOCOMMANDE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C009101              COMMANDE                           
+"NOCLIENT" IS NOT NULL                   ENABLED            
+                                                            
+SYS_C009112              DETAILLIVRAISON                    
+"NOCOMMANDE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C009111              DETAILLIVRAISON                    
+"NOLIVRAISON" IS NOT NULL                ENABLED            
+                                                            
+SYS_C009113              DETAILLIVRAISON                    
+"NOARTICLE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C009114              DETAILLIVRAISON                    
+"QUANTITELIVREE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C009115              DETAILLIVRAISON                    
+quantiteLivree >= 0                      ENABLED            
+                                                            
+SYS_C009106              LIGNECOMMANDE                      
+"QUANTITE" IS NOT NULL                   ENABLED            
+                                                            
+SYS_C009107              LIGNECOMMANDE                      
+quantite >= 0                            ENABLED            
+                                                            
+SYS_C009104              LIGNECOMMANDE                      
+"NOCOMMANDE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C009105              LIGNECOMMANDE                      
+"NOARTICLE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C009096              LIVRAISON                          
+"NOLIVRAISON" IS NOT NULL                ENABLED            
+                                                            
+SYS_C009097              LIVRAISON                          
+"DATELIVRAISON" IS NOT NULL              ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                  22 cou                                    
+                                                            
+                                                            
+PK_ARTICLE           P   ARTICLE                            
+                                         ENABLED            
+                                                            
+PK_CLIENT                CLIENT                             
+                                         ENABLED            
+                                                            
+PK_COMMANDE              COMMANDE                           
+                                         ENABLED            
+                                                            
+PK_DETAILLIVRAISON       DETAILLIVRAISON                    
+                                         ENABLED            
+                                                            
+PK_LIGNECOMMANDE         LIGNECOMMANDE                      
+                                         ENABLED            
+                                                            
+PK_LIVRAISON             LIVRAISON                          
+                                         ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                   6 cou                                    
+                                                            
+                                                            
+FK_COMMANDE_CLIENT   R   COMMANDE                           
+                               NO ACTION ENABLED            
+                                                            
+FK_DETAILLIVRAISON_L     DETAILLIVRAISON                    
+IVRAISON                                                    
+                               NO ACTION ENABLED            
+                                                            
+FK_DETAILLIVRAISON_L     DETAILLIVRAISON                    
+IGNECOMMANDE                                                
+                               NO ACTION ENABLED            
+                                                            
+FK_LIGNECOMMANDE_COM     LIGNECOMMANDE                      
+MANDE                                                       
+                               NO ACTION ENABLED            
+                                                            
+FK_LIGNECOMMANDE_ART     LIGNECOMMANDE                      
+ICLE                                                        
+                               NO ACTION ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                   5 cou                                    
+                                                            
+                                                            
+
+33 rows selected.
+
+SQL> 
+SQL> 
+SQL> clear columns
+SQL> clear breaks
+SQL> clear computes
+SQL> @install_data_livraison.sql
+SQL> --==============================================================
+SQL> --Nom de la base :  xxxxxxxx
+SQL> --Fichier		:  install_data_livraison.sql
+SQL> --==============================================================
+SQL> 
+SQL> -- On n'interprete pas les &  comme variable de substitution
+SQL> set define off
+SQL> 
+SQL> -- affichage des substitutions de variable
+SQL> SET VERIFY ON
+SQL> 
+SQL> --Script de suppression des données
+SQL> delete from DetailLivraison;
+
+0 rows deleted.
+
+SQL> delete from LigneCommande;
+
+0 rows deleted.
+
+SQL> delete from Commande;
+
+0 rows deleted.
+
+SQL> delete from Article;
+
+0 rows deleted.
+
+SQL> delete from Livraison;
+
+0 rows deleted.
+
+SQL> delete from Client;
+
+0 rows deleted.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY';
+
+Session altered.
+
+SQL> 
+SQL> --INSERT INTO Commande VALUES(1,'01/06/2000 01:11:11',10)/
+SQL> 
+SQL> INSERT INTO Article
+  2  	     VALUES(10,'Cédre en boule',10.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(20,'Sapin',12.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(40,'épinette bleue',25.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(50,'Chéne',22.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(60,'érable argenté',15.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(70,'Herbe à puce',10.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(80,'Poirier',26.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(81,'Catalpa',25.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(90,'Pommier',25.99,10);
+
+1 row created.
+
+SQL> INSERT INTO Article
+  2  	     VALUES(95,'Génévrier',15.99,10);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'03/06/2000');
+
+1 row created.
+
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'04/06/2000');
+
+1 row created.
+
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'04/06/2000');
+
+1 row created.
+
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'05/06/2000');
+
+1 row created.
+
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'07/07/2000');
+
+1 row created.
+
+SQL> INSERT INTO Livraison
+  2  	     VALUES(seq_livraison.nextval,'09/07/2000');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO Client
+  2  	     VALUES(10,'Luc Sansom','(999)999-9999');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(20,'Dollard Tremblay','(888)888-8888');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(30,'Lin Bé','(777)777-7777');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(40,'Jean Leconte','(666)666-6666');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(50,'Hafed Alaoui','(555)555-5555');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(60,'Marie Leconte','(666)666-6666');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(70,'Simon Lecoq','(444)444-4419');
+
+1 row created.
+
+SQL> INSERT INTO Client
+  2  	     VALUES(80,'Dollard Tremblay','(333)333-3333');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO Commande VALUES( 1, TO_DATE('01/06/2000 01:11:11', 'DD/MM/YYYY HH24:MI:SS'), 10 );
+
+1 row created.
+
+SQL> INSERT INTO Commande VALUES(2,TO_DATE('02/06/2000 02:22:22', 'DD/MM/YYYY HH24:MI:SS'),20);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(3,TO_DATE('02/06/2000 03:33:33', 'DD/MM/YYYY HH24:MI:SS'),10);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(4,TO_DATE('05/07/2000 04:44:44', 'DD/MM/YYYY HH24:MI:SS'),10);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(5,TO_DATE('09/07/2000 05:55:55', 'DD/MM/YYYY HH24:MI:SS'),30);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(6,TO_DATE('09/07/2000 06:06:06', 'DD/MM/YYYY HH24:MI:SS'),20);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(7,TO_DATE('15/07/2000 07:07:07', 'DD/MM/YYYY HH24:MI:SS'),40);
+
+1 row created.
+
+SQL> INSERT INTO Commande
+  2  	     VALUES(8,TO_DATE('15/07/2000 08:08:08', 'DD/MM/YYYY HH24:MI:SS'),40);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(1,10,10);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(1,70,5);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(1,90,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(2,40,2);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(2,95,3);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(3,20,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(4,40,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(4,50,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(5,70,3);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(5,10,5);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(5,20,5);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(6,10,5);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(6,40,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(7,50,1);
+
+1 row created.
+
+SQL> INSERT INTO LigneCommande
+  2  	     VALUES(8,20,3);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(100,1,10,7);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(100,1,70,5);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(101,1,10,3);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(102,2,40,2);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(102,2,95,1);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(100,3,20,1);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(103,1,90,1);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(104,4,40,1);
+
+1 row created.
+
+SQL> INSERT INTO DetailLivraison
+  2  	     VALUES(105,5,70,2);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- On interprete  les &  comme variable de substitution
+SQL> set define on
+SQL> @req_livraison.sql
+SQL> --/***************************************************************
+SQL> --Script req_delice_TODO.sql
+SQL> --***************************************************************/
+SQL> -- On interprete  les &  comme variable de substitution
+SQL> set define on
+SQL> 
+SQL> -- affichage des substitutions de variable
+SQL> set verify on
+SQL> 
+SQL> --2.1.1
+SQL> SELECT * FROM ARTICLE;
+
+ NOARTICLE DESCRIPTION          PRIXUNITAIRE QUANTITEENSTOCK
+---------- -------------------- ------------ ---------------
+        10 Cédre en boule              10.99              10
+        20 Sapin                       12.99              10
+        40 épinette bleue              25.99              10
+        50 Chéne                       22.99              10
+        60 érable argenté              15.99              10
+        70 Herbe à puce                10.99              10
+        80 Poirier                     26.99              10
+        81 Catalpa                     25.99              10
+        90 Pommier                     25.99              10
+        95 Génévrier                   15.99              10
+
+10 rows selected.
+
+SQL> SELECT * FROM CLIENT;
+
+  NOCLIENT NOMCLIENT            NOTELEPHONE                 
+---------- -------------------- ---------------             
+        10 Luc Sansom           (999)999-9999               
+        20 Dollard Tremblay     (888)888-8888               
+        30 Lin Bé               (777)777-7777               
+        40 Jean Leconte         (666)666-6666               
+        50 Hafed Alaoui         (555)555-5555               
+        60 Marie Leconte        (666)666-6666               
+        70 Simon Lecoq          (444)444-4419               
+        80 Dollard Tremblay     (333)333-3333               
+
+8 rows selected.
+
+SQL> SELECT * FROM COMMANDE;
+
+NOCOMMANDE DATECOMMAN   NOCLIENT                            
+---------- ---------- ----------                            
+         1 01/06/2000         10                            
+         2 02/06/2000         20                            
+         3 02/06/2000         10                            
+         4 05/07/2000         10                            
+         5 09/07/2000         30                            
+         6 09/07/2000         20                            
+         7 15/07/2000         40                            
+         8 15/07/2000         40                            
+
+8 rows selected.
+
+SQL> SELECT * FROM DETAILLIVRAISON;
+
+NOLIVRAISON NOCOMMANDE  NOARTICLE QUANTITELIVREE            
+----------- ---------- ---------- --------------            
+        100          1         10              7            
+        100          1         70              5            
+        101          1         10              3            
+        102          2         40              2            
+        102          2         95              1            
+        100          3         20              1            
+        103          1         90              1            
+        104          4         40              1            
+        105          5         70              2            
+
+9 rows selected.
+
+SQL> SELECT * FROM LIGNECOMMANDE;
+
+NOCOMMANDE  NOARTICLE   QUANTITE                            
+---------- ---------- ----------                            
+         1         10         10                            
+         1         70          5                            
+         1         90          1                            
+         2         40          2                            
+         2         95          3                            
+         3         20          1                            
+         4         40          1                            
+         4         50          1                            
+         5         70          3                            
+         5         10          5                            
+         5         20          5                            
+         6         10          5                            
+         6         40          1                            
+         7         50          1                            
+         8         20          3                            
+
+15 rows selected.
+
+SQL> SELECT * FROM LIVRAISON;
+
+NOLIVRAISON DATELIVRAI                                      
+----------- ----------                                      
+        100 03/06/2000                                      
+        101 04/06/2000                                      
+        102 04/06/2000                                      
+        103 05/06/2000                                      
+        104 07/07/2000                                      
+        105 09/07/2000                                      
+
+6 rows selected.
+
+SQL> 
+SQL> -- 2.1.2
+SQL> SELECT * FROM CLIENT WHERE NOTELEPHONE = '(999)999-9999';
+
+  NOCLIENT NOMCLIENT            NOTELEPHONE                 
+---------- -------------------- ---------------             
+        10 Luc Sansom           (999)999-9999               
+
+SQL> 
+SQL> -- 2.2.1
+SQL> SELECT C.NOCOMMANDE, SUM(PRIXUNITAIRE*QUANTITE) AS Total, SUM(PRIXUNITAIRE*QUANTITE)*1.15 AS "Total avec taxe" FROM COMMANDE C
+  2  	 INNER JOIN LIGNECOMMANDE LC ON C.NOCOMMANDE = LC.NOCOMMANDE
+  3  	 INNER JOIN ARTICLE A ON LC.NOARTICLE = A.NOARTICLE
+  4  	 WHERE C.NOCOMMANDE = 1
+  5  	 GROUP BY C.NOCOMMANDE;
+
+NOCOMMANDE      TOTAL Total avec taxe                       
+---------- ---------- ---------------                       
+         1     190.84         219.466                       
+
+SQL> 
+SQL> -- 2.3.1
+SQL> DELETE FROM ARTICLE WHERE ARTICLE.NOARTICLE NOT IN (SELECT NOARTICLE FROM LIGNECOMMANDE);
+
+3 rows deleted.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> 
+SQL> -- 2.4.1
+SQL> SELECT CL.NOCLIENT, CL.NOTELEPHONE, CO.NOCOMMANDE FROM CLIENT CL
+  2  	 INNER JOIN COMMANDE CO ON CL.NOCLIENT = CO.NOCLIENT
+  3  	 WHERE TO_DATE(CO.DATECOMMANDE) = TO_DATE('02/06/2000','DD/MM/YYYY');
+
+  NOCLIENT NOTELEPHONE     NOCOMMANDE                       
+---------- --------------- ----------                       
+        20 (888)888-8888            2                       
+        10 (999)999-9999            3                       
+
+SQL> 
+SQL> -- 2.5.1
+SQL> SELECT LIV.noLivraison FROM LIVRAISON LIV
+  2  	 INNER JOIN DETAILLIVRAISON DLIV ON LIV.NOLIVRAISON = DLIV.NOLIVRAISON
+  3  	 WHERE TO_DATE(LIV.DATELIVRAISON) = TO_DATE('04/06/2000','DD/MM/YYYY')
+  4  	 GROUP BY LIV.NOLIVRAISON
+  5  	 HAVING COUNT(DLIV.NOLIVRAISON)>= 2
+  6  	 ORDER BY LIV.NOLIVRAISON ASC;
+
+NOLIVRAISON                                                 
+-----------                                                 
+        102                                                 
+
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par dï¿½faut
+SQL> spool off
