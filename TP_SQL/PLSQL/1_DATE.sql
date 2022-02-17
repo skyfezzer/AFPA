@@ -1,0 +1,8 @@
+SET SERVEROUTPUT ON;
+ALTER SESSION SET NLS_LANGUAGE = 'FRENCH';
+DECLARE
+v_todaydate VARCHAR2(50);
+BEGIN
+SELECT to_char(SYSDATE,'Day, DD MonthYYYY') INTO v_todaydate FROM DUAL;
+DBMS_OUTPUT.PUT_LINE('Aujourd''hui, nous sommes ' || v_todaydate);
+END;

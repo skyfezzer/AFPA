@@ -1,0 +1,15 @@
+CREATE OR REPLACE PROCEDURE refresh_seq_continent IS
+val NUMBER;
+BEGIN
+    SELECT MAX(CONTINENT_NO) + 1 INTO val FROM E_CONTINENT;
+    IF val >= 1 THEN
+    BEGIN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE seq_continent_no';
+        EXCEPTION WHEN OTHERS THEN
+            NULL;
+        END;
+        EXECUTE IMMEDIATE 'CREATE SEQUENCE seq_continent_no MINVALUE ' || val;
+    END IF;
+END;
+/
+EXECUTE REFRESH_SEQ_CONTINENT;

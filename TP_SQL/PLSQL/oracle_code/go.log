@@ -1,0 +1,356 @@
+SQL> -- pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> -- sortir en cas d'erreur
+SQL> WHENEVER OSERROR EXIT
+SQL> WHENEVER SQLERROR EXIT rollback
+SQL> set linesize 60
+SQL> set pagesize 200
+SQL> @f_to_word_en
+SQL> CREATE OR REPLACE FUNCTION to_word_en(pn$nombre IN NUMBER)
+  2  	RETURN VARCHAR2
+  3  AS
+  4  	--
+  5  	TYPE table_varchar IS TABLE OF VARCHAR2 (255);
+  6  
+  7  	--
+  8  	lv$multiples table_varchar  := table_varchar ('',
+  9  				       ' thousand ',
+ 10  				       ' million ',
+ 11  				       ' billion ',
+ 12  				       ' trillion ',
+ 13  				       ' quadrillion ',
+ 14  				       ' quintillion ',
+ 15  				       ' sextillion ',
+ 16  				       ' septillion ',
+ 17  				       ' octillion ',
+ 18  				       ' nonillion ',
+ 19  				       ' decillion ',
+ 20  				       ' undecillion ',
+ 21  				       ' duodecillion ',
+ 22  				       ' tridecillion ',
+ 23  				       ' quaddecillion ',
+ 24  				       ' quindecillion ',
+ 25  				       ' sexdecillion ',
+ 26  				       ' septdecillion ',
+ 27  				       ' octdecillion ',
+ 28  				       ' nondecillion ',
+ 29  				       ' dedecillion '
+ 30  				       );
+ 31  
+ 32  	lv$entier	    VARCHAR2 (255) := TRUNC (TO_NUMBER (REPLACE (pn$nombre, ' ', '')));
+ 33  	lv$decimales	    VARCHAR2 (255) := SUBSTR (pn$nombre - lv$entier, 2);
+ 34  	lv$mots_complets    VARCHAR2 (4000);
+ 35  	lv$entier_lettres   VARCHAR2 (4000);
+ 36  BEGIN
+ 37  	--
+ 38  	-- Traitement de la partie décimale
+ 39  	--
+ 40  	IF NVL (lv$decimales, 0) != 0
+ 41  	THEN
+ 42  	   FOR i IN 1 .. lv$multiples.COUNT
+ 43  	   LOOP
+ 44  	      EXIT WHEN lv$decimales IS NULL;
+ 45  
+ 46  	      --
+ 47  	      IF (SUBSTR (lv$decimales, LENGTH (lv$decimales) - 2, 3) <> 0)
+ 48  	      THEN
+ 49  		 lv$mots_complets :=
+ 50  		       TO_CHAR (TO_DATE (SUBSTR (lv$decimales,
+ 51  						 LENGTH (lv$decimales) - 2,
+ 52  						 3
+ 53  						),
+ 54  					 'j'
+ 55  					),
+ 56  				'jsp'
+ 57  			       )
+ 58  		    || lv$multiples (i)
+ 59  		    || lv$mots_complets;
+ 60  	      END IF;
+ 61  
+ 62  	      lv$decimales := SUBSTR (lv$decimales, 1, LENGTH (lv$decimales) - 3);
+ 63  	   END LOOP;
+ 64  
+ 65  	   -- Annonce la décimale (remplacer par Euro pour les montants en euros par exemple)
+ 66  	   lv$mots_complets := ' point ' || lv$mots_complets;
+ 67  
+ 68  	END IF;
+ 69  
+ 70  	--
+ 71  	-- Traitement de la partie entière
+ 72  	--
+ 73  	IF NVL (lv$entier, 0) = 0
+ 74  	THEN
+ 75  	   lv$mots_complets := 'zero';
+ 76  	ELSE
+ 77  	   FOR i IN 1 .. lv$multiples.COUNT
+ 78  	   LOOP
+ 79  	      EXIT WHEN lv$entier IS NULL;
+ 80  
+ 81  	      --
+ 82  	      IF (SUBSTR (lv$entier, LENGTH (lv$entier) - 2, 3) <> 0)
+ 83  	      THEN
+ 84  		 lv$mots_complets :=
+ 85  		       TO_CHAR (TO_DATE (SUBSTR (lv$entier, LENGTH (lv$entier) - 2,
+ 86  						 3),
+ 87  					 'j'
+ 88  					),
+ 89  				'jsp'
+ 90  			       )
+ 91  		    || lv$multiples (i)
+ 92  		    || lv$mots_complets;
+ 93  	      END IF;
+ 94  
+ 95  	      lv$entier := SUBSTR (lv$entier, 1, LENGTH (lv$entier) - 3);
+ 96  	   END LOOP;
+ 97  	END IF;
+ 98  
+ 99  	RETURN lv$mots_complets;
+100  END to_word_en;
+101  /
+
+Function created.
+
+SQL> @f_translate_fr
+SQL> CREATE OR REPLACE FUNCTION translate_fr(pn$nombre_en in varchar2)
+  2  RETURN VARCHAR2
+  3  AS
+  4  BEGIN
+  5  	 RETURN REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+  6  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+  7  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+  8  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+  9  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 10  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 11  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 12  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 13  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 14  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 15  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 16  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 17  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 18  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 19  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 20  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 21  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 22  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 23  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 24  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 25  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 26  		REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(
+ 27  		REPLACE( REPLACE( REPLACE( REPLACE(
+ 28  						     pn$nombre_en
+ 29  						   , 'million'		 , 'millions'	     )
+ 30  						   , 'billion'		 , 'milliards'	     )
+ 31  						, 'trillion'	      , 'trillions'	  )
+ 32  						, 'quadrillion'       , 'quadrillions'	  )
+ 33  						   , 'quintillion'	 , 'cintillions'     )
+ 34  						, 'sextillion'	      , 'sextillions'	  )
+ 35  						, 'septillion'	      , 'septillions'	  )
+ 36  						, 'octillion'	      , 'octillions'	  )
+ 37  						, 'nonillion'	      , 'nonillions'	  )
+ 38  						, 'decillion'	      , 'decillions'	  )
+ 39  						, 'undecillion'       , 'undecillions'	  )
+ 40  						, 'duodecillion'      , 'duodecillions'   )
+ 41  						, 'tridecillion'      , 'tridecillions'   )
+ 42  						, 'quaddecillion'     , 'quaddecillions'  )
+ 43  						, 'quindecillion'     , 'quindecillions'  )
+ 44  						, 'sexdecillion'      , 'sexdecillions'   )
+ 45  						, 'septdecillion'     , 'septdecillions'  )
+ 46  						, 'octdecillion'      , 'octdecillions'   )
+ 47  						, 'nondecillion'      , 'nondecillions'   )
+ 48  						, 'dedecillion'       , 'dedecillions'	  )
+ 49  						   , 'thousand' 	 , 'mille'	     )
+ 50  						   , 'hundred'		 , 'cent'	     )
+ 51  						   , 'ninety'		 , 'quatre-vingt-dix')
+ 52  						   , 'eighty'		 , 'quatre-vingts'   )
+ 53  						   , 'seventy'		 , 'soixante-dix'    )
+ 54  						   , 'sixty'		 , 'soixante'	     )
+ 55  						   , 'fifty'		 , 'cinquante'	     )
+ 56  						   , 'forty'		 , 'quarante'	     )
+ 57  						   , 'thirty'		 , 'trente'	     )
+ 58  						   , 'twenty'		 , 'vingt'	     )
+ 59  						   , 'nineteen' 	 , 'dix-neuf'	     )
+ 60  						   , 'eighteen' 	 , 'dix-huit'	     )
+ 61  						   , 'seventeen'	 , 'dix-sept'	     )
+ 62  						   , 'sixteen'		 , 'seize'	     )
+ 63  						   , 'fifteen'		 , 'quinze'	     )
+ 64  						   , 'fourteen' 	 , 'quatorze'	     )
+ 65  						   , 'thirteen' 	 , 'treize'	     )
+ 66  						   , 'twelve'		 , 'douze'	     )
+ 67  						   , 'eleven'		 , 'onze'	     )
+ 68  						   , 'ten'		 , 'dix'	     )
+ 69  						   , 'nine'		 , 'neuf'	     )
+ 70  						   , 'eight'		 , 'huit'	     )
+ 71  						   , 'seven'		 , 'sept'	     )
+ 72  						   , 'five'		 , 'cinq'	     )
+ 73  						   , 'four'		 , 'quatre'	     )
+ 74  						   , 'three'		 , 'trois'	     )
+ 75  						   , 'two'		 , 'deux'	     )
+ 76  						   , 'one'		 , 'un' 	     )
+ 77  						   , 'dix-six'		 , 'seize'	     )
+ 78  						   , 'dix-cinq' 	 , 'quinze'	     )
+ 79  						   , 'dix-quatre'	 , 'quatorze'	     )
+ 80  						   , 'dix-trois'	 , 'treize'	     )
+ 81  						   , 'dix-deux' 	 , 'douze'	     )
+ 82  						   , 'dix-un'		 , 'onze'	     )
+ 83  						   , '-un '		 , '-une '	     )
+ 84  						   , 'un cent'		 , 'cent'	     )
+ 85  						   , 'un mille' 	 , 'mille'	     )
+ 86  						   , 'une'		 , 'un' 	     )
+ 87  						   , 'soixante-onze'	 , 'soixante et onze')
+ 88  						   , 'quatre-vingts-'	 , 'quatre-vingt-'   )
+ 89  						   , '-un'		 , ' et un'	     )
+ 90  						   , 'quatre-vingt et un', 'quatre-vingt-un' )
+ 91  						   , 'deux cent'	 , 'deux cents'      )
+ 92  						   , 'trois cent'	 , 'trois cents'     )
+ 93  						   , 'quatre cent'	 , 'quatre cents'    )
+ 94  						   , 'cinq cent'	 , 'cinq cents'      )
+ 95  						   , 'six cent' 	 , 'six cents'	     )
+ 96  						   , 'sept cent'	 , 'sept cents'      )
+ 97  						   , 'huit cent'	 , 'huit cents'      )
+ 98  						   , 'neuf cent'	 , 'neuf cents'      )
+ 99  						   , 'cents '		 , 'cent '	     )
+100  						   , 'un millions'	 , 'un million'      )
+101  						   , 'un bidecillions'	 , 'un bidecillion'  )
+102  						   , 'un cintillions'	 , 'un cintillion'   )
+103  						   , 'un milliards'	 , 'un milliard'     )
+104  						, 'un trillions'      , 'un trillion'	   )
+105  						, 'un quadrillions'   , 'un quadrillion'   )
+106  						, 'un sextillions'    , 'un sextillion'    )
+107  						, 'un septillions'    , 'un septillion'    )
+108  						, 'un octillions'     , 'un octillion'	   )
+109  						, 'un nonillions'     , 'un nonillion'	   )
+110  						, 'un decillions'     , 'un decillion'	   )
+111  						, 'un undecillions'   , 'un undecillion'   )
+112  					, 'un duodecillions'  , 'un duodecillion'  )
+113  						, 'un tridecillions'  , 'un tridecillion'  )
+114  						, 'un quaddecillions' , 'un quaddecillion' )
+115  						, 'un quindecillions' , 'un quindecillion' )
+116  						, 'un sexdecillions'  , 'un sexdecillion'  )
+117  						, 'un septdecillions' , 'un septdecillion' )
+118  						, 'un octdecillions'  , 'un octdecillion'  )
+119  						, 'un nondecillions'  , 'un nondecillion'  )
+120  						, 'un dedecillions'   , 'un dedecillion'   )
+121  						, '-un trillion'      , '-un trillions'     )
+122  						, '-un quadrillion'   , '-un quadrillions'  )
+123  						, '-un sextillion'    , '-un sextillions'   )
+124  						, '-un septillion'    , '-un septillions'   )
+125  						, '-un octillion'     , '-un octillions'    )
+126  						, '-un nonillion'     , '-un nonillions'    )
+127  						, '-un decillion'     , '-un decillions'    )
+128  						, '-un undecillion'   , '-un undecillions'  )
+129  						, '-un duodecillion'  , '-un duodecillions' )
+130  						, '-un tridecillion'  , '-un tridecillions' )
+131  						, '-un quaddecillion' , '-un quaddecillions')
+132  						, '-un quindecillion' , '-un quindecillions')
+133  						, '-un sexdecillion'  , '-un sexdecillions' )
+134  						, '-un septdecillion' , '-un septdecillions')
+135  						, '-un octdecillion'  , '-un octdecillions' )
+136  						, '-un nondecillion'  , '-un nondecillions' )
+137  						, '-un dedecillion'   , '-un dedecillions'  )
+138  						   , '-un million'	 , '-un millions'    )
+139  						   , '-un bidecillion'	 , '-un bidecillions')
+140  						   , '-un cintillion'	 , '-un cintillions' )
+141  						   , '-un milliard'	 , '-un milliards'   )
+142  						   , 'point'		 , 'virgule'	     )
+143  			       ;
+144  END translate_fr;
+145  /
+
+Function created.
+
+SQL> @f_nbToString
+SQL> create or replace FUNCTION nbToString(pn$nombre IN NUMBER)
+  2  	RETURN VARCHAR2
+  3  AS
+  4  BEGIN
+  5  	 RETURN translate_fr(to_word_en(pn$nombre));
+  6  END;
+  7  /
+
+Function created.
+
+SQL> @p_multiple_loop
+SQL> CREATE TABLE RESULTAT(code VARCHAR2(15),lb_resultat VARCHAR2(55), vl_resultat INTEGER);
+
+Table created.
+
+SQL> CREATE OR REPLACE PROCEDURE MULTIPLE_LOOP(bornem NUMBER,bornep NUMBER)
+  2  IS
+  3  currentvalue NUMBER;
+  4  BEGIN
+  5  	 DELETE FROM RESULTAT WHERE CODE = 'QUEST-1';
+  6  	 --FOR i IN bornem .. bornep
+  7  	 SELECT BORNEM INTO CURRENTVALUE FROM DUAL;
+  8  	 LOOP
+  9  	     EXIT WHEN CURRENTVALUE > BORNEP;
+ 10  	     IF MOD(CURRENTVALUE,3) = 0 THEN
+ 11  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-1','multiple de 3 trouvï¿½ :',CURRENTVALUE);
+ 12  	     END IF;
+ 13  	     IF MOD(CURRENTVALUE,4) = 0 THEN
+ 14  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-1','multiple de 4 trouvï¿½ :',CURRENTVALUE);
+ 15  	     END IF;
+ 16  	     IF MOD(CURRENTVALUE,5) = 0 THEN
+ 17  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-1','multiple de 5 trouvï¿½ :',CURRENTVALUE);
+ 18  	     END IF;
+ 19  	     SELECT CURRENTVALUE + 1 INTO CURRENTVALUE FROM DUAL;
+ 20  	 END LOOP;
+ 21  END;
+ 22  /
+
+Procedure created.
+
+SQL> @p_multiple_while
+SQL> CREATE OR REPLACE PROCEDURE MULTIPLE_WHILE(bornem NUMBER,bornep NUMBER)
+  2  IS
+  3  currentvalue NUMBER;
+  4  BEGIN
+  5  	 DELETE FROM RESULTAT WHERE CODE = 'QUEST-2';
+  6  	 SELECT BORNEM INTO CURRENTVALUE FROM DUAL;
+  7  	 WHILE CURRENTVALUE <= BORNEP LOOP
+  8  	     IF MOD(CURRENTVALUE,3) = 0 THEN
+  9  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-2','multiple de 3 trouvï¿½ :',CURRENTVALUE);
+ 10  	     END IF;
+ 11  	     IF MOD(CURRENTVALUE,4) = 0 THEN
+ 12  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-2','multiple de 4 trouvï¿½ :',CURRENTVALUE);
+ 13  	     END IF;
+ 14  	     IF MOD(CURRENTVALUE,5) = 0 THEN
+ 15  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-2','multiple de 5 trouvï¿½ :',CURRENTVALUE);
+ 16  	     END IF;
+ 17  	     SELECT CURRENTVALUE + 1 INTO CURRENTVALUE FROM DUAL;
+ 18  	 END LOOP;
+ 19  END;
+ 20  /
+
+Procedure created.
+
+SQL> @p_multiple_for
+SQL> CREATE OR REPLACE PROCEDURE MULTIPLE_FOR(bornem NUMBER,bornep NUMBER)
+  2  IS
+  3  currentvalue NUMBER;
+  4  BEGIN
+  5  	 DELETE FROM RESULTAT WHERE CODE = 'QUEST-3';
+  6  	 FOR i IN bornem .. bornep
+  7  	 LOOP
+  8  	     EXIT WHEN CURRENTVALUE >= BORNEP;
+  9  	     IF MOD(i,3) = 0 THEN
+ 10  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-3','multiple de 3 trouvï¿½ :',i);
+ 11  	     END IF;
+ 12  	     IF MOD(i,4) = 0 THEN
+ 13  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-3','multiple de 4 trouvï¿½ :',i);
+ 14  	     END IF;
+ 15  	     IF MOD(i,5) = 0 THEN
+ 16  		 INSERT INTO RESULTAT(code,lb_resultat,vl_resultat) VALUES ('QUEST-3','multiple de 5 trouvï¿½ :',i);
+ 17  	     END IF;
+ 18  	 END LOOP;
+ 19  END;
+ 20  /
+
+Procedure created.
+
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par dï¿½faut
+SQL> spool off
