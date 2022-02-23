@@ -1,0 +1,1162 @@
+SQL> 
+SQL> -- Pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> 
+SQL> -- Sortir en cas d'erreur SQL
+SQL> WHENEVER SQLERROR exit rollback
+SQL> 
+SQL> @install_entreprise
+SQL> /***************************************************************
+SQL> Création des tables,séquences,vues,index, procédures , triggers
+SQL> MAJ: XH
+SQL> Oracle9i Release 9.2.0.1.0 - Production
+SQL> JServer Release 9.2.0.1.0 - Production
+SQL> ***************************************************************/
+SQL> 
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_CONTINENT					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_CONTINENT  (
+  2  	continent_no	   NUMBER(7)			    not null,
+  3  	nom		   VARCHAR2(50),
+  4  	constraint PK_E_CONTINENT primary key (continent_no)
+  5  );
+
+Table created.
+
+SQL> 
+SQL> comment on column E_CONTINENT.continent_no is
+  2  'Numéro du continent';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_CONTINENT.nom is
+  2  'Nom du continent';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_IMAGE 					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_IMAGE  (
+  2  	image_no	   NUMBER(7)			    not null,
+  3  	format		   VARCHAR2(25),
+  4  	validite	   VARCHAR2(1),
+  5  	nm_fichier	   VARCHAR2(255),
+  6  	image		   LONG RAW,
+  7  	constraint PK_E_IMAGE primary key (image_no)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_RESULTAT					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_RESULTAT  (
+  2  	code		     VARCHAR2(6)			not null,
+  3  	lb_resultat	   VARCHAR2(250),
+  4  	vl_resultat	   NUMBER(9,2)
+  5  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_SERVICE					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_SERVICE  (
+  2  	service_no	   NUMBER(7)			    not null,
+  3  	continent_no	   NUMBER(7),
+  4  	nom		   VARCHAR2(25),
+  5  	constraint PK_E_SERVICE primary key (service_no),
+  6  	constraint FK_E_SERVIC_EST_IMPLA_E_CONTIN foreign key (continent_no)
+  7  	      references E_CONTINENT (continent_no)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> comment on table E_SERVICE is
+  2  'Service de la société';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_SERVICE.continent_no is
+  2  'Numéro du continent';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_SERVICE.nom is
+  2  'Nom du service';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_TEXTE 					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_TEXTE  (
+  2  	texte_no	   NUMBER(7)			    not null,
+  3  	validite	   VARCHAR2(1),
+  4  	nm_fichier	   VARCHAR2(255),
+  5  	texte		   VARCHAR2(2000),
+  6  	constraint PK_E_TEXTE primary key (texte_no)
+  7  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_TITRE 					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_TITRE  (
+  2  	titre		   VARCHAR2(25) 		    not null,
+  3  	constraint PK_E_TITRE primary key (titre)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> comment on table E_TITRE is
+  2  'Titres des employés';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_TITRE.titre is
+  2  'Titre de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_PRODUIT					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_PRODUIT  (
+  2  	produit_no	   NUMBER(7)			    not null,
+  3  	image_no	   NUMBER(7),
+  4  	texte_no	   NUMBER(7),
+  5  	nom		   VARCHAR2(50),
+  6  	description	   VARCHAR2(255),
+  7  	prix_conseille	   NUMBER(11,2),
+  8  	constraint PK_E_PRODUIT primary key (produit_no),
+  9  	constraint FK_E_PRODUI_CONCERNE__E_IMAGE foreign key (image_no)
+ 10  	      references E_IMAGE (image_no),
+ 11  	constraint FK_E_PRODUI_CONCERNE__E_TEXTE foreign key (texte_no)
+ 12  	      references E_TEXTE (texte_no)
+ 13  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_EMP						     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_EMP  (
+  2  	emp_no		   NUMBER(7)			    not null,
+  3  	superieur_no	     NUMBER(7),
+  4  	service_no	   NUMBER(7),
+  5  	titre		   VARCHAR2(25),
+  6  	nom		   VARCHAR2(25),
+  7  	prenom		   VARCHAR2(25),
+  8  	utilisateur	   VARCHAR2(8),
+  9  	dt_entree	   DATE,
+ 10  	commentaires	   VARCHAR2(255),
+ 11  	salaire 	   NUMBER(11,2),
+ 12  	pct_commission	   NUMBER(4,2)
+ 13  	      constraint CKC_PCT_COMMISSION_E_EMP
+ 14  	      check (pct_commission is null or pct_commission in ( 0, 10, 12.5, 15, 17.5, 20) ),
+ 15  	constraint PK_E_EMP primary key (emp_no),
+ 16  	constraint FK_E_EMP_QUALIFIE_E_TITRE foreign key (titre)
+ 17  	      references E_TITRE (titre),
+ 18  	constraint FK_E_EMP_APPARTIEN_E_SERVIC foreign key (service_no)
+ 19  	      references E_SERVICE (service_no),
+ 20  	constraint FK_E_EMP_ENCADRE_E_EMP foreign key (superieur_no)
+ 21  	      references E_EMP (emp_no)
+ 22  );
+
+Table created.
+
+SQL> 
+SQL> comment on table E_EMP is
+  2  'Employés de l''entreprise';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.emp_no is
+  2  'Numéro de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.superieur_no is
+  2  'Numéro de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.titre is
+  2  'Titre de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.nom is
+  2  'Nom de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.prenom is
+  2  'Prénom de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.dt_entree is
+  2  'Date d''embauche de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_EMP.pct_commission is
+  2  'Commission du vendeur sur la commande (en %)';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_ENTREPOT					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_ENTREPOT  (
+  2  	entrepot_no	   NUMBER(7)			    not null,
+  3  	superieur_no		 NUMBER(7),
+  4  	continent_no	   NUMBER(7)			    not null,
+  5  	adresse 	   LONG,
+  6  	ville		   VARCHAR2(30),
+  7  	departement	   VARCHAR2(20),
+  8  	pays		   VARCHAR2(30),
+  9  	cp_postal	   VARCHAR2(75),
+ 10  	telephone	   VARCHAR2(25),
+ 11  	constraint PK_E_ENTREPOT primary key (entrepot_no),
+ 12  	constraint FK_E_ENTREP_SE_SITUE_E_CONTIN foreign key (continent_no)
+ 13  	      references E_CONTINENT (continent_no),
+ 14  	constraint FK_E_ENTREP_RESPONSAB_E_EMP foreign key (superieur_no)
+ 15  	      references E_EMP (emp_no)
+ 16  );
+
+Table created.
+
+SQL> 
+SQL> comment on column E_ENTREPOT.superieur_no is
+  2  'Numéro du responsable';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_ENTREPOT.continent_no is
+  2  'Numéro du continent';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_STOCK 					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_STOCK  (
+  2  	produit_no	   NUMBER(7)			    not null,
+  3  	entrepot_no	   NUMBER(7)			    not null,
+  4  	qte_stockee	   NUMBER(9),
+  5  	stock_securite	   NUMBER(9),
+  6  	max_stocke	   NUMBER(9),
+  7  	detail_sortie	   VARCHAR2(255),
+  8  	dt_stocke	   DATE,
+  9  	constraint PK_E_STOCK primary key (produit_no, entrepot_no),
+ 10  	constraint FK_E_STOCK_PRODUITS_E_PRODUI foreign key (produit_no)
+ 11  	      references E_PRODUIT (produit_no),
+ 12  	constraint FK_E_STOCK_ENTREPOTS_E_ENTREP foreign key (entrepot_no)
+ 13  	      references E_ENTREPOT (entrepot_no)
+ 14  );
+
+Table created.
+
+SQL> 
+SQL> comment on column E_STOCK.qte_stockee is
+  2  'Quantité en stock';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_STOCK.detail_sortie is
+  2  'Détail explicatif de la dernière sortie';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_STOCK.dt_stocke is
+  2  'Date du dernier approvisionnement du stock';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_CLIENT					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_CLIENT  (
+  2  	client_no	   NUMBER(7)			    not null,
+  3  	continent_no	   NUMBER(7),
+  4  	emp_no		   NUMBER(7),
+  5  	nom		   VARCHAR2(50),
+  6  	telephone	   VARCHAR2(25),
+  7  	adresse 	   VARCHAR2(400),
+  8  	ville		   VARCHAR2(30),
+  9  	departement	   VARCHAR2(20),
+ 10  	pays		   VARCHAR2(30),
+ 11  	cp_postal	   VARCHAR2(75),
+ 12  	solvabilite	   VARCHAR2(9),
+ 13  	commentaires	   VARCHAR2(255),
+ 14  	constraint PK_E_CLIENT primary key (client_no),
+ 15  	constraint FK_E_CLIENT_HABITE_E_CONTIN foreign key (continent_no)
+ 16  	      references E_CONTINENT (continent_no),
+ 17  	constraint FK_E_CLIENT_SUIT_E_EMP foreign key (emp_no)
+ 18  	      references E_EMP (emp_no)
+ 19  );
+
+Table created.
+
+SQL> 
+SQL> comment on table E_CLIENT is
+  2  'Clients de l''entreprise';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_CLIENT.client_no is
+  2  'Numéro du client';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_CLIENT.continent_no is
+  2  'Numéro du continent';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_CLIENT.emp_no is
+  2  'Numéro de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_COMMANDE					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_COMMANDE  (
+  2  	commande_no	   NUMBER(7)			    not null,
+  3  	client_no	   NUMBER(7)			    not null,
+  4  	emp_no		   NUMBER(7),
+  5  	dt_commande	   DATE,
+  6  	dt_livraison	   DATE,
+  7  	total		   NUMBER(11,2),
+  8  	nt_paiement	   VARCHAR2(8),
+  9  	validite	   VARCHAR2(1),
+ 10  	constraint PK_E_COMMANDE primary key (commande_no),
+ 11  	constraint FK_E_COMMAN_PASSE_E_CLIENT foreign key (client_no)
+ 12  	      references E_CLIENT (client_no),
+ 13  	constraint FK_E_COMMAN_ENREGISTR_E_EMP foreign key (emp_no)
+ 14  	      references E_EMP (emp_no)
+ 15  );
+
+Table created.
+
+SQL> 
+SQL> comment on column E_COMMANDE.client_no is
+  2  'Numéro du client';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_COMMANDE.emp_no is
+  2  'Numéro de l''employé';
+
+Comment created.
+
+SQL> 
+SQL> comment on column E_COMMANDE.nt_paiement is
+  2  'Notification de paiement';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : E_ARTICLE					     */
+SQL> /*==============================================================*/
+SQL> 
+SQL> 
+SQL> create table E_ARTICLE  (
+  2  	commande_no	   NUMBER(7)			    not null,
+  3  	article_no	   NUMBER(7)			    not null,
+  4  	produit_no	   NUMBER(7)			    not null,
+  5  	prix		   NUMBER(11,2),
+  6  	quantite	   NUMBER(9),
+  7  	qte_livree	   NUMBER(9),
+  8  	constraint PK_E_ARTICLE primary key (commande_no, article_no),
+  9  	constraint FK_E_ARTICL_COMPOSE_E_COMMAN foreign key (commande_no)
+ 10  	      references E_COMMANDE (commande_no),
+ 11  	constraint FK_E_ARTICL_CONTIENT_E_PRODUI foreign key (produit_no)
+ 12  	      references E_PRODUIT (produit_no)
+ 13  );
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> Prompt ******************************
+******************************
+SQL> prompt INTERROGATION DU DICTIONNAIRE
+INTERROGATION DU DICTIONNAIRE
+SQL> prompt Recapitulatif des Objets créés
+Recapitulatif des Objets créés
+SQL> Prompt ******************************
+******************************
+SQL> select * from user_catalog;
+
+TABLE_NAME                                                                                                                       TABLE_TYPE                                                                                                                                                                 
+-------------------------------------------------------------------------------------------------------------------------------- -----------                                                                                                                                                                
+RESULTAT                                                                                                                         TABLE                                                                                                                                                                      
+E_CONTINENT                                                                                                                      TABLE                                                                                                                                                                      
+E_IMAGE                                                                                                                          TABLE                                                                                                                                                                      
+E_RESULTAT                                                                                                                       TABLE                                                                                                                                                                      
+E_SERVICE                                                                                                                        TABLE                                                                                                                                                                      
+E_TEXTE                                                                                                                          TABLE                                                                                                                                                                      
+E_TITRE                                                                                                                          TABLE                                                                                                                                                                      
+E_PRODUIT                                                                                                                        TABLE                                                                                                                                                                      
+E_EMP                                                                                                                            TABLE                                                                                                                                                                      
+E_ENTREPOT                                                                                                                       TABLE                                                                                                                                                                      
+E_STOCK                                                                                                                          TABLE                                                                                                                                                                      
+
+TABLE_NAME                                                                                                                       TABLE_TYPE                                                                                                                                                                 
+-------------------------------------------------------------------------------------------------------------------------------- -----------                                                                                                                                                                
+E_CLIENT                                                                                                                         TABLE                                                                                                                                                                      
+E_COMMANDE                                                                                                                       TABLE                                                                                                                                                                      
+E_ARTICLE                                                                                                                        TABLE                                                                                                                                                                      
+
+14 rows selected.
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt ************************************
+************************************
+SQL> prompt    INTERROGATION DU DICTIONNAIRE
+INTERROGATION DU DICTIONNAIRE
+SQL> prompt Recapitulatif des contraintes posées
+Recapitulatif des contraintes posées
+SQL> prompt ************************************
+************************************
+SQL> 
+SQL> column constraint_name format A20
+SQL> column type format A3
+SQL> column table_name format A15
+SQL> column SEARCH_CONDITION format A30
+SQL> 
+SQL> break on type skip
+SQL> compute count of constraint_name on type report
+SQL> select  constraint_name, Constraint_type as type,
+  2  	     table_name , SEARCH_CONDITION, DELETE_RULE, STATUS
+  3  from user_constraints
+  4  order by type, table_name;
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+SYS_C009420          C   E_ARTICLE       "COMMANDE_NO" IS NOT NULL                ENABLED                                                                                                                                                                                                                   
+SYS_C009421              E_ARTICLE       "ARTICLE_NO" IS NOT NULL                 ENABLED                                                                                                                                                                                                                   
+SYS_C009422              E_ARTICLE       "PRODUIT_NO" IS NOT NULL                 ENABLED                                                                                                                                                                                                                   
+SYS_C009411              E_CLIENT        "CLIENT_NO" IS NOT NULL                  ENABLED                                                                                                                                                                                                                   
+SYS_C009416              E_COMMANDE      "CLIENT_NO" IS NOT NULL                  ENABLED                                                                                                                                                                                                                   
+SYS_C009415              E_COMMANDE      "COMMANDE_NO" IS NOT NULL                ENABLED                                                                                                                                                                                                                   
+SYS_C009379              E_CONTINENT     "CONTINENT_NO" IS NOT NULL               ENABLED                                                                                                                                                                                                                   
+CKC_PCT_COMMISSION_E     E_EMP           pct_commission is null or pct_           ENABLED                                                                                                                                                                                                                   
+_EMP                                     commission in ( 0, 10, 12.5, 1                                                                                                                                                                                                                                     
+                                         5, 17.5, 20)                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                            
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+SYS_C009395          C   E_EMP           "EMP_NO" IS NOT NULL                     ENABLED                                                                                                                                                                                                                   
+SYS_C009402              E_ENTREPOT      "CONTINENT_NO" IS NOT NULL               ENABLED                                                                                                                                                                                                                   
+SYS_C009401              E_ENTREPOT      "ENTREPOT_NO" IS NOT NULL                ENABLED                                                                                                                                                                                                                   
+SYS_C009381              E_IMAGE         "IMAGE_NO" IS NOT NULL                   ENABLED                                                                                                                                                                                                                   
+SYS_C009391              E_PRODUIT       "PRODUIT_NO" IS NOT NULL                 ENABLED                                                                                                                                                                                                                   
+SYS_C009383              E_RESULTAT      "CODE" IS NOT NULL                       ENABLED                                                                                                                                                                                                                   
+SYS_C009384              E_SERVICE       "SERVICE_NO" IS NOT NULL                 ENABLED                                                                                                                                                                                                                   
+SYS_C009407              E_STOCK         "ENTREPOT_NO" IS NOT NULL                ENABLED                                                                                                                                                                                                                   
+SYS_C009406              E_STOCK         "PRODUIT_NO" IS NOT NULL                 ENABLED                                                                                                                                                                                                                   
+SYS_C009387              E_TEXTE         "TEXTE_NO" IS NOT NULL                   ENABLED                                                                                                                                                                                                                   
+SYS_C009389              E_TITRE         "TITRE" IS NOT NULL                      ENABLED                                                                                                                                                                                                                   
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+-------------------- ***                                                                                                                                                                                                                                                                                    
+                  19 cou                                                                                                                                                                                                                                                                                    
+PK_E_ARTICLE         P   E_ARTICLE                                                ENABLED                                                                                                                                                                                                                   
+PK_E_CLIENT              E_CLIENT                                                 ENABLED                                                                                                                                                                                                                   
+PK_E_COMMANDE            E_COMMANDE                                               ENABLED                                                                                                                                                                                                                   
+PK_E_CONTINENT           E_CONTINENT                                              ENABLED                                                                                                                                                                                                                   
+PK_E_EMP                 E_EMP                                                    ENABLED                                                                                                                                                                                                                   
+PK_E_ENTREPOT            E_ENTREPOT                                               ENABLED                                                                                                                                                                                                                   
+PK_E_IMAGE               E_IMAGE                                                  ENABLED                                                                                                                                                                                                                   
+PK_E_PRODUIT             E_PRODUIT                                                ENABLED                                                                                                                                                                                                                   
+PK_E_SERVICE             E_SERVICE                                                ENABLED                                                                                                                                                                                                                   
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+PK_E_STOCK           P   E_STOCK                                                  ENABLED                                                                                                                                                                                                                   
+PK_E_TEXTE               E_TEXTE                                                  ENABLED                                                                                                                                                                                                                   
+PK_E_TITRE               E_TITRE                                                  ENABLED                                                                                                                                                                                                                   
+-------------------- ***                                                                                                                                                                                                                                                                                    
+                  12 cou                                                                                                                                                                                                                                                                                    
+FK_E_ARTICL_COMPOSE_ R   E_ARTICLE                                      NO ACTION ENABLED                                                                                                                                                                                                                   
+E_COMMAN                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                            
+FK_E_ARTICL_CONTIENT     E_ARTICLE                                      NO ACTION ENABLED                                                                                                                                                                                                                   
+_E_PRODUI                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                            
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+FK_E_CLIENT_SUIT_E_E R   E_CLIENT                                       NO ACTION ENABLED                                                                                                                                                                                                                   
+MP                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                            
+FK_E_CLIENT_HABITE_E     E_CLIENT                                       NO ACTION ENABLED                                                                                                                                                                                                                   
+_CONTIN                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                            
+FK_E_COMMAN_PASSE_E_     E_COMMANDE                                     NO ACTION ENABLED                                                                                                                                                                                                                   
+CLIENT                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                            
+FK_E_COMMAN_ENREGIST     E_COMMANDE                                     NO ACTION ENABLED                                                                                                                                                                                                                   
+R_E_EMP                                                                                                                                                                                                                                                                                                     
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                            
+FK_E_EMP_QUALIFIE_E_ R   E_EMP                                          NO ACTION ENABLED                                                                                                                                                                                                                   
+TITRE                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                            
+FK_E_EMP_ENCADRE_E_E     E_EMP                                          NO ACTION ENABLED                                                                                                                                                                                                                   
+MP                                                                                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                                                            
+FK_E_EMP_APPARTIEN_E     E_EMP                                          NO ACTION ENABLED                                                                                                                                                                                                                   
+_SERVIC                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                            
+FK_E_ENTREP_RESPONSA     E_ENTREPOT                                     NO ACTION ENABLED                                                                                                                                                                                                                   
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+B_E_EMP                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                            
+FK_E_ENTREP_SE_SITUE R   E_ENTREPOT                                     NO ACTION ENABLED                                                                                                                                                                                                                   
+_E_CONTIN                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                            
+FK_E_PRODUI_CONCERNE     E_PRODUIT                                      NO ACTION ENABLED                                                                                                                                                                                                                   
+__E_TEXTE                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                            
+FK_E_PRODUI_CONCERNE     E_PRODUIT                                      NO ACTION ENABLED                                                                                                                                                                                                                   
+__E_IMAGE                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                            
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION               DELETE_RU STATUS                                                                                                                                                                                                                    
+-------------------- --- --------------- ------------------------------ --------- --------                                                                                                                                                                                                                  
+FK_E_SERVIC_EST_IMPL R   E_SERVICE                                      NO ACTION ENABLED                                                                                                                                                                                                                   
+A_E_CONTIN                                                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                                                                                                                            
+FK_E_STOCK_PRODUITS_     E_STOCK                                        NO ACTION ENABLED                                                                                                                                                                                                                   
+E_PRODUI                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                            
+FK_E_STOCK_ENTREPOTS     E_STOCK                                        NO ACTION ENABLED                                                                                                                                                                                                                   
+_E_ENTREP                                                                                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                                                                            
+-------------------- ***                                                                                                                                                                                                                                                                                    
+                  16 cou                                                                                                                                                                                                                                                                                    
+
+47 rows selected.
+
+SQL> 
+SQL> 
+SQL> clear columns
+SQL> clear breaks
+SQL> clear computes
+SQL> 
+SQL> @install_data_entreprise
+SQL> /***************************************************************
+SQL> Remplissage des tables
+SQL> MAJ: XH
+SQL> Oracle9i Release 9.2.0.1.0 - Production
+SQL> JServer Release 9.2.0.1.0 - Production
+SQL> ***************************************************************/
+SQL> 
+SQL> delete from E_STOCK;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_ENTREPOT;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_ARTICLE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_COMMANDE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_CLIENT;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_EMP;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_SERVICE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_PRODUIT;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_IMAGE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_TEXTE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_TITRE;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_CONTINENT;
+
+0 rows deleted.
+
+SQL> 
+SQL> delete from E_RESULTAT;
+
+0 rows deleted.
+
+SQL> 
+SQL> insert into E_RESULTAT (code, lb_resultat, vl_resultat)
+  2   values (0, 'T54QUE5078693MC1ORLSG4RJPES XBIQ89WK3K9T1BQ4J', 0);
+
+1 row created.
+
+SQL> 
+SQL> insert into E_CONTINENT (continent_no, nom) values (0, 'EUROPE');
+
+1 row created.
+
+SQL> insert into E_CONTINENT (continent_no, nom) values (1, 'ASIE');
+
+1 row created.
+
+SQL> insert into E_CONTINENT (continent_no, nom) values (2, 'AMERIQUE');
+
+1 row created.
+
+SQL> insert into E_CONTINENT (continent_no, nom) values (3, 'AUSTRALIE');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> insert into E_TITRE (titre) values ('CHEF DE PROJET');
+
+1 row created.
+
+SQL> insert into E_TITRE (titre) values ('CIO');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> insert into E_TEXTE (texte_no, validite, nm_fichier, texte)
+  2   values (0, ' ', '8N317TB0S', '2KGXQRK5GQ5Y Y90CQEM5RNYD6G5U 5KXGE DECA3XBF');
+
+1 row created.
+
+SQL> 
+SQL> insert into E_IMAGE (image_no, format, validite, nm_fichier)
+  2   values (0, 'Y5', ' ', 'XJT994V45GTBUOID1P6N1K8O1E 0CYY2');
+
+1 row created.
+
+SQL> 
+SQL> insert into E_PRODUIT (produit_no, image_no, texte_no, nom, description, prix_conseille)
+  2   values (0, 0, 0, 'SVH2K', 'aaaaaaaaaa', 25);
+
+1 row created.
+
+SQL> insert into E_PRODUIT (produit_no, image_no, texte_no, nom, description, prix_conseille)
+  2   values (1, 0, 0, 'AZERT', 'bbbbbbbbbb', 128);
+
+1 row created.
+
+SQL> insert into E_PRODUIT (produit_no, image_no, texte_no, nom, description, prix_conseille)
+  2   values (2, 0, 0, '12345', 'cccccccccc', 7654);
+
+1 row created.
+
+SQL> 
+SQL> insert into E_SERVICE (service_no, continent_no, nom) values (0, 0, 'Ventes');
+
+1 row created.
+
+SQL> insert into E_SERVICE (service_no, continent_no, nom) values (1, 0, 'Opérations');
+
+1 row created.
+
+SQL> insert into E_SERVICE (service_no, continent_no, nom) values (2, 0, 'Stock');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> insert into E_EMP (emp_no, superieur_no, service_no, titre, nom, prenom, utilisateur, dt_entree, commentaires, salaire, pct_commission)
+  2   values (0, null, 1, 'CIO', 'DUMAS', 'ALBERT', 'FBT', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 'JUYNKFGV', 2700, 0);
+
+1 row created.
+
+SQL> insert into E_EMP (emp_no, superieur_no, service_no, titre, nom, prenom, utilisateur, dt_entree, commentaires, salaire, pct_commission)
+  2   values (1, 0 , 0, 'CIO', 'ROPBURN', 'PAUL', 'FBT', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 'JUYNKFGV', 1800, 15);
+
+1 row created.
+
+SQL> insert into E_EMP (emp_no, superieur_no, service_no, titre, nom, prenom, utilisateur, dt_entree, commentaires, salaire, pct_commission)
+  2   values (2, 1 , 0, 'CIO', 'BIRI', 'YANIS', 'FBT', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 'JUYNKFGV', 1300, 20);
+
+1 row created.
+
+SQL> insert into E_EMP (emp_no, superieur_no, service_no, titre, nom, prenom, utilisateur, dt_entree, commentaires, salaire, pct_commission)
+  2   values (3, 0 , 2, 'CIO', 'MADURO', 'BRUNO', 'FBT', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 'JUYNKFGV', 1200, 0);
+
+1 row created.
+
+SQL> insert into E_EMP (emp_no, superieur_no, service_no, titre, nom, prenom, utilisateur, dt_entree, commentaires, salaire, pct_commission)
+  2   values (4, 3 , 2, 'CIO', 'MAGEE', 'SAM', 'FBT', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 'JUYNKFGV', 1000, 0);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> insert into E_CLIENT (client_no, continent_no, emp_no, nom, telephone, adresse, ville, departement, pays, cp_postal, solvabilite, commentaires)
+  2   values (0, 0, 1, 'DURAND', '0687654332', '12 Allée du Général De Gaulle', 'Champs sur Marne', '77', 'FRANCE', '77360', 'BON', 'Client fidèle depuis 1950');
+
+1 row created.
+
+SQL> insert into E_CLIENT (client_no, continent_no, emp_no, nom, telephone, adresse, ville, departement, pays, cp_postal, solvabilite, commentaires)
+  2   values (1, 0, 2, 'HEBERT', '0123456789', '68 Avenue Parmentier', 'Nogent su Marne', '94', 'FRANCE', '94110', 'MOYEN', 'Date d''anniversaire 19 mai 1950');
+
+1 row created.
+
+SQL> insert into E_CLIENT (client_no, continent_no, emp_no, nom, telephone, adresse, ville, departement, pays, cp_postal, solvabilite, commentaires)
+  2   values (2, 0, 2, 'MARTIN', '0698235612', '6 Rue des Lillas', 'Saint Maurice', '94', 'FRANCE', '94760', 'MAUVAISE', 'Client sans commande');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> insert into E_COMMANDE (commande_no, client_no, emp_no, dt_commande, dt_livraison, total, nt_paiement, validite)
+  2   values (0, 0, 1, to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 30, '7KB20MMY', ' ');
+
+1 row created.
+
+SQL> insert into E_COMMANDE (commande_no, client_no, emp_no, dt_commande, dt_livraison, total, nt_paiement, validite)
+  2   values (1, 0, 1, to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 250, '7KB20MMY', ' ');
+
+1 row created.
+
+SQL> insert into E_COMMANDE (commande_no, client_no, emp_no, dt_commande, dt_livraison, total, nt_paiement, validite)
+  2   values (2, 1, 2, to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'), 600, '7KB20MMY', ' ');
+
+1 row created.
+
+SQL> 
+SQL> insert into E_ARTICLE (commande_no, article_no, produit_no, prix, quantite, qte_livree)
+  2   values (0, 0, 0, 0, 0, 0);
+
+1 row created.
+
+SQL> 
+SQL> insert into E_ENTREPOT (entrepot_no, superieur_no, continent_no, adresse, ville, departement, pays, cp_postal, telephone)
+  2   values (0, 0, 0, 'HLW3A', 'KXI ', '0A0', 'DD5', '5S9', 'VX3');
+
+1 row created.
+
+SQL> 
+SQL> insert into E_STOCK (produit_no, entrepot_no, qte_stockee, stock_securite, max_stocke, detail_sortie, dt_stocke)
+  2   values (0, 0, 0, 0, 0, 'XCC0', to_date('02/12/2004 13:46:00', 'DD/MM/YYYY HH24:MI:SS'));
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> @p_seq_continent_no
+SQL> CREATE OR REPLACE PROCEDURE refresh_seq_continent IS
+  2  val NUMBER;
+  3  BEGIN
+  4  	 SELECT MAX(CONTINENT_NO) + 1 INTO val FROM E_CONTINENT;
+  5  	 IF val >= 1 THEN
+  6  	 BEGIN
+  7  	     EXECUTE IMMEDIATE 'DROP SEQUENCE seq_continent_no';
+  8  	     EXCEPTION WHEN OTHERS THEN
+  9  		 NULL;
+ 10  	     END;
+ 11  	     EXECUTE IMMEDIATE 'CREATE SEQUENCE seq_continent_no MINVALUE ' || val;
+ 12  	 END IF;
+ 13  END;
+ 14  /
+
+Procedure created.
+
+SQL> EXECUTE REFRESH_SEQ_CONTINENT;
+
+PL/SQL procedure successfully completed.
+
+SQL> @p_insert_continent
+SQL> SET SERVEROUTPUT ON;
+SQL> CREATE OR REPLACE PROCEDURE insert_continent(p_cod e_continent.continent_no%TYPE, p_nom e_continent.nom%TYPE) IS
+  2  resultat NUMBER(3,0);
+  3  BEGIN
+  4  	 SELECT count(*) INTO resultat FROM E_CONTINENT WHERE UPPER(nom)=UPPER(p_nom);
+  5  	 IF(resultat >= 1) THEN
+  6  	     DBMS_OUTPUT.PUT_LINE('Ce continent existe déjà.');
+  7  	 ELSE
+  8  	     INSERT INTO E_CONTINENT(continent_no,nom) VALUES (p_cod,p_nom);
+  9  	     COMMIT;
+ 10  	     DBMS_OUTPUT.PUT_LINE(p_nom || ' ajouté avec succès.');
+ 11  	 END IF;
+ 12  END;
+ 13  /
+
+Procedure created.
+
+SQL> EXECUTE INSERT_CONTINENT(5,'asia');
+asia ajouté avec succès.                                                                                                                                                                                                                                                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> DELETE FROM E_CONTINENT WHERE NOM='asia';
+
+1 row deleted.
+
+SQL> @p_insert_continent2
+SQL> SET SERVEROUTPUT ON;
+SQL> EXECUTE REFRESH_SEQ_CONTINENT;
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE insert_continent2(p_nom e_continent.nom%TYPE) IS
+  2  resultat NUMBER(3,0);
+  3  BEGIN
+  4  	 REFRESH_SEQ_CONTINENT;
+  5  	 SELECT count(*) INTO resultat FROM E_CONTINENT WHERE UPPER(nom)=UPPER(p_nom);
+  6  	 IF(resultat >= 1) THEN
+  7  	     DBMS_OUTPUT.PUT_LINE('Ce continent existe déjà.');
+  8  	 ELSE
+  9  	     INSERT INTO E_CONTINENT(continent_no,nom) VALUES (seq_continent_no.nextval,p_nom);
+ 10  	     COMMIT;
+ 11  	     DBMS_OUTPUT.PUT_LINE(p_nom || ' ajouté avec succès.');
+ 12  	 END IF;
+ 13  END;
+ 14  /
+
+Procedure created.
+
+SQL> EXECUTE insert_continent2('asia');
+asia ajouté avec succès.                                                                                                                                                                                                                                                                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> DELETE FROM E_CONTINENT WHERE NOM='asia';
+
+1 row deleted.
+
+SQL> @p_augment_employe
+SQL> SET SERVEROUTPUT ON;
+SQL> CREATE OR REPLACE PROCEDURE AUGMENT_EMPLOYE (e_name E_EMP.NOM%TYPE) IS
+  2  curr_emp_service E_SERVICE.NOM%TYPE;
+  3  curr_emp_sal E_EMP.SALAIRE%TYPE;
+  4  augment_service_50 VARCHAR2(6) := 'Ventes';
+  5  augment_service_30 VARCHAR2(12) := 'Opérations';
+  6  num_exercice VARCHAR2(3) := 'EX1';
+  7  num_exercice2 VARCHAR2(3) := 'EX2';
+  8  BEGIN
+  9  	 SELECT S.NOM, E.SALAIRE
+ 10  	     INTO curr_emp_service, curr_emp_sal
+ 11  	     FROM E_EMP E,E_SERVICE S
+ 12  	     WHERE UPPER(E.nom) = UPPER(e_name)
+ 13  	     AND S.SERVICE_NO = E.SERVICE_NO;
+ 14  	 IF(UPPER(curr_emp_service) = UPPER(augment_service_50)) THEN
+ 15  	     UPDATE E_EMP
+ 16  		 SET E_EMP.SALAIRE = E_EMP.SALAIRE + 50
+ 17  		 WHERE UPPER(E_EMP.NOM) = UPPER(e_name);
+ 18  	     dbms_output.put_line('Salaire de ' ||e_name|| ' augmenté de 50.');
+ 19  	 ELSIF(UPPER(curr_emp_service) = UPPER(augment_service_30)) THEN
+ 20  	     UPDATE E_EMP
+ 21  		 SET E_EMP.SALAIRE = E_EMP.SALAIRE + 30
+ 22  		 WHERE UPPER(E_EMP.NOM) = UPPER(e_name);
+ 23  	     INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat) VALUES (num_exercice2,(e_name || ' appartient au service ' || curr_emp_service),curr_emp_sal+30);
+ 24  	     dbms_output.put_line('Salaire de ' ||e_name|| ' augmenté de 30.');
+ 25  	 ELSE
+ 26  	     INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat) VALUES (num_exercice,(e_name || ' appartient au service ' || curr_emp_service),curr_emp_sal);
+ 27  	     dbms_output.put_line('Salaire de ' ||e_name|| ' NON augmenté.');
+ 28  	 END IF;
+ 29  END;
+ 30  /
+
+Procedure created.
+
+SQL> EXECUTE AUGMENT_EMPLOYE('MADURO');
+Salaire de MADURO NON augmenté.                                                                                                                                                                                                                                                                             
+
+PL/SQL procedure successfully completed.
+
+SQL> EXECUTE AUGMENT_EMPLOYE('MAGEE');
+Salaire de MAGEE NON augmenté.                                                                                                                                                                                                                                                                              
+
+PL/SQL procedure successfully completed.
+
+SQL> EXECUTE AUGMENT_EMPLOYE('ROPBURN');
+Salaire de ROPBURN augmenté de 50.                                                                                                                                                                                                                                                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> EXECUTE AUGMENT_EMPLOYE('DUMAS');
+Salaire de DUMAS augmenté de 30.                                                                                                                                                                                                                                                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> @p_infoSalaire
+SQL> SET SERVEROUTPUT ON;
+SQL> DELETE FROM E_RESULTAT;
+
+1 row deleted.
+
+SQL> --=============infoSalaire===============--
+SQL> CREATE OR REPLACE PROCEDURE INFOSALAIRE IS
+  2  CURSOR curs_emp IS
+  3  	 SELECT EMP.NOM || ' ' || EMP.PRENOM, EMP.SALAIRE
+  4  	 FROM
+  5  	 E_EMP EMP;
+  6  curr_nom VARCHAR(55);
+  7  curr_sal E_EMP.SALAIRE%TYPE;
+  8  numero_ex VARCHAR(3) := 'EX1';
+  9  BEGIN
+ 10  	 OPEN CURS_EMP;
+ 11  	 LOOP
+ 12  	 FETCH CURS_EMP INTO CURR_NOM,CURR_SAL;
+ 13  	     IF(CURR_SAL > 1500) THEN
+ 14  		 INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat) VALUES(numero_ex,curr_nom || ' a un salaire supérieur à ' ||
+ 15  		     CASE WHEN CURR_SAL>2000 THEN '2000' ELSE '1500' END
+ 16  		     ,CURR_SAL);
+ 17  	     END IF;
+ 18  	 EXIT WHEN NOT CURS_EMP%FOUND;
+ 19  	 END LOOP;
+ 20  END;
+ 21  /
+
+Procedure created.
+
+SQL> EXECUTE INFOSALAIRE;
+
+PL/SQL procedure successfully completed.
+
+SQL> @p_baissePrixProduit
+SQL> CREATE OR REPLACE PROCEDURE BaissePrixProduit IS
+  2  CURSOR cur_produit IS SELECT PRODUIT_NO, NOM, PRIX_CONSEILLE FROM E_PRODUIT FOR UPDATE OF PRIX_CONSEILLE;
+  3  v_pNo E_PRODUIT.PRODUIT_NO%TYPE;
+  4  v_pNom E_PRODUIT.NOM%TYPE;
+  5  v_pPrix E_PRODUIT.PRIX_CONSEILLE%TYPE;
+  6  v_nbRes NUMBER(2);
+  7  numero_ex VARCHAR2(3) := 'EX2';
+  8  BEGIN
+  9  	 OPEN cur_produit;
+ 10  	 LOOP FETCH cur_produit INTO v_pNo,v_pNom,v_pPrix;
+ 11  	 EXIT WHEN NOT cur_produit%FOUND;
+ 12  	 SELECT COUNT(*) INTO v_nbRes FROM E_ARTICLE A WHERE A.PRODUIT_NO = v_pNo;
+ 13  	 IF v_nbRes = 0 THEN
+ 14  	     UPDATE E_PRODUIT
+ 15  	     SET E_PRODUIT.PRIX_CONSEILLE = TRUNC(v_pPrix*0.8,2)
+ 16  	     WHERE CURRENT OF cur_produit;
+ 17  	     INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat)
+ 18  	     VALUES (numero_ex,v_pNo || ' - ' || v_pNom || ' baisse de 20%',v_pPrix);
+ 19  	 END IF;
+ 20  	 END LOOP;
+ 21  	 CLOSE cur_produit;
+ 22  END;
+ 23  /
+
+Procedure created.
+
+SQL> EXECUTE BaissePrixProduit;
+
+PL/SQL procedure successfully completed.
+
+SQL> @p_totalCdeCommerciaux
+SQL> CREATE OR REPLACE PROCEDURE totalCdeCommerciaux IS
+  2  CURSOR cur_emp IS SELECT EMP_NO,NOM FROM E_EMP;
+  3  v_empno E_EMP.EMP_NO%TYPE;
+  4  v_empNom E_EMP.NOM%TYPE;
+  5  v_commTotal E_COMMANDE.TOTAL%TYPE;
+  6  v_commEmpNo E_COMMANDE.EMP_NO%TYPE;
+  7  v_cumulTotal v_commTotal%TYPE;
+  8  numero_ex VARCHAR2(3) := 'EX3';
+  9  CURSOR cur_com IS SELECT TOTAL,EMP_NO FROM E_COMMANDE;
+ 10  BEGIN
+ 11  	 OPEN cur_emp;
+ 12  	 LOOP
+ 13  	     v_cumulTotal := 0;
+ 14  	     FETCH cur_EMP INTO v_empno,v_empNom;
+ 15  	     EXIT WHEN NOT cur_emp%FOUND;
+ 16  	     OPEN cur_com;
+ 17  	     LOOP
+ 18  		 FETCH cur_com INTO v_commTotal,v_commEmpNo;
+ 19  		 EXIT WHEN NOT cur_com%FOUND;
+ 20  		 IF v_empNo = v_commEmpNo THEN
+ 21  		     v_cumulTotal := v_cumulTotal + v_commTotal;
+ 22  		 END IF;
+ 23  	     END LOOP;
+ 24  	     CLOSE cur_com;
+ 25  	     IF v_cumulTotal > 0 THEN
+ 26  		 INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat) VALUES (numero_ex,v_empNom || ' totalise',v_cumulTotal);
+ 27  	     END IF;
+ 28  	 END LOOP;
+ 29  	 CLOSE cur_emp;
+ 30  END;
+ 31  /
+
+Procedure created.
+
+SQL> EXEC totalCdeCommerciaux;
+
+PL/SQL procedure successfully completed.
+
+SQL> @p_totalCdeCommerciaux2
+SQL> CREATE OR REPLACE PROCEDURE totalCdeCommerciaux2 IS
+  2  CURSOR cur_emp IS SELECT E_EMP.NOM,SUM(TOTAL) FROM E_EMP INNER JOIN E_COMMANDE ON E_EMP.EMP_NO = E_COMMANDE.EMP_NO group by E_EMP.EMP_NO, E_EMP.NOM;
+  3  v_empNom E_EMP.NOM%TYPE;
+  4  v_commTotal E_COMMANDE.TOTAL%TYPE;
+  5  numero_ex VARCHAR2(3) := 'EX4';
+  6  BEGIN
+  7  	 OPEN cur_emp;
+  8  	 LOOP
+  9  	     FETCH cur_emp INTO v_empnom,v_commTotal;
+ 10  	     EXIT WHEN NOT cur_emp%FOUND;
+ 11  	     INSERT INTO E_RESULTAT(code,lb_resultat,vl_resultat) VALUES (numero_ex,v_empnom || ' totalise',v_commTotal);
+ 12  	 END LOOP;
+ 13  	 CLOSE cur_emp;
+ 14  END;
+ 15  /
+
+Procedure created.
+
+SQL> EXEC totalCdeCommerciaux2;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM E_RESULTAT;
+
+CODE   LB_RESULTAT                                                                                                                                                                                                                                                VL_RESULTAT                               
+------ ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------                               
+EX2    2 - 12345 baisse de 20%                                                                                                                                                                                                                                           7654                               
+EX1    DUMAS ALBERT a un salaire supérieur à 2000                                                                                                                                                                                                                        2700                               
+EX1    ROPBURN PAUL a un salaire supérieur à 1500                                                                                                                                                                                                                        1800                               
+EX2    1 - AZERT baisse de 20%                                                                                                                                                                                                                                            128                               
+EX3    ROPBURN totalise                                                                                                                                                                                                                                                   280                               
+EX3    BIRI totalise                                                                                                                                                                                                                                                      600                               
+EX4    ROPBURN totalise                                                                                                                                                                                                                                                   280                               
+EX4    BIRI totalise                                                                                                                                                                                                                                                      600                               
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> SELECT E_EMP.EMP_NO,E_EMP.NOM,SUM(TOTAL) FROM E_EMP INNER JOIN E_COMMANDE ON E_EMP.EMP_NO = E_COMMANDE.EMP_NO group by E_EMP.EMP_NO, E_EMP.NOM;
+
+    EMP_NO NOM                       SUM(TOTAL)                                                                                                                                                                                                                                                             
+---------- ------------------------- ----------                                                                                                                                                                                                                                                             
+         1 ROPBURN                          280                                                                                                                                                                                                                                                             
+         2 BIRI                             600                                                                                                                                                                                                                                                             
+
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par dï¿½faut
+SQL> spool off
