@@ -1,0 +1,6462 @@
+
+TO_CHAR(SYSDATE,'                                                               
+-----------------                                                               
+24/02/22_16:48:19                                                               
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Comment created.
+
+
+Table created.
+
+
+Comment created.
+
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+Race                                                                            
+Proprietaire                                                                    
+Chien                                                                           
+Ville                                                                           
+TypeConcours                                                                    
+Concours                                                                        
+GAGNER                                                                          
+participer                                                                      
+
+8 rows selected.
+
+
+
+
+******************************
+INTERROGATION DU DICTIONNAIRE
+Recapitulatif des Objets cr��s
+******************************
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+TABLE_TYPE                                                                      
+-----------                                                                     
+Race                                                                            
+TABLE                                                                           
+                                                                                
+Proprietaire                                                                    
+TABLE                                                                           
+                                                                                
+Chien                                                                           
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+TABLE_TYPE                                                                      
+-----------                                                                     
+Ville                                                                           
+TABLE                                                                           
+                                                                                
+TypeConcours                                                                    
+TABLE                                                                           
+                                                                                
+Concours                                                                        
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+TABLE_TYPE                                                                      
+-----------                                                                     
+GAGNER                                                                          
+TABLE                                                                           
+                                                                                
+participer                                                                      
+TABLE                                                                           
+                                                                                
+
+8 rows selected.
+
+
+
+
+************************************
+INTERROGATION DU DICTIONNAIRE
+Recapitulatif des contraintes pos�es
+************************************
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010102         C   Chien           "noProprietaire" IS NOT NULL           
+          ENABLED                                                               
+                                                                                
+SYS_C0010101             Chien           "noRace" IS NOT NULL                   
+          ENABLED                                                               
+                                                                                
+SYS_C0010100             Chien           "noTatouage" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010112         C   Concours        "noTypeConcours" IS NOT NULL           
+          ENABLED                                                               
+                                                                                
+SYS_C0010111             Concours        "noVille" IS NOT NULL                  
+          ENABLED                                                               
+                                                                                
+SYS_C0010110             Concours        "noConcours" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010113         C   Concours        "dateConcours" IS NOT NULL             
+          ENABLED                                                               
+                                                                                
+SYS_C0010117             GAGNER          "noTatouage" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+CKC_SCORE_GAGNER         GAGNER          "nbPoints" is null or ("nbPoin         
+                                         ts" in (1,2,3,4,5))                    
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C0010118         C   GAGNER          "noConcours" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+SYS_C0010098             Proprietaire    "noProprietaire" IS NOT NULL           
+          ENABLED                                                               
+                                                                                
+SYS_C0010096             Race            "noRace" IS NOT NULL                   
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C0010108         C   TypeConcours    "noTypeConcours" IS NOT NULL           
+          ENABLED                                                               
+                                                                                
+SYS_C0010106             Ville           "noVille" IS NOT NULL                  
+          ENABLED                                                               
+                                                                                
+SYS_C0010123             participer      "noTatouage" IS NOT NULL               
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C0010124         C   participer      "noConcours" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+-------------------- ***                                                        
+                                                                                
+                                                                                
+                  16 cou                                                        
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+PK_CHIEN             P   Chien                                                  
+          ENABLED                                                               
+                                                                                
+PK_CONCOURS              Concours                                               
+          ENABLED                                                               
+                                                                                
+PK_GAGNER                GAGNER                                                 
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+PK_PROPRIETAIRE      P   Proprietaire                                           
+          ENABLED                                                               
+                                                                                
+PK_RACE                  Race                                                   
+          ENABLED                                                               
+                                                                                
+PK_TYPECONCOURS          TypeConcours                                           
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+PK_VILLE             P   Ville                                                  
+          ENABLED                                                               
+                                                                                
+PK_PARTICIPER            participer                                             
+          ENABLED                                                               
+                                                                                
+-------------------- ***                                                        
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+                   8 cou                                                        
+                                                                                
+                                                                                
+FK_CHIEN_ELEVER_PROP R   Chien                                                  
+RIET                                                                            
+NO ACTION ENABLED                                                               
+                                                                                
+FK_CHIEN_APPARTENI_R     Chien                                                  
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+ACE                                                                             
+NO ACTION ENABLED                                                               
+                                                                                
+FK_CONCOURS_DEROULER R   Concours                                               
+D_VILLE                                                                         
+NO ACTION ENABLED                                                               
+                                                                                
+FK_CONCOURS_CATEGORI     Concours                                               
+S_TYPECONC                                                                      
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+NO ACTION ENABLED                                                               
+                                                                                
+FK_GAGNER_GAGNER_CHI R   GAGNER                                                 
+EN                                                                              
+NO ACTION ENABLED                                                               
+                                                                                
+FK_GAGNER_GAGNER_CON     GAGNER                                                 
+COURS                                                                           
+NO ACTION ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+FK_PARTICIP_PARTICIP R   participer                                             
+E_CHIEN                                                                         
+NO ACTION ENABLED                                                               
+                                                                                
+FK_PARTICIP_PARTICIP     participer                                             
+E_CONCOURS                                                                      
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+-------------------- ***                                                        
+                                                                                
+                                                                                
+                   8 cou                                                        
+                                                                                
+                                                                                
+
+32 rows selected.
+
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010102                                                                    
+C                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noProprietaire" IS NOT NULL                                                    
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010101                                                                    
+C                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noRace" IS NOT NULL                                                            
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010100                                                                    
+C                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noTatouage" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010112                                                                    
+C                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noTypeConcours" IS NOT NULL                                                    
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010111                                                                    
+C                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noVille" IS NOT NULL                                                           
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010110                                                                    
+C                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noConcours" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010113                                                                    
+C                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"dateConcours" IS NOT NULL                                                      
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010117                                                                    
+C                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noTatouage" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+CKC_SCORE_GAGNER                                                                
+C                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"nbPoints" is null or ("nbPoints" in (1,2,3,4,5))                               
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010118                                                                    
+C                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noConcours" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010098                                                                    
+C                                                                               
+Proprietaire                                                                    
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noProprietaire" IS NOT NULL                                                    
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010096                                                                    
+C                                                                               
+Race                                                                            
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noRace" IS NOT NULL                                                            
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010108                                                                    
+C                                                                               
+TypeConcours                                                                    
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noTypeConcours" IS NOT NULL                                                    
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010106                                                                    
+C                                                                               
+Ville                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noVille" IS NOT NULL                                                           
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010123                                                                    
+C                                                                               
+participer                                                                      
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noTatouage" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C0010124                                                                    
+C                                                                               
+participer                                                                      
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+"noConcours" IS NOT NULL                                                        
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_CHIEN                                                                        
+P                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_CONCOURS                                                                     
+P                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_GAGNER                                                                       
+P                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_PROPRIETAIRE                                                                 
+P                                                                               
+Proprietaire                                                                    
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_RACE                                                                         
+P                                                                               
+Race                                                                            
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_TYPECONCOURS                                                                 
+P                                                                               
+TypeConcours                                                                    
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_VILLE                                                                        
+P                                                                               
+Ville                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_PARTICIPER                                                                   
+P                                                                               
+participer                                                                      
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_CHIEN_ELEVER_PROPRIET                                                        
+R                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_CHIEN_APPARTENI_RACE                                                         
+R                                                                               
+Chien                                                                           
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_CONCOURS_DEROULERD_VILLE                                                     
+R                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_CONCOURS_CATEGORIS_TYPECONC                                                  
+R                                                                               
+Concours                                                                        
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_GAGNER_GAGNER_CHIEN                                                          
+R                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_GAGNER_GAGNER_CONCOURS                                                       
+R                                                                               
+GAGNER                                                                          
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_PARTICIP_PARTICIPE_CHIEN                                                     
+R                                                                               
+participer                                                                      
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_PARTICIP_PARTICIPE_CONCOURS                                                  
+R                                                                               
+participer                                                                      
+
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+T                                                                               
+-                                                                               
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+SEARCH_CONDITION                                                                
+--------------------------------------------------------------------------------
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+NO ACTION ENABLED                                                               
+                                                                                
+
+32 rows selected.
+
+
+Session altered.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Sequence created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Sequence created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+SP2-0317: expected symbol name is missing
+SP2-0552: Bind variable "INSERT" not declared.
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+
+Commit complete.
+
+
+nomChien                                                SOMME                   
+-------------------------------------------------- ----------                   
+Charlie                                                     7                   
+LuckyLu                                                     7                   
+Marley                                                      5                   
+
+
+nomChien                                                SOMME                   
+-------------------------------------------------- ----------                   
+Charlie                                                     7                   
+LuckyLu                                                     7                   
+Marley                                                      5                   
+
+
+nomChien                                                SOMME                   
+-------------------------------------------------- ----------                   
+Charlie                                                     7                   
+LuckyLu                                                     7                   
+Marley                                                      5                   
+
+FIN NORMALE DU SCRIPT
