@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* Nom de SGBD :  ORACLE Version 11g                            */
-/* Date de création :  24/02/2022 10:38:25                      */
+/* Date de création :  24/02/2022 11:09:46                      */
 /*==============================================================*/
 
 
@@ -68,7 +68,7 @@ create table "Chien"
    "noTatouage"         INTEGER              not null,
    "noProprietaire"     INTEGER              not null,
    "noRace"             INTEGER              not null,
-   "nomChien"           VARCHAR2(254),
+   "nomChien"           VARCHAR2(50),
    "dateNaissance"      DATE,
    constraint PK_CHIEN primary key ("noTatouage")
 );
@@ -94,8 +94,8 @@ create table "Concours"
 (
    "noConcours"         INTEGER              not null,
    "noVille"            INTEGER              not null,
-   "noTypeConcours"     INTEGER,
-   "dateConcours"       INTEGER,
+   "noTypeConcours"     INTEGER              not null,
+   "dateConcours"       INTEGER              not null,
    constraint PK_CONCOURS primary key ("noConcours")
 );
 
@@ -120,9 +120,10 @@ create table GAGNER
 (
    "noTatouage"         INTEGER              not null,
    "noConcours"         INTEGER              not null,
+   "noTypeConcours"     INTEGER              not null,
    "score"              INTEGER,
-   "libelle"            VARCHAR2(254),
-   constraint PK_GAGNER primary key ("noTatouage", "noConcours")
+   "libelle"            VARCHAR2(20),
+   constraint PK_GAGNER primary key ("noTatouage", "noConcours", "noTypeConcours")
 );
 
 comment on table GAGNER is
@@ -149,8 +150,8 @@ create index GAGNER_FK2 on GAGNER (
 create table "Proprietaire" 
 (
    "noProprietaire"     INTEGER              not null,
-   "nomProprietaire"    VARCHAR2(254),
-   "prenomProprietaire" VARCHAR2(254),
+   "nomProprietaire"    VARCHAR2(50),
+   "prenomProprietaire" VARCHAR2(50),
    "adresseProprietaire" VARCHAR2(254),
    constraint PK_PROPRIETAIRE primary key ("noProprietaire")
 );
@@ -161,7 +162,7 @@ create table "Proprietaire"
 create table "Race" 
 (
    "noRace"             INTEGER              not null,
-   "nomRace"            VARCHAR2(254),
+   "nomRace"            VARCHAR2(50),
    constraint PK_RACE primary key ("noRace")
 );
 
@@ -171,7 +172,7 @@ create table "Race"
 create table "TypeConcours" 
 (
    "noTypeConcours"     INTEGER              not null,
-   "nomTypeConcours"    VARCHAR2(254),
+   "nomTypeConcours"    VARCHAR2(8),
    constraint PK_TYPECONCOURS primary key ("noTypeConcours")
 );
 
@@ -181,7 +182,7 @@ create table "TypeConcours"
 create table "Ville" 
 (
    "noVille"            INTEGER              not null,
-   "nomVille"           INTEGER,
+   "nomVille"           VARCHAR2(50),
    constraint PK_VILLE primary key ("noVille")
 );
 
@@ -192,7 +193,8 @@ create table "participer"
 (
    "noTatouage"         INTEGER              not null,
    "noConcours"         INTEGER              not null,
-   constraint PK_PARTICIPER primary key ("noTatouage", "noConcours")
+   "noTypeConcours"     INTEGER              not null,
+   constraint PK_PARTICIPER primary key ("noTatouage", "noConcours", "noTypeConcours")
 );
 
 comment on table "participer" is

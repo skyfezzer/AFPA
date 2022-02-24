@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{E764C532-7A96-4BE3-96AB-E76524981652}" Label="" LastModificationDate="1645695415" Name="MCD_CONCOURS_CANIN" Objects="60" Symbols="14" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{E764C532-7A96-4BE3-96AB-E76524981652}" Label="" LastModificationDate="1645696425" Name="MCD_CONCOURS_CANIN" Objects="60" Symbols="14" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -12,7 +12,7 @@
 <a:Code>MCD_CONCOURS_CANIN</a:Code>
 <a:CreationDate>1645694129</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694142</a:ModificationDate>
+<a:ModificationDate>1645696425</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {7844CB4F-3048-48A7-9369-C17409816F68}
 DAT 1645694133
@@ -370,6 +370,11 @@ FixRequested=No
 CheckRequested=Yes
 
 [FolderOptions\CheckModel\Objet étendu\UniqueCode]
+CheckSeverity=No
+FixRequested=No
+CheckRequested=Yes
+
+[FolderOptions\CheckModel\Objet étendu\ORA11GR1_ExtendedObject_Cluster_Index_de_cluster_hash]
 CheckSeverity=No
 FixRequested=No
 CheckRequested=Yes
@@ -1425,8 +1430,8 @@ Shadow=0
 <c:Symbols>
 <o:RelationshipSymbol Id="o6">
 <a:ModificationDate>1645694580</a:ModificationDate>
-<a:Rect>((-13912,6899), (11138,12749))</a:Rect>
-<a:ListOfPoints>((-13912,6899),(-455,6899),(-455,12749),(11138,12749))</a:ListOfPoints>
+<a:Rect>((-13910,6899), (11228,12749))</a:Rect>
+<a:ListOfPoints>((-13910,6899),(-455,6899),(-455,12749),(11228,12749))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4882</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1466,7 +1471,7 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o14">
 <a:ModificationDate>1645694580</a:ModificationDate>
 <a:Rect>((-11887,7499), (-8137,20849))</a:Rect>
-<a:ListOfPoints>((-8362,20849),(-8362,14117),(-11662,14117),(-11662,7499))</a:ListOfPoints>
+<a:ListOfPoints>((-8362,20849),(-8362,14117),(-11662,14117),(-11714,7499))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4628</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1486,7 +1491,7 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o17">
 <a:ModificationDate>1645694580</a:ModificationDate>
 <a:Rect>((-16837,-10988), (4138,5624))</a:Rect>
-<a:ListOfPoints>((-14212,5624),(-14212,-10401),(4138,-10401))</a:ListOfPoints>
+<a:ListOfPoints>((-14203,5624),(-14212,-10401),(4138,-10401))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>5139</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1506,7 +1511,7 @@ NAMA 0 Arial,8,N</a:FontList>
 <o:RelationshipSymbol Id="o19">
 <a:ModificationDate>1645694577</a:ModificationDate>
 <a:Rect>((6604,-20220), (20187,-9344))</a:Rect>
-<a:ListOfPoints>((20187,-20220),(20187,-15480),(6604,-15480),(6604,-9344))</a:ListOfPoints>
+<a:ListOfPoints>((20132,-20220),(20187,-15480),(6604,-15480),(6604,-9344))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>4371</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1525,8 +1530,8 @@ NAMA 0 Arial,8,N</a:FontList>
 </o:RelationshipSymbol>
 <o:AssociationLinkSymbol Id="o22">
 <a:ModificationDate>1645694626</a:ModificationDate>
-<a:Rect>((-9036,-1557), (4509,4123))</a:Rect>
-<a:ListOfPoints>((-9036,4123),(-9036,-1557),(4509,-1557))</a:ListOfPoints>
+<a:Rect>((-9150,-1557), (4509,4123))</a:Rect>
+<a:ListOfPoints>((-9150,4123),(-9036,-1557),(4509,-1557))</a:ListOfPoints>
 <a:CornerStyle>2</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>4194432</a:LineColor>
@@ -1566,7 +1571,7 @@ CARD 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o7">
 <a:ModificationDate>1645694580</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-23542,3414), (-4130,9182))</a:Rect>
+<a:Rect>((-23311,3414), (-4361,9182))</a:Rect>
 <a:LineColor>128</a:LineColor>
 <a:FillColor>8637161</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1606,7 +1611,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o8">
 <a:ModificationDate>1645694580</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((5770,11853), (23404,16647))</a:Rect>
+<a:Rect>((6000,11853), (23174,16647))</a:Rect>
 <a:LineColor>128</a:LineColor>
 <a:FillColor>8637161</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1666,7 +1671,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o20">
 <a:ModificationDate>1645694575</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((8510,-23144), (29390,-18350))</a:Rect>
+<a:Rect>((8973,-23144), (28927,-18350))</a:Rect>
 <a:LineColor>128</a:LineColor>
 <a:FillColor>8637161</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1685,7 +1690,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 </o:EntitySymbol>
 <o:AssociationSymbol Id="o23">
 <a:ModificationDate>1645694617</a:ModificationDate>
-<a:Rect>((-4373,-3317), (13391,203))</a:Rect>
+<a:Rect>((-4143,-3317), (13161,203))</a:Rect>
 <a:LineColor>4194432</a:LineColor>
 <a:FillColor>16765136</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2241,12 +2246,14 @@ DAT 1645694133</a:History>
 <a:Code>nomChien</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696378</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {E89EA640-D835-4446-A6FD-1C7BB40C76D0}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA50</a:DataType>
+<a:Length>50</a:Length>
 </o:DataItem>
 <o:DataItem Id="o40">
 <a:ObjectID>FA3CE5DD-43AB-4460-89DF-D1D791049796</a:ObjectID>
@@ -2278,12 +2285,14 @@ DAT 1645694133</a:History>
 <a:Code>nomProprietaire</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696372</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {828B5351-4DE0-4E35-BAF7-A10FBF60AE8F}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA50</a:DataType>
+<a:Length>50</a:Length>
 </o:DataItem>
 <o:DataItem Id="o47">
 <a:ObjectID>4DFF37FA-479A-463A-8B57-DB73DDDBEC42</a:ObjectID>
@@ -2291,12 +2300,14 @@ DAT 1645694133</a:History>
 <a:Code>prenomProprietaire</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696372</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {E8D956EB-65AC-463B-92AE-3488038052B4}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA50</a:DataType>
+<a:Length>50</a:Length>
 </o:DataItem>
 <o:DataItem Id="o49">
 <a:ObjectID>5B622E16-0635-4AA0-BEAF-D7FFB4EC3809</a:ObjectID>
@@ -2329,12 +2340,14 @@ DAT 1645694133</a:History>
 <a:Code>nomRace</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696382</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {A9BB581E-8F8A-4D1D-88B4-A46FEFD71B6D}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA50</a:DataType>
+<a:Length>50</a:Length>
 </o:DataItem>
 <o:DataItem Id="o57">
 <a:ObjectID>D7E65C71-FE74-4AD2-9A4C-569C1C683322</a:ObjectID>
@@ -2402,12 +2415,14 @@ DAT 1645694133</a:History>
 <a:Code>nomTypeConcours</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696400</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {184B0267-6AF6-4FBF-BE98-5F64E7A0DE2D}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA8</a:DataType>
+<a:Length>8</a:Length>
 </o:DataItem>
 <o:DataItem Id="o70">
 <a:ObjectID>275C0F1D-DB45-4A6F-A834-64C44C2CDA1B</a:ObjectID>
@@ -2427,12 +2442,14 @@ DAT 1645694133</a:History>
 <a:Code>libelle</a:Code>
 <a:CreationDate>1645694133</a:CreationDate>
 <a:Creator>77011-05-10</a:Creator>
-<a:ModificationDate>1645694133</a:ModificationDate>
+<a:ModificationDate>1645696414</a:ModificationDate>
 <a:Modifier>77011-05-10</a:Modifier>
 <a:History>ORG {6C64656E-8860-4069-91BD-8EF7969CC2D0}
-DAT 1645694133</a:History>
-<a:DataType>VA254</a:DataType>
-<a:Length>254</a:Length>
+DAT 1645694133
+ATT DTTP
+ATT MLEN</a:History>
+<a:DataType>VA20</a:DataType>
+<a:Length>20</a:Length>
 </o:DataItem>
 </c:DataItems>
 <c:Associations>
