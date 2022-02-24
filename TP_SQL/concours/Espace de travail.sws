@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?PowerDesigner signature="Workspace" version="15.1.0.2850"?>
+<!-- Veuillez ne pas modifier ce fichier -->
+
+<Workspace>
+	<Local Expanded="Yes">
+		<Model Expanded="Yes" ID="{7844CB4F-3048-48A7-9369-C17409816F68}" Name="MOO_CONCOURS_CANIN" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="concours.moo"/>
+		<Model Expanded="Yes" ID="{8A6631D6-6FC5-4516-8E1C-DBB641B48279}" Name="MOO_CONCOURS_CANIN" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="MOO_CONCOURS_CANIN.mpd"/>
+		<Model Expanded="Yes" ID="{49BEA324-592B-4938-9B9F-84809118DC08}" Loaded="No" Name="MOO_BANQUE" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../banque/MOO_BANQUE.moo"/>
+	</Local>
+	<BrowserModule Name="Référentiel"/>
+</Workspace>
