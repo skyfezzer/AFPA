@@ -1,0 +1,6449 @@
+SQL> -- pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> -- sortir en cas d'erreur
+SQL> WHENEVER OSERROR EXIT
+SQL> WHENEVER SQLERROR EXIT rollback
+SQL> set linesize 60
+SQL> set pagesize 200
+SQL> 
+SQL> @install_bibliotheque.sql
+SQL> --==============================================================
+SQL> --Nom de la base :  xxxxxxxx
+SQL> --Fichier		: xxxxxxx.sql
+SQL> --==============================================================
+SQL> /*==============================================================*/
+SQL> /* Table : Personne					   */
+SQL> /*==============================================================*/
+SQL> create table Personne
+  2  (
+  3  	noPersonne	   INTEGER		not null,
+  4  	nom		   VARCHAR2(30),
+  5  	prenom		   VARCHAR2(30),
+  6  	constraint PK_PERSONNE primary key (noPersonne)
+  7  );
+
+Table created.
+
+SQL> 
+SQL> comment on table Personne is
+  2  'Cette classe conceptualise une personne';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Utilisateur					   */
+SQL> /*==============================================================*/
+SQL> create table Utilisateur
+  2  (
+  3  	noPersonne	   INTEGER		not null,
+  4  	employe 	   SMALLINT,
+  5  	constraint PK_UTILISATEUR primary key (noPersonne),
+  6  	constraint FK_UTILISAT_GENERALIS_PERSONNE foreign key (noPersonne)
+  7  	      references Personne (noPersonne)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Adherent					   */
+SQL> /*==============================================================*/
+SQL> create table Adherent
+  2  (
+  3  	noPersonne	   INTEGER		not null,
+  4  	noTelAdherent	   VARCHAR2(15),
+  5  	pin		   VARCHAR2(15),
+  6  	constraint PK_ADHERENT primary key (noPersonne),
+  7  	constraint FK_ADHERENT_GENERALIS_UTILISAT foreign key (noPersonne)
+  8  	      references Utilisateur (noPersonne)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Auteur						   */
+SQL> /*==============================================================*/
+SQL> create table Auteur
+  2  (
+  3  	noAuteur	   INTEGER		not null,
+  4  	nomCompletAuteur   VARCHAR2(63),
+  5  	constraint PK_AUTEUR primary key (noAuteur)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Bibliotheque					   */
+SQL> /*==============================================================*/
+SQL> create table Bibliotheque
+  2  (
+  3  	noBibliotheque	   INTEGER		not null,
+  4  	adresse 	   VARCHAR2(254),
+  5  	constraint PK_BIBLIOTHEQUE primary key (noBibliotheque)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Dette						   */
+SQL> /*==============================================================*/
+SQL> create table Dette
+  2  (
+  3  	noDette 	   INTEGER		not null,
+  4  	noPersonne	   INTEGER		not null,
+  5  	montantDette	   FLOAT
+  6  	   constraint CKC_MONTANTDETTE_DETTE check (montantDette is null or (montantDette >= 0)),
+  7  	motifDette	   VARCHAR2(254),
+  8  	dateDette	   DATE,
+  9  	constraint PK_DETTE primary key (noDette),
+ 10  	constraint FK_DETTE_PUNIR_ADHERENT foreign key (noPersonne)
+ 11  	      references Adherent (noPersonne)
+ 12  );
+
+Table created.
+
+SQL> 
+SQL> comment on table Dette is
+  2  'Cette classe conceptualise les dettes (amendes).';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Theme						   */
+SQL> /*==============================================================*/
+SQL> create table Theme
+  2  (
+  3  	noTheme 	   VARCHAR2(15) 	not null,
+  4  	intituleTheme	   VARCHAR2(150),
+  5  	constraint PK_THEME primary key (noTheme)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Emplacement					   */
+SQL> /*==============================================================*/
+SQL> create table Emplacement
+  2  (
+  3  	noEmplacement	   INTEGER		not null,
+  4  	noBibliotheque	   INTEGER		not null,
+  5  	noTheme 	   VARCHAR2(15) 	not null,
+  6  	constraint PK_EMPLACEMENT primary key (noEmplacement),
+  7  	constraint FK_EMPLACEM_LOCALISER_BIBLIOTH foreign key (noBibliotheque)
+  8  	      references Bibliotheque (noBibliotheque),
+  9  	constraint FK_EMPLACEM_TRIER_THEME foreign key (noTheme)
+ 10  	      references Theme (noTheme)
+ 11  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Employe 					   */
+SQL> /*==============================================================*/
+SQL> create table Employe
+  2  (
+  3  	noPersonne	   INTEGER		not null,
+  4  	noBibliotheque	   INTEGER		not null,
+  5  	gradeEmploye	   VARCHAR2(15),
+  6  	constraint PK_EMPLOYE primary key (noPersonne),
+  7  	constraint FK_EMPLOYE_TRAVAILLE_BIBLIOTH foreign key (noBibliotheque)
+  8  	      references Bibliotheque (noBibliotheque),
+  9  	constraint FK_EMPLOYE_GENERALIS_UTILISAT foreign key (noPersonne)
+ 10  	      references Utilisateur (noPersonne)
+ 11  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Livre						   */
+SQL> /*==============================================================*/
+SQL> create table Livre
+  2  (
+  3  	iSBNLivre	   INTEGER		not null,
+  4  	noTheme 	   VARCHAR2(15) 	not null,
+  5  	noAuteur	   INTEGER		not null,
+  6  	titreLivre	   VARCHAR2(150),
+  7  	constraint PK_LIVRE primary key (iSBNLivre),
+  8  	constraint FK_LIVRE_CORRESPON_THEME foreign key (noTheme)
+  9  	      references Theme (noTheme),
+ 10  	constraint FK_LIVRE_ECRIRE_AUTEUR foreign key (noAuteur)
+ 11  	      references Auteur (noAuteur)
+ 12  );
+
+Table created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Exemplaire					   */
+SQL> /*==============================================================*/
+SQL> create table Exemplaire
+  2  (
+  3  	iSBNLivre	   INTEGER		not null,
+  4  	codeExemplaire	   SMALLINT		not null,
+  5  	noEmplacement	   INTEGER,
+  6  	commentaireExemplaire VARCHAR2(150),
+  7  	constraint PK_EXEMPLAIRE primary key (iSBNLivre, codeExemplaire),
+  8  	constraint FK_EXEMPLAI_MATERIALI_LIVRE foreign key (iSBNLivre)
+  9  	      references Livre (iSBNLivre),
+ 10  	constraint FK_EXEMPLAI_RANGER_EMPLACEM foreign key (noEmplacement)
+ 11  	      references Emplacement (noEmplacement)
+ 12  );
+
+Table created.
+
+SQL> 
+SQL> comment on table Exemplaire is
+  2  'Cette classe conceptualise l''exemplaire d''un livre.';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Pret						   */
+SQL> /*==============================================================*/
+SQL> create table Pret
+  2  (
+  3  	noPret		   INTEGER		not null,
+  4  	dateEmprunt	   DATE 		not null,
+  5  	codeExemplaire	   SMALLINT		not null,
+  6  	iSBNLivre	   INTEGER		not null,
+  7  	noPersonne	   INTEGER		not null,
+  8  	dureePret	   INTEGER,
+  9  	constraint PK_PRET primary key (noPret),
+ 10  	constraint FK_PRET_ATTRIBUER_UTILISAT foreign key (noPersonne)
+ 11  	      references Utilisateur (noPersonne),
+ 12  	constraint FK_PRET_CONCERNER_EXEMPLAI foreign key (iSBNLivre, codeExemplaire)
+ 13  	      references Exemplaire (iSBNLivre, codeExemplaire)
+ 14  );
+
+Table created.
+
+SQL> 
+SQL> comment on table Pret is
+  2  'Cette classe conceptualise les prÃªts d''exemplaires.';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : HistoPret					   */
+SQL> /*==============================================================*/
+SQL> create table HistoPret
+  2  (
+  3  	noHisto 	   INTEGER		not null,
+  4  	noPret		   INTEGER		not null,
+  5  	dateRemise	   DATE,
+  6  	constraint PK_HISTOPRET primary key (noHisto),
+  7  	constraint FK_HISTOPRE_STOCKER_PRET foreign key (noPret)
+  8  	      references Pret (noPret)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> comment on table HistoPret is
+  2  'Cette classe conceptualise la fin d''un prÃªt';
+
+Comment created.
+
+SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : Paiement					   */
+SQL> /*==============================================================*/
+SQL> create table Paiement
+  2  (
+  3  	noPaiement	   INTEGER		not null,
+  4  	noDette 	   INTEGER,
+  5  	montantPaiement    FLOAT
+  6  	   constraint CKC_MONTANTPAIEMENT_PAIEMENT check (montantPaiement is null or (montantPaiement >= 0)),
+  7  	datePaiement	   DATE,
+  8  	typePaiement	   VARCHAR2(5)
+  9  	   constraint CKC_TYPEPAIEMENT_PAIEMENT check (typePaiement is null or (typePaiement in ('DETTE','COTIS'))),
+ 10  	constraint PK_PAIEMENT primary key (noPaiement),
+ 11  	constraint FK_PAIEMENT_PAYER_DETTE foreign key (noDette)
+ 12  	      references Dette (noDette)
+ 13  );
+
+Table created.
+
+SQL> 
+SQL> comment on table Paiement is
+  2  'Cette classe conceptualise les paiements de cotisations ainsi que les amendes.';
+
+Comment created.
+
+SQL> 
+SQL> 
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> Prompt ******************************
+******************************
+SQL> prompt Recapitulatif des Objets crï¿½ï¿½s
+Recapitulatif des Objets crï¿½ï¿½s
+SQL> Prompt ******************************
+******************************
+SQL> select * from user_catalog;
+
+TABLE_NAME                                                  
+------------------------------------------------------------
+TABLE_TYPE                                                  
+-----------                                                 
+ADHERENT                                                    
+TABLE                                                       
+                                                            
+PERSONNE                                                    
+TABLE                                                       
+                                                            
+UTILISATEUR                                                 
+TABLE                                                       
+                                                            
+AUTEUR                                                      
+TABLE                                                       
+                                                            
+BIBLIOTHEQUE                                                
+TABLE                                                       
+                                                            
+DETTE                                                       
+TABLE                                                       
+                                                            
+THEME                                                       
+TABLE                                                       
+                                                            
+EMPLACEMENT                                                 
+TABLE                                                       
+                                                            
+EMPLOYE                                                     
+TABLE                                                       
+                                                            
+LIVRE                                                       
+TABLE                                                       
+                                                            
+EXEMPLAIRE                                                  
+TABLE                                                       
+                                                            
+PRET                                                        
+TABLE                                                       
+                                                            
+HISTOPRET                                                   
+TABLE                                                       
+                                                            
+PAIEMENT                                                    
+TABLE                                                       
+                                                            
+
+14 rows selected.
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt ************************************
+************************************
+SQL> prompt Recapitulatif des contraintes posï¿½es
+Recapitulatif des contraintes posï¿½es
+SQL> prompt ************************************
+************************************
+SQL> 
+SQL> column constraint_name format A20
+SQL> column type format A3
+SQL> column table_name format A15
+SQL> column SEARCH_CONDITION format A30
+SQL> 
+SQL> break on type skip
+SQL> compute count of constraint_name on type report
+SQL> select  constraint_name, Constraint_type as type,
+  2  	     table_name , SEARCH_CONDITION, DELETE_RULE, STATUS
+  3  from user_constraints
+  4  order by type, table_name;
+
+CONSTRAINT_NAME      TYP TABLE_NAME                         
+-------------------- --- ---------------                    
+SEARCH_CONDITION               DELETE_RU STATUS             
+------------------------------ --------- --------           
+SYS_C0011913         C   ADHERENT                           
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0011916             AUTEUR                             
+"NOAUTEUR" IS NOT NULL                   ENABLED            
+                                                            
+SYS_C0011918             BIBLIOTHEQUE                       
+"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
+                                                            
+CKC_MONTANTDETTE_DET     DETTE                              
+TE                                                          
+montantDette is null or (monta           ENABLED            
+ntDette >= 0)                                               
+                                                            
+SYS_C0011921             DETTE                              
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0011920             DETTE                              
+"NODETTE" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0011928             EMPLACEMENT                        
+"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0011927             EMPLACEMENT                        
+"NOEMPLACEMENT" IS NOT NULL              ENABLED            
+                                                            
+SYS_C0011929             EMPLACEMENT                        
+"NOTHEME" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0011934             EMPLOYE                            
+"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0011933             EMPLOYE                            
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0011945             EXEMPLAIRE                         
+"CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0011944             EXEMPLAIRE                         
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0011957             HISTOPRET                          
+"NOHISTO" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0011958             HISTOPRET                          
+"NOPRET" IS NOT NULL                     ENABLED            
+                                                            
+SYS_C0011938             LIVRE                              
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0011939             LIVRE                              
+"NOTHEME" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0011940             LIVRE                              
+"NOAUTEUR" IS NOT NULL                   ENABLED            
+                                                            
+SYS_C0011961             PAIEMENT                           
+"NOPAIEMENT" IS NOT NULL                 ENABLED            
+                                                            
+CKC_MONTANTPAIEMENT_     PAIEMENT                           
+PAIEMENT                                                    
+montantPaiement is null or (mo           ENABLED            
+ntantPaiement >= 0)                                         
+                                                            
+CKC_TYPEPAIEMENT_PAI     PAIEMENT                           
+EMENT                                                       
+typePaiement is null or (typeP           ENABLED            
+aiement in ('DETTE','COTIS'))                               
+                                                            
+SYS_C0011908             PERSONNE                           
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0011950             PRET                               
+"DATEEMPRUNT" IS NOT NULL                ENABLED            
+                                                            
+SYS_C0011953             PRET                               
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0011949             PRET                               
+"NOPRET" IS NOT NULL                     ENABLED            
+                                                            
+SYS_C0011952             PRET                               
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0011951             PRET                               
+"CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0011925             THEME                              
+"NOTHEME" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0011910             UTILISATEUR                        
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                  29 cou                                    
+                                                            
+                                                            
+PK_ADHERENT          P   ADHERENT                           
+                                         ENABLED            
+                                                            
+PK_AUTEUR                AUTEUR                             
+                                         ENABLED            
+                                                            
+PK_BIBLIOTHEQUE          BIBLIOTHEQUE                       
+                                         ENABLED            
+                                                            
+PK_DETTE                 DETTE                              
+                                         ENABLED            
+                                                            
+PK_EMPLACEMENT           EMPLACEMENT                        
+                                         ENABLED            
+                                                            
+PK_EMPLOYE               EMPLOYE                            
+                                         ENABLED            
+                                                            
+PK_EXEMPLAIRE            EXEMPLAIRE                         
+                                         ENABLED            
+                                                            
+PK_HISTOPRET             HISTOPRET                          
+                                         ENABLED            
+                                                            
+PK_LIVRE                 LIVRE                              
+                                         ENABLED            
+                                                            
+PK_PAIEMENT              PAIEMENT                           
+                                         ENABLED            
+                                                            
+PK_PERSONNE              PERSONNE                           
+                                         ENABLED            
+                                                            
+PK_PRET                  PRET                               
+                                         ENABLED            
+                                                            
+PK_THEME                 THEME                              
+                                         ENABLED            
+                                                            
+PK_UTILISATEUR           UTILISATEUR                        
+                                         ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                  14 cou                                    
+                                                            
+                                                            
+FK_ADHERENT_GENERALI R   ADHERENT                           
+S_UTILISAT                                                  
+                               NO ACTION ENABLED            
+                                                            
+FK_DETTE_PUNIR_ADHER     DETTE                              
+ENT                                                         
+                               NO ACTION ENABLED            
+                                                            
+FK_EMPLACEM_LOCALISE     EMPLACEMENT                        
+R_BIBLIOTH                                                  
+                               NO ACTION ENABLED            
+                                                            
+FK_EMPLACEM_TRIER_TH     EMPLACEMENT                        
+EME                                                         
+                               NO ACTION ENABLED            
+                                                            
+FK_EMPLOYE_GENERALIS     EMPLOYE                            
+_UTILISAT                                                   
+                               NO ACTION ENABLED            
+                                                            
+FK_EMPLOYE_TRAVAILLE     EMPLOYE                            
+_BIBLIOTH                                                   
+                               NO ACTION ENABLED            
+                                                            
+FK_EXEMPLAI_RANGER_E     EXEMPLAIRE                         
+MPLACEM                                                     
+                               NO ACTION ENABLED            
+                                                            
+FK_EXEMPLAI_MATERIAL     EXEMPLAIRE                         
+I_LIVRE                                                     
+                               NO ACTION ENABLED            
+                                                            
+FK_HISTOPRE_STOCKER_     HISTOPRET                          
+PRET                                                        
+                               NO ACTION ENABLED            
+                                                            
+FK_LIVRE_ECRIRE_AUTE     LIVRE                              
+UR                                                          
+                               NO ACTION ENABLED            
+                                                            
+FK_LIVRE_CORRESPON_T     LIVRE                              
+HEME                                                        
+                               NO ACTION ENABLED            
+                                                            
+FK_PAIEMENT_PAYER_DE     PAIEMENT                           
+TTE                                                         
+                               NO ACTION ENABLED            
+                                                            
+
+CONSTRAINT_NAME      TYP TABLE_NAME                         
+-------------------- --- ---------------                    
+SEARCH_CONDITION               DELETE_RU STATUS             
+------------------------------ --------- --------           
+FK_PRET_CONCERNER_EX R   PRET                               
+EMPLAI                                                      
+                               NO ACTION ENABLED            
+                                                            
+FK_PRET_ATTRIBUER_UT     PRET                               
+ILISAT                                                      
+                               NO ACTION ENABLED            
+                                                            
+FK_UTILISAT_GENERALI     UTILISATEUR                        
+S_PERSONNE                                                  
+                               NO ACTION ENABLED            
+                                                            
+-------------------- ***                                    
+                                                            
+                                                            
+                  15 cou                                    
+                                                            
+                                                            
+
+58 rows selected.
+
+SQL> 
+SQL> 
+SQL> clear columns
+SQL> clear breaks
+SQL> clear computes
+SQL> @install_data_bibliotheque.sql
+SQL> --==============================================================
+SQL> --Nom de la base :  xxxxxxxx
+SQL> --Fichier		:  install_data_livraison.sql
+SQL> --==============================================================
+SQL> 
+SQL> -- On n'interprete pas les &  comme variable de substitution
+SQL> set define off
+SQL> 
+SQL> -- affichage des substitutions de variable
+SQL> SET VERIFY ON
+SQL> 
+SQL> --Script de suppression des donnes
+SQL> delete from HistoPret;
+
+0 rows deleted.
+
+SQL> delete from Pret;
+
+0 rows deleted.
+
+SQL> delete from Dette;
+
+0 rows deleted.
+
+SQL> delete from Paiement;
+
+0 rows deleted.
+
+SQL> delete from Emplacement;
+
+0 rows deleted.
+
+SQL> delete from Exemplaire;
+
+0 rows deleted.
+
+SQL> delete from Livre;
+
+0 rows deleted.
+
+SQL> delete from Theme;
+
+0 rows deleted.
+
+SQL> delete from Adherent;
+
+0 rows deleted.
+
+SQL> delete from Auteur;
+
+0 rows deleted.
+
+SQL> delete from Employe;
+
+0 rows deleted.
+
+SQL> delete from Utilisateur;
+
+0 rows deleted.
+
+SQL> delete from Personne;
+
+0 rows deleted.
+
+SQL> delete from Bibliotheque;
+
+0 rows deleted.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH12:MI:SS';
+
+Session altered.
+
+SQL> --------------------------------
+SQL> -- 	 Auteur 	   --
+SQL> --------------------------------
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (0, 'George Orwell');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (1, 'J.R.R. Tolkien');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (2, 'Albert Camus');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (3, 'Louis-Ferdinand Céline');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (4, 'Charles Baudelaire');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (5, ' Alain Damasio');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (6, 'Antoine de Saint-Exupéry');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (7, 'Boris Vian');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (8, 'J. K. Rowling');
+
+1 row created.
+
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (9, 'Frank Herbert');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	 Biblio 	   --
+SQL> --------------------------------
+SQL> insert into Bibliotheque (noBibliotheque, adresse) values (0, 'Centre Culturel des Marmusots, 1 rue de l''égalité, 12345 Uneville');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	 Personne	   --
+SQL> --------------------------------
+SQL> CREATE SEQUENCE seq_personne START WITH 1 INCREMENT BY 1 nomaxvalue;
+
+Sequence created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Guy','Labbé');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Musette','Chalut');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Briard');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Solaine','Baril');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Ignace','Bélair');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubrey','Moreau');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Dielle','L''Heureux');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Catherine','LaGrande');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Clavette');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gérard','Vernadeau');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fabienne','Lemaître');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aloin','Desnoyer');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jacquenett','Bellemare');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Annette','Dufour');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Laurette','Pépin');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Capucine','Chenard');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jesper','Gregoire');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Eulalie','Paquette');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Brice','Sorel');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fiacre','Tardif');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pomeroy','Chouinard');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Oriel','Boivin');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nouel','De La Ronde');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Dostie');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Robert','Chassé');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Viollette','Riquier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fifine','Quessy');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Morgana','Forest');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Burkett','Bordeleau');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marine','Lagacé');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Blanchefle','Cuillerier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marguerite','Laprise');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Thomas','Labrie');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Delmare','Tessier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Moïse');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Du Trieux');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Parnella','Riquier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Arnou','Chaussée');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Elita','Houde');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jolie','Lachapelle');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Dixie','Routhier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Desaulniers');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Laverne','Édouard');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Xavier','Thivierge');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christophe','Patenaude');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Mallory','Bourassa');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Vick','Mailhot');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Loyal','Carrière');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pinabel','Bourgouin');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christabel','Meunier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Zoé','Ruest');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Richard','Majory');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Larocque');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'La Roux','Meilleur');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Claude','Fugère');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Toussaint','Brunault');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Caresse','Brault');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Begin');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubin','Beaulieu');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Odo','Étoile');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aimé','Larivière');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Valérie','Caya');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Chandler','Caouette');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Amedee','Doucet');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Rosamonde','Louis');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Amabella','Panetier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Francis','Lacroix');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Agathe','Bourassa');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Allyriane','Bousquet');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sébastien','Legault');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marveille','Chouinard');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Philippe','Fugère');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pensee','Majory');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Provencher');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Mayhew','Cartier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Florus','Beaulé');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Harriette','Lebrun');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christian','Arnoux');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Hamilton','Hachée');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aymon','Généreux');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Geoffrey','Deslauriers');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Vivienne','Levasseur');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Charpentier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sabine','Fouquet');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Emmanuel','Douffet');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jessamine','Paiement');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Tabor','Carrière');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Arber','Leblanc');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Wyatt','Paré');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Anton','Boisvert');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Alexandrie','Faure');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Verrill','Meilleur');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Verney','Baril');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Cloridan','Guimond');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jules','Dubois');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Franck','Bouvier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Agate','Couturier');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marthe','Sauvé');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marshall','Lacombe');
+
+1 row created.
+
+SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Timothée','Létourneau');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	 Themes 	   --
+SQL> --------------------------------
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('000' ,'Généralités sur l’informatique, l’information, ouvrages généraux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('001' ,'Connaissance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('002' ,'Livre (écrits, bibliothèques, et sujets en rapport aux livres)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('003' ,'Systèmes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('004' ,'Traitement de données et Informatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('005' ,'Programmation informatique, Logiciels et donnée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('006' ,'Applications informatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('010' ,'Bibliographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('011' ,'Bibliographies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('012' ,'Bibliographies d''individus');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('013' ,'(Vacant)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('014' ,'Bibliographies d''ouvrages anonymes ou sous pseudonymes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('015' ,'Bibliographies d''ouvrages sur des lieux précis');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('016' ,'Bibliographies d''ouvrages sur des sujets précis');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('017' ,'Catalogues de sujets généraux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('018' ,'Catalogues classés par auteurs, dates, etc.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('019' ,'Catalogues de dictionnaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('020' ,'Bibliothéconomie et Science de l''information');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('021' ,'Relation des bibliothèques (avec les archives, les centres d''information, etc.)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('022' ,'Administration d''installations physiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('023' ,'Gestion des ressources humaines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('024' ,'(Vacant)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('025' ,'Gestion des bibliothèques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('026' ,'Bibliothèques de sujets précis');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('027' ,'Bibliothèques générales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('028' ,'Lecture et utilisation des autres médias d''information');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('029' ,'(Vacant)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('030' ,'Encyclopédies générales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('031' ,'Encyclopédies en anglais américain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('032' ,'Encyclopédies en anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('033' ,'Encyclopédies dans d''autres langues germaniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('034' ,'Encyclopédies en français, occitan, et catalan');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('035' ,'Encyclopédies en italien, roumain, et langues apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('036' ,'Encyclopédies en espagnol et portugais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('037' ,'Encyclopédies en langues slaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('038' ,'Encyclopédies en langues scandinaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('039' ,'Encyclopédies dans d''autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('040' ,'(Vacant)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('050' ,'Publications en série d’ordre général');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('051' ,'Publications en série en anglais américain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('052' ,'Publications en série en anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('053' ,'Publications en série dans d''autres langues germaniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('054' ,'Publications en série en français, occitan, et catalan');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('055' ,'Publications en série en italien, roumain, et langues apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('056' ,'Publications en série en espagnol et portugais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('057' ,'Publications en série en langues slaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('058' ,'Publications en série en langues scandinaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('059' ,'Publications en série dans d''autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('060' ,'Organisations générales et muséologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('061' ,'Organisations en Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('062' ,'Organisations dans les îles Britanniques, en Angleterre');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('063' ,'Organisations en Europe centrale, en Allemagne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('064' ,'Organisations en France et à Monaco');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('065' ,'Organisations en Italie et dans les îles voisines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('066' ,'Organisations en péninsule Ibérique et dans les îles voisines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('067' ,'Organisations en Europe de l''Est, en Russie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('068' ,'Organisations dans d''autres zones géographiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('069' ,'Muséologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('070' ,'Médias documentaires, journalisme, édition');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('071' ,'Journaux en Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('072' ,'Journaux dans les îles Britanniques, en Angleterre');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('073' ,'Journaux en Europe centrale, en Allemagne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('074' ,'Journaux en France et à Monaco');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('075' ,'Journaux en Italie et dans les îles voisines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('076' ,'Journaux en péninsule Ibérique et dans les îles voisines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('077' ,'Journaux en Europe de l''Est, en Russie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('078' ,'Journaux en Scandinavie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('079' ,'Journaux dans d''autres zones géographiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('080' ,'Recueils généraux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('081' ,'Recueils en anglais américain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('082' ,'Recueils en anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('083' ,'Recueils dans d''autres langues germaniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('084' ,'Recueils en français, occitan, et catalan');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('085' ,'Recueils en italien, roumain, et langues apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('086' ,'Recueils en espagnol et portugais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('087' ,'Recueils en langues slaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('088' ,'Recueils en langues scandinaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('089' ,'Recueils dans d''autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('090' ,'Manuscrits, livres rares, autres documents imprimés rares');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('091' ,'Manuscrits');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('092' ,'Tabellaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('093' ,'Incunables');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('094' ,'Livres imprimés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('095' ,'Livres remarquables pour leur reliure');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('096' ,'Livres remarquables pour leurs illustrations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('097' ,'Livres remarquables pour leur propriété ou leur origine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('098' ,'Œuvres interdites, forgeries, canulars');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('099' ,'Livres remarquables pour leur format');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('100' ,'Philosophie et psychologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('101' ,'Théorie de la philosophie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('102' ,'Divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('103' ,'Dictionnaires et encyclopédies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('104' ,'(Vacant)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('105' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('106' ,'Organisations et gestion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('107' ,'Education, recherche, sujets relatifs à la philosophie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('108' ,'Groupes de philosophes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('109' ,'Histoire et biographie recueillie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('110' ,'Métaphysique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('111' ,'Ontologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('112' ,'(Vacant)—auparavant Méthodologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('113' ,'Cosmologie (Philosophie de la nature)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('114' ,'Espace');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('115' ,'Temps');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('116' ,'Changement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('117' ,'Structure');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('118' ,'Force et énergie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('119' ,'Nombre et quantité');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('120' ,'Épistémologie, causalité, genre humain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('121' ,'Épistémologie (Science du savoir)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('122' ,'Causalité');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('123' ,'Déterminisme et Indéterminisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('124' ,'Téléologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('125' ,'(Vacant)—auparavant Infini');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('126' ,'L''individu');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('127' ,'L''inconscient et le subconscient');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('128' ,'Humanité');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('129' ,'Origine et devenir des âmes des individus');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('130' ,'Parapsychologie et occultisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('131' ,'Méthodes parapsychologiques et occultes pour atteindre le bien-être, le bonheur, la réussite');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('132' ,'(Vacant)—auparavant Troubles psychiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('133' ,'Sujets spécifiques de parapsychologie et d''occultisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('134' ,'(Vacant)—auparavant Mesmérisme et Clairvoyance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('135' ,'Rêves et mystères');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('136' ,'(Vacant)—auparavant Caractéristiques mentales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('137' ,'Graphologie divinatoire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('138' ,'Physiognomonie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('139' ,'Phrénologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('140' ,'Les divers points de vue et écoles philosophiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('141' ,'Idéalisme, systèmes et doctrines apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('142' ,'Criticisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('143' ,'Bergsonisme et intuitionnisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('144' ,'Humanisme, systèmes et doctrines apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('145' ,'Sensationnalisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('146' ,'Naturalisme, systèmes et doctrines apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('147' ,'Panthéisme, systèmes et doctrines apparentées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('148' ,'Dogmatisme, éclectisme, libéralisme, syncrétisme, et traditionalisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('149' ,'Autres systèmes et doctrines philosophiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('150' ,'Psychologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('151' ,'(Vacant)—auparavant Intellect');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('152' ,'Perception sensorielle, mouvement, émotions, et pulsions physiologiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('153' ,'Processus mentaux conscients et intelligence');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('154' ,'Subconscient, altered state et processus alternatifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('155' ,'Psychologie différentielle et psychologie du développement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('156' ,'Psychologie comparée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('157' ,'(Vacant)—auparavant Émotions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('158' ,'Psychologie appliquée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('159' ,'(Vacant)—auparavant Volonté');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('160' ,'Logique philosophique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('161' ,'Raisonnement inductif');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('162' ,'Raisonnement déductif');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('165' ,'Raisonnement fallacieux et sources d''erreur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('166' ,'Syllogismes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('167' ,'Hypothèses');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('168' ,'Argumentation et persuasion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('169' ,'Analogie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('170' ,'Éthique (Philosophie morale)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('171' ,'Systèmes éthiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('172' ,'Éthique politique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('173' ,'Éthique des relations familiales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('174' ,'Éthique professionnelle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('175' ,'Éthique du loisir, du temps libre, du spectacle, de la communication');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('176' ,'Éthique du sexe et de la reproduction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('177' ,'Éthique des rapports sociaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('178' ,'Éthique de la consommation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('179' ,'Autres normes d''éthiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('180' ,'Philosophie antique, médiévale, orientale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('181' ,'Philosophie orientale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('182' ,'Philosophie présocratique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('183' ,'Sophistique, socratique, autres philosophies liées au monde grec antique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('184' ,'Platonisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('185' ,'Aristotélisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('186' ,'Scepticisme et néoplatonisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('187' ,'Épicurisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('188' ,'Stoïcisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('189' ,'Philosophie médiévale occidentale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('190' ,'Philosophie occidentale contemporaine et autres philosophies non orientales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('191' ,'Philosophie américaine et canadienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('192' ,'Philosophies des îles britanniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('193' ,'Philosophie d''Allemagne et d''Autriche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('194' ,'Philosophie de France');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('195' ,'Philosophie d''Italie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('196' ,'Philosophie d''Espagne et du Portugal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('197' ,'Philosophie de Russie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('198' ,'Philosophie de Scandinavie et de Finlande');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('199' ,'Philosophie d''autres régions du monde');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('200' ,'Religion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('201' ,'Mythologie religieuse, grandes catégories de religions, attitudes et relations entre les religions, théologie sociale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('202' ,'Doctrines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('203' ,'Culte public et autres pratiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('204' ,'Expérience, vie, pratique religieuses');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('205' ,'Morale religieuse');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('206' ,'Chefs spirituels et organisation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('207' ,'Missions et enseignement religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('208' ,'Sources');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('209' ,'Sectes et mouvements réformistes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('210' ,'Philosophie et théorie de la religion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('211' ,'Concepts de Dieu');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('212' ,'Existence de Dieu, moyens de connaître Dieu, attributs de Dieu');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('213' ,'Création');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('214' ,'Théodicée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('215' ,'Science et religion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('216' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('217' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('218' ,'Humanité (le genre humain)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('219' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('220' ,'Bible');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('221' ,'Ancien Testament (Tanakh)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('222' ,'Livres historiques de l''Ancien Testament');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('223' ,'Livres poétiques de l''Ancien Testament');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('224' ,'Livres prophétiques de l''Ancien Testament');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('225' ,'Nouveau Testament');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('226' ,'Évangiles et Actes des Apôtres');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('227' ,'Épitres');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('228' ,'Apocalypse de saint Jean');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('229' ,'Livres apocryphes et pseudépigraphes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('230' ,'Christianisme Théologie chrétienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('231' ,'Dieu');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('232' ,'Jésus de Nazareth et sa famille Christologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('233' ,'Humanité (le genre humain)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('234' ,'Salut et grâce');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('235' ,'Êtres spirituels');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('236' ,'Eschatologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('237' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('238' ,'Croyances, confessions de foi');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('239' ,'Apologétique et polémique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('240' ,'Théologie morale et spirituelle chrétiennes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('241' ,'Morale chrétienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('242' ,'Textes de dévotion');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('243' ,'Textes d''évangélisation à l''intention des individus et des familles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('244' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('245' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('246' ,'Art dans le christianisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('247' ,'Mobilier d''église et objets religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('248' ,'Expérience, pratique, vie chrétiennes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('249' ,'Pratiques chrétiennes dans la vie familiale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('250' ,'Églises chrétiennes locales et ordres religieux chrétiens');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('251' ,'Prédication (homilétique)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('252' ,'Textes de sermons (homélies)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('253' ,'Fonctions et devoirs pastoraux (théologie pastorale)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('254' ,'Administration des paroisses');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('255' ,'Congrégations et ordres religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('256' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('257' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('258' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('259' ,'Activités pastorales auprès des familles, des catégories particulières de personnes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('260' ,'Théologie chrétienne et société et ecclésiologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('261' ,'Théologie chrétienne et société et relations et attitudes du christianisme envers les autres religions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('262' ,'Ecclésiologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('263' ,'Jours, temps, lieux destinés au culte');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('264' ,'Culte public');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('265' ,'Sacrements, autres rites et cérémonies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('266' ,'Missions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('267' ,'Associations à but religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('268' ,'Enseignement religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('269' ,'Renouveau spirituel');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('270' ,'Histoire et géographie du christianisme et de l''Église');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('271' ,'Congrégations et ordres religieux dans l''histoire de l''Église');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('272' ,'Persécutions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('273' ,'Controverses et hérésies doctrinales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('274' ,'Christianisme en Europe, Église chrétienne en Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('275' ,'Christianisme en Asie, Église chrétienne en Asie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('276' ,'Christianisme en Afrique, Église chrétienne en Afrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('277' ,'Christianisme en Amérique du Nord, Église chrétienne en Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('278' ,'Christianisme en Amérique du Sud, Église chrétienne en Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('279' ,'Christianisme dans les autres parties du monde, Église chrétienne dans les autres parties du monde');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('280' ,'Confessions et sectes de l''Église chrétienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('281' ,'Église primitive et Églises orientales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('282' ,'Église catholique romaine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('283' ,'Églises anglicanes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('284' ,'Confessions protestantes d''origine européenne continentale et groupes connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('285' ,'Églises presbytériennes, Églises réformées en Amérique, Églises congrégationalistes, puritanisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('286' ,'Églises baptistes, des disciples du Christ, adventistes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('287' ,'Églises méthodistes, Églises liées au méthodisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('288' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('289' ,'Autres confessions et sectes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('290' ,'Autres religions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('291' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('292' ,'Religion classique (religions grecque et romaine)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('293' ,'Religion germanique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('294' ,'Religions d''origine hindoue');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('295' ,'Zoroastrisme (mazdéisme, parsisme)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('296' ,'Judaïsme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('297' ,'Islam, Babisme et Bahaïsme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('298' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('299' ,'Autres religions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('300' ,'Sciences sociales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('301' ,'Sociologie et anthropologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('302' ,'Interaction sociale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('303' ,'Processus sociaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('304' ,'Facteurs influençant le comportement social');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('305' ,'Groupes sociaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('306' ,'Culture et institutions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('307' ,'Communautés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('308' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('309' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('310' ,'Recueils de statistiques générales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('311' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('312' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('313' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('314' ,'Statistiques générales de l''Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('315' ,'Statistiques générales de l''Asie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('316' ,'Statistiques générales de l''Afrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('317' ,'Statistiques générales de l''Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('318' ,'Statistiques générales de l''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('319' ,'Statistiques générales des autres parties du monde');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('320' ,'Science politique (politique et gouvernement)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('321' ,'Types d''États et de gouvernements');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('322' ,'Relations entre l''État et les groupes sociaux organisés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('323' ,'Droits civils et politiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('324' ,'La vie politique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('325' ,'Migrations internationales et colonisation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('326' ,'Esclavage et émancipation des esclaves');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('327' ,'Relations internationales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('328' ,'Le processus législatif');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('329' ,'vacant');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('330' ,'Économie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('331' ,'Économie du travail');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('332' ,'Économie financière');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('333' ,'Économie de la terre et des ressources naturelles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('334' ,'Coopératives');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('335' ,'Socialisme et systèmes apparentés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('336' ,'Finances publiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('337' ,'Économie internationale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('338' ,'Production');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('339' ,'Macroéconomie et sujets connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('340' ,'Droit');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('341' ,'Droit international');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('342' ,'Droit constitutionnel et administratif');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('343' ,'Droit de la défense, droit fiscal, commercial, industriel');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('344' ,'Droit social, du travail, de la santé, de l''éducation et de la culture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('345' ,'Droit pénal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('346' ,'Droit privé');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('347' ,'Procédure civile et tribunaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('348' ,'Lois, réglementations, jurisprudence');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('349' ,'Droit interne des différents États. Ouvrages d''ensemble sur le droit de chaque pays');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('350' ,'Administration publique. Art et science militaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('351' ,'Administration publique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('352' ,'Généralités');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('353' ,'Secteurs spécifiques de l''administration');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('354' ,'Ministères et services chargés de l''environnement, des ressources naturelles, des affaires économiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('355' ,'Art et science militaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('356' ,'Infanterie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('357' ,'Forces montées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('358' ,'Artillerie. Forces aériennes et spatiales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('359' ,'Marine militaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('360' ,'Problèmes et services sociaux. Associations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('361' ,'Problèmes sociaux. Aide sociale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('362' ,'Problèmes et services d''aide sociale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('363' ,'Autres problèmes et services sociaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('364' ,'Criminologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('365' ,'Établissements pénitentiaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('366' ,'Associations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('367' ,'Clubs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('368' ,'Assurances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('369' ,'Associations diverses');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('370' ,'Éducation, enseignement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('371' ,'Les écoles et leurs activités, enseignement spécialisé, éducation spécialisée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('372' ,'L''école élémentaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('373' ,'Enseignement secondaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('374' ,'Formation des adultes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('375' ,'Programme d''enseignement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('378' ,'Enseignement supérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('379' ,'L''enseignement et l''État. Politique éducative');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('380' ,'Commerce, communications, transports');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('381' ,'Commerce intérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('382' ,'Commerce international (commerce extérieur)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('383' ,'Postes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('384' ,'Communications, télécommunications');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('385' ,'Transports ferroviaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('386' ,'Transports par voies d''eau intérieures (Transport fluvial)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('387' ,'Transports maritime, aérien, spatial');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('388' ,'Transports terrestre.Transports routiers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('389' ,'Métrologie et normalisation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('390' ,'Coutumes, savoir-vivre, folklore');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('391' ,'Costume et apparence personnelle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('392' ,'Coutumes liées au cycle de l''existence et à la vie quotidienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('393' ,'Coutumes funéraires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('394' ,'Coutumes générales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('395' ,'Étiquette, savoir-vivre');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('396' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('397' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('398' ,'Folklore');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('399' ,'Coutumes de la guerre et de la diplomatie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('400' ,'Langage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('401' ,'Philosophie et théorie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('402' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('403' ,'Dictionnaires, encyclopédies, concordances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('404' ,'Sujets particuliers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('405' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('406' ,'Organisations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('407' ,'Enseignement, recherche et sujets connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('408' ,'Le langage chez les différents groupes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('409' ,'Traitement géographique et biographique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('410' ,'Linguistique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('411' ,'Systèmes d''écriture des formes standard des langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('412' ,'Étymologie des formes standard des langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('413' ,'Dictionnaires des formes standard des langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('414' ,'Phonologie et phonétique des formes standard des langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('415' ,'Grammaire et syntaxe des formes standard des langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('416' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('417' ,'Dialectologie. Linguistique historique (diachronique)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('418' ,'Standard usage (Prescriptive linguistics)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('419' ,'Langage structuré autre que le langage parlé et le langage écrit');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('420' ,'Anglais et vieil anglais (anglo-saxon)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('421' ,'Écriture et phonologie de l''anglais standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('422' ,'Étymologie de l''anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('423' ,'Dictionnaires d''anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('424' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('425' ,'Grammaire de l''anglais standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('426' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('427' ,'Variantes historiques et géographiques, variantes locales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('428' ,'Usage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('429' ,'Vieil anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('430' ,'Langues germaniques. Allemand');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('431' ,'Écriture et phonologie de l''allemand standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('432' ,'Étymologie de l''allemand');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('433' ,'Dictionnaires d''allemand');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('434' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('435' ,'Grammaire de l''allemand standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('436' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('437' ,'Variantes historiques et géographiques, variantes locales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('438' ,'Usage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('439' ,'Autres langages germaniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('440' ,'Langues romanes. Français');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('441' ,'Écriture et phonologie du français standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('442' ,'Étymologie du français');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('443' ,'Dictionnaires de français');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('444' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('445' ,'Grammaire français');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('446' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('447' ,'Variantes historiques et géographiques, variantes locales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('448' ,'Usage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('449' ,'Occitan Catalan, Franco-Provençal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('450' ,'Italien, sarde, dalmate, roumain, langues rhéto-romanes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('451' ,'Écriture et phonologie de l''italien standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('452' ,'Étymologie l''italien standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('453' ,'Dictionnaires d''italien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('454' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('455' ,'Grammaire de l''italien standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('456' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('457' ,'Variantes historiques et géographiques, variantes locales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('458' ,'Usage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('459' ,'Roumain et langues rhéto-romanes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('460' ,'Langues espagnole et portugaise');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('461' ,'Écriture et phonologie de l''espagnol standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('462' ,'Étymologie l''espagnol standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('463' ,'Dictionnaires d''espagnol');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('464' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('465' ,'Grammaire de l''espagnol standard');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('466' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('467' ,'Variantes historiques et géographiques, variantes locales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('468' ,'Usage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('469' ,'Langue portugaise');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('470' ,'Langues italiques. Latin');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('471' ,'Écriture et phonologie du latin classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('472' ,'Étymologie du latin classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('473' ,'Dictionnaires de latin');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('474' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('475' ,'Grammaire de latin classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('476' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('477' ,'Latin archaïque, post-classique, populaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('478' ,'Usage du latin classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('479' ,'autres langues italiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('480' ,'Langues helléniques. Grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('481' ,'Écriture et phonologie du grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('482' ,'Étymologie du grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('483' ,'Dictionnaires de grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('484' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('485' ,'Grammaire du grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('486' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('487' ,'Grec post-classique, hellénistique et byzantin');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('488' ,'Usage du grec classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('489' ,'Autres langues helléniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('490' ,'Autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('491' ,'Langues indo-européennes orientales et langues cetiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('492' ,'Langues afro-asiatiques (chamito-sémitiques)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('493' ,'Langues afro-asiatiques non chamitiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('494' ,'Langues ouralo-altaïques, hyperboréennes (paléo-sibériennes) et dravidiennes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('495' ,'Langues de l''Asie de l''Est et du Sud-Est. Langues sino-tibétaines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('496' ,'Langues africaines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('497' ,'Langues indiennes et autochtones de l''Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('498' ,'Langues indiennes de l''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('499' ,'Langues papoues de l''Océanie, langues malayo-polynésiennes, diverses autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('500' ,'Sciences de la nature et mathématiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('501' ,'Philosophie et théorie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('502' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('503' ,'Dictionnaires, encyclopédies, tableaux comparatifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('504' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('505' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('506' ,'Organisations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('507' ,'Étude et enseignement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('508' ,'Histoire naturelle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('509' ,'Étude historique, géographique, relative à des personnes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('510' ,'Mathématiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('511' ,'Principes généraux des mathématiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('512' ,'Algèbre, théorie des nombres');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('513' ,'Arithmétique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('514' ,'Topologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('515' ,'Analyse');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('516' ,'Géométrie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('517' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('518' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('519' ,'Probabilités et mathématiques appliquées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('520' ,'Astronomie et sciences connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('521' ,'Mécanique céleste');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('522' ,'Techniques, équipements, matériels');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('523' ,'Astronomie descriptive');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('524' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('525' ,'Terre (géographie astronomique)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('526' ,'Géographie mathématique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('527' ,'Navigation astronomique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('528' ,'Éphémérides');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('529' ,'Chronologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('530' ,'Physique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('531' ,'Mécanique classique, Mécanique des solides');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('532' ,'Mécanique des fluides, Mécanique des liquides');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('533' ,'Mécanique des gaz');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('534' ,'Son et vibrations associées, Acoustique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('535' ,'Lumière et phénomènes de l''infrarouge et de l''ultraviolet');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('536' ,'Chaleur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('537' ,'Électricité et électronique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('538' ,'Magnétisme');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('539' ,'Physique moderne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('540' ,'Chimie et sciences connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('541' ,'Chimie physique et théorique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('542' ,'Techniques, procédés, appareils, équipement, matériel');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('543' ,'Chimie analytique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('544' ,'Analyse qualitative');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('545' ,'Analyse quantitative');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('546' ,'Chimie minérale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('547' ,'Chimie organique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('548' ,'Cristallographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('549' ,'Minéralogie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('550' ,'Sciences de la Terre');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('551' ,'Géologie, météorologie, hydrologie générale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('552' ,'Pétrologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('553' ,'Géologie économique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('554' ,'Géologie de l''Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('555' ,'Géologie de l''Asie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('556' ,'Géologie de l''Afrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('557' ,'Géologie de l''Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('558' ,'Géologie de l''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('559' ,'Géologie des autres parties du monde');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('560' ,'Paléontologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('561' ,'Paléobotanique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('562' ,'Invertébrés fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('563' ,'Fossiles marins et des bords de mers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('564' ,'Mollusques et molluscoïdes fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('565' ,'Arthropodes fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('566' ,'Cordés fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('567' ,'Vertébrés à sang froid fossiles. Poissons fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('568' ,'Oiseaux fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('569' ,'Mammifères fossiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('570' ,'Sciences de la vie. Biologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('571' ,'Physiologie et sujets voisins');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('572' ,'Biochimie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('573' ,'Anatomie, histologie et physiologie animales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('574' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('575' ,'Anatomie et physiologie végétales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('576' ,'Génétique et évolution');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('577' ,'Écologie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('578' ,'Histoire naturelle des organismes et sujets apparenté');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('579' ,'Micro-organismes, champignons, algues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('580' ,'Plantes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('581' ,'Sujets spécifiques de la biologie végétale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('582' ,'Plantes étudiées en fonction de leurs propriétés végétatives particulières et de leurs fleurs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('583' ,'Magnoliopsidées (Dicotylédones)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('584' ,'Liliopsidées (Monocotylédones)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('585' ,'Pinophytes (Gymnospermes), Coniférales (Conifères)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('586' ,'Cryptogames (plantes sans graine)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('587' ,'Ptéridophytes (plantes vasculaires sans graines, fougères)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('588' ,'Bryophytes (mousses)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('589' ,'Vacant — précédemment foresterie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('590' ,'Animaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('591' ,'Sujets particuliers de la biologie animale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('592' ,'Invertébrés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('593' ,'Divers invertébrés marins et du littoral');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('594' ,'Mollusques et molluscoïdes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('595' ,'Arthropodes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('596' ,'Chordés. Vertébrés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('597' ,'Vertébrés à sang froid. Poissons');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('598' ,'Oiseaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('599' ,'Mammifères');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('600' ,'Technologie (Sciences appliquées)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('601' ,'Philosophie et théorie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('602' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('603' ,'Dictionnaires, encyclopédies, ouvrages comparatifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('604' ,'Dessin industriel. Technique des substances dangereuses');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('605' ,'Publications en séries. Périodiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('606' ,'Organisations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('607' ,'Enseignement, recherche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('608' ,'Inventions et brevets');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('609' ,'Histoire et géographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610' ,'Sciences médicales. Médecine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610.3' ,'Dictionnaires, encyclopédies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610.6' ,'Organisations, gestion, professions médicales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610.7' ,'Étude et enseignement, recherche, soins infirmiers, sujets connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610.72' ,'Recherche médicale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('610.9' ,'Histoire et géographie de la médecine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611' ,'Anatomie humaine, biologie des tissus, cytologie humaine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.1' ,'Appareil cardio-vasculaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.2' ,'Appareil respiratoire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.3' ,'Appareil digestif');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.4' ,'Système lymphatique et glandulaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.6' ,'Appareil génito-urinaire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.7' ,'Organes moteurs et tégumentaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.8' ,'Système nerveux et organes des sens');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.81' ,'Cerveau');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.84' ,'Yeux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.85' ,'Oreilles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('611.9' ,'Anatomie topographique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('612' ,'Physiologie humaine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613' ,'Promotion de la santé');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.1' ,'Rôle de l''environnement naturel');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.2' ,'Diététique : aliments et boissons. Valeurs nutritives des aliments');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.4' ,'Propreté personnelle. Soins de la personne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.5' ,'Rôle de l''environnement non naturel');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.6' ,'Sujets spéciaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.62' ,'Hygiène industrielle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.66' ,'Autodéfense');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.7' ,'Condition physique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.71' ,'Exercice et activités physiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.79' ,'Relaxation, repos, sommeil');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.8' ,'Toxicomanies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('613.9' ,'Contrôle des naissances. Hygiène sexuelle. Procréation médicalement assistée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('614' ,'Santé publique et sujets connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('615' ,'Pharmacologie et thérapeutique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('616' ,'Maladies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('617' ,'Chirurgie et sujets connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('618' ,'Autres branches de la médecine. Gynécologie et obstétrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('619' ,'Médecine expérimentale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('620' ,'Art de l’ingénieur et activités connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('621' ,'Physique appliquée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('622' ,'Génie minier et activités connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('623' ,'Génie militaire et naval');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('624' ,'Génie civil');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('625' ,'Chemins de fer, routes, autoroutes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('626' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('627' ,'Génie hydraulique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('628' ,'Technique sanitaire et municipale. Génie Urbain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('629' ,'Autres branches de l''art de l''ingénieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('630' ,'Agronomie, agriculture et activités connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('631' ,'Techniques spécifiques, équipement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('632' ,'Dégâts causés aux plantes, maladies et parasites');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('633' ,'Champs et cultures');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('634' ,'Vergers, fruits, foresterie. Arboriculture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('635' ,'Produits des jardins (Horticulture). Légumes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('636' ,'Élevage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('637' ,'Industrie laitière');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('638' ,'Élevage d''insects');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('639' ,'Chasse et pêche commerciale, protection de la faune et de la flore');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('640' ,'Économie domestique (arts ménagers). Vie familiale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('641' ,'Nourriture et boisson');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('642' ,'Repas, service à table');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('643' ,'Logement et équipement ménager');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('644' ,'Chauffage et autres équipements');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('645' ,'Mobilier et décoration');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('646' ,'Couture, Vêtement, gestion de la vie personnelle et familiale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('647' ,'Organisation des établissements hôteliers, hôtels, restaurants');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('648' ,'Travaux d''entretien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('649' ,'Puériculture ; soin à domicile des handicapés et des malades');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('650' ,'Gestion de l''entreprise et services auxiliaires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('651' ,'Bureaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('652' ,'Procédés de la communication écrite');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('653' ,'Sténographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('657' ,'Comptabilité');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('658' ,'Gestion des entreprises privées et publiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('659' ,'Publicité et relations publiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('660' ,'Génie chimique (chimie industrielle) et techniques connexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('661' ,'Technologie des produits chimiques industriels (chimie lourde)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('662' ,'Technologie des explosifs, combustibles, produits dérivés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('663' ,'Technologie des boissons');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('664' ,'Technologie des aliments');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('665' ,'Technologie industrielle relative aux huiles, graisses, cires et gaz industriels');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('666' ,'Technologie de la céramique et technologies annexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('667' ,'Nettoyage, industries des colorants');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('668' ,'Technologie des autres produits organiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('669' ,'Métallurgie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('670' ,'Fabrication industrielle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('671' ,'Métallurgie industrielle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('672' ,'Métallurgie des métaux ferreux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('673' ,'Métallurgie des métaux non-ferreux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('674' ,'Technologie du bois, produits du bois, liège');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('675' ,'Technologie du cuir et de la fourrure');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('676' ,'Technologie de la pâte à papier et du papier');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('677' ,'Textiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('678' ,'Élastomères & produits élastomères');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('679' ,'Autres produits faits de matériaux divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('680' ,'Fabrications de produits à usages particuliers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('681' ,'Instruments de précision');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('682' ,'Ferronnerie, petits travaux de forge');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('683' ,'Quincaillerie, serrurerie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('684' ,'Ameublement, bricolage à la maison');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('685' ,'Articles de cuir et de fourrures, produits dérivés');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('686' ,'Imprimerie et activités dérivées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('687' ,'Fabrication de vêtements');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('688' ,'Autres articles, technologie des emballages');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('689' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('690' ,'Bâtiments');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('691' ,'Matériaux de construction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('692' ,'Techniques annexes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('693' ,'Construction de bâtiments de matériaux déterminés et à des fins déterminées');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('694' ,'Utilisation du bois dans la construction, menuiserie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('695' ,'Couverture, toiture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('696' ,'Plomberie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('697' ,'Ingénierie du Chauffage, ventilation et climatisation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('698' ,'Finitions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('699' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('700' ,'Les arts. Beaux-arts et arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('701' ,'Philosophie et théorie des beaux-arts et des arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('702' ,'Ouvrages divers sur les beaux-arts et des arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('703' ,'Dictionnaires, encyclopédies des beaux-arts et des arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('704' ,'Caractères particuliers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('705' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('706' ,'Organisations et commerce');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('707' ,'Étude et enseignement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('708' ,'Galeries, musées, collections d''art');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('709' ,'Histoire et géographie des beaux-arts et des arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('710' ,'Urbanisme. Art du paysage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('711' ,'Aménagement du territoire (urbanisme)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('712' ,'Arts du paysage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('713' ,'Architecture du paysage des voies de communication');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('714' ,'Pièces d''eau dans l''architecture du paysage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('715' ,'Plantes ligneuses dans l''architecture du paysage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('716' ,'Plantes herbacées dans l''architecture du paysage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('717' ,'Mobilier urbain');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('718' ,'Cimetières');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('719' ,'Sites naturels');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('720' ,'Architecture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('721' ,'Construction architecturale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('722' ,'Architecture de l''Antiquité et de l''Orient (jusqu''à 300)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('723' ,'Architecture médiévale (300-1399)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('724' ,'Architecture 1400-...');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('725' ,'Édifices d''usage public');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('726' ,'Édifices religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('727' ,'Édifices destinés à l''éducation et la recherche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('728' ,'Bâtiments d''habitation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('729' ,'Décoration des édifices');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('730' ,'Arts plastiques. Sculpture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('731' ,'Procédés et représentations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('732' ,'Sculpture primitive et orientale, et de l''Occident ancien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('733' ,'Sculpture grecque, étrusque, romaine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('734' ,'Sculpture médiévale, 500-1400');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('735' ,'Sculpture moderne, 1400-...');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('736' ,'Taille, ciselage, sculpture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('737' ,'Numismatique et sigillographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('738' ,'Céramique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('739' ,'Art du métal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('740' ,'Dessin, arts décoratifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('741' ,'Dessin et dessins');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('742' ,'Perspective');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('743' ,'Le dessin et les dessins, classés par sujets');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('744' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('745' ,'Arts décoratifs, arts mineurs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('746' ,'Art et artisanat des textiles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('747' ,'Décoration d''intérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('748' ,'Verre');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('749' ,'Mobiliers et accessoires');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('750' ,'La peinture et les peintures');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('751' ,'Procédés et types de peintures');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('752' ,'Couleur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('753' ,'Sujets allégoriques, mythologiques, symboliques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('754' ,'Scènes de la vie quotidienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('755' ,'Peinture religieuse');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('756' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('757' ,'Représentations de la personne. Portraits');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('758' ,'Autres sujets');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('759' ,'Histoire et géographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('760' ,'Arts graphiques. La gravures et les gravures');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('761' ,'Procédés en relief');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('762' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('763' ,'Lithographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('764' ,'Chromolithographie et sérigraphie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('765' ,'Gravure sur métal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('766' ,'Manière noire, aquatinte');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('767' ,'Eau-forte et pointe sèche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('768' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('769' ,'Estampes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('770' ,'Photographie et photographies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('771' ,'Appareils, équipements, matériels');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('772' ,'Procédés utilisant des sels métalliques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('773' ,'Procédés par pigments');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('774' ,'Holographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('775' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('776' ,'Art numérique. Art par ordinateur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('777' ,'Cinématographie et Vidéographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('778' ,'Différents domaines de la photographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('779' ,'Photographies, recueils de photographies');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('780' ,'Musique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('781' ,'Principes généraux et formes musicales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('782' ,'Musique vocale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('783' ,'Musique pour voix seule. La voix');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('784' ,'Ensembles instrumentaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('785' ,'Ensembles à un seul instrument par partie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('786' ,'Claviers, instruments mécaniques et électriques, percussions');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('787' ,'Instruments à cordes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('788' ,'Instruments à vent');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('789' ,'[vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('790' ,'Loisirs et arts du spectacle. Sports');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('791' ,'Représentations scéniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('792' ,'Théâtre. Représentations sur scène');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('793' ,'Jeux d''intérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('794' ,'Jeux d''habileté d''intérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('795' ,'Jeux de hasard. Jeux de cartes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('796' ,'Sports, jeux athlétiques d''extérieur');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('797' ,'Sports nautiques et aériens');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('798' ,'Sports équestres, courses d''animaux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('799' ,'Pêche, chasse, tir');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('800' ,'Littérature (Belles-lettres) et techniques d''écriture');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('801' ,'Philosophie et théorie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('802' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('803' ,'Dictionnaires, encyclopédies, concordances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('804' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('805' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('806' ,'Organisations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('807' ,'Étude et enseignement');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('808' ,'Rhétorique et recueils');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('809' ,'Histoire, analyse, critiques littéraires générales');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('810' ,'Littérature américaine de langue anglaise');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('811' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('812' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('813' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('814' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('815' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('816' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('817' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('818' ,'Textes divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('819' ,'[Vacant]');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('820' ,'Littératures anglaise et anglo-saxonne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('821' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('822' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('823' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('824' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('825' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('826' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('827' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('828' ,'Textes divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('829' ,'Anglo-saxon. Vieil anglais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('830' ,'Littérature des langues germaniques. Littérature allemande');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('831' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('832' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('833' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('834' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('835' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('836' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('837' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('838' ,'Textes divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('839' ,'Autres littératures germaniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('840' ,'Littérature des langues romanes. Littérature française');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('841' ,'Poésie de langue française');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('842' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.01' ,'La nouvelle');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.06' ,'La bande dessinée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08' ,'les genres romanesques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08.081' ,'Le roman historique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08.083' ,'Le roman social, psychhologique, réaliste');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08.085' ,'Le roman sentimental');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08.087.2',' Le roman à énigme, à suspense, le roman noir');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('843.08.087.6',' La science fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('844' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('845' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('846' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('847' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('848' ,'Écrits divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('849' ,'Littératures provençales et catalanes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('850' ,'Littératures italienne, roumaine, rhéto-romane');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('851' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('852' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('853' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('854' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('855' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('856' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('857' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('858' ,'Textes divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('859' ,'Roumain et rhéto-roman');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('860' ,'Littératures espagnole et portugaise');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('861' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('862' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('863' ,'Fiction');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('864' ,'Essais');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('865' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('866' ,'Correspondance');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('867' ,'Humour, satire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('868' ,'Textes divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('869' ,'Portugais et brésilien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('870' ,'Littératures des langues italiques. Littérature latine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('871' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('872' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('873' ,'Poésie épique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('874' ,'Poésie lyrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('875' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('876' ,'Correspondances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('877' ,'Littérature satirique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('878' ,'Écrits divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('879' ,'Littératures d''autres langues italiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('880' ,'Littératures des langues helléniques. Littérature grecque classique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('881' ,'Poésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('882' ,'Littérature dramatique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('883' ,'Poésie épique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('884' ,'Poésie lyrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('885' ,'Discours');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('886' ,'Correspondances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('887' ,'Littérature satirique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('888' ,'Divers écrits');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('889' ,'Littérature grecque moderne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('890' ,'Littératures des autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('891' ,'Littératures indo-européennes du groupe oriental et littératures celtiques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('892' ,'Littératures afro-asiatiques (chamito-sémitique)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('893' ,'Littératures chamitique et tchadienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('894' ,'Littératures ouralo-altaïque, paléosibérienne, finno-ougriennes (hongroise, finnoise), dravidienne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('895' ,'Littérature des pays d''Asie de l''Est et du Sud-Est');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('896' ,'Littératures africaines');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('897' ,'Littératures des langues indiennes et autochtones d''Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('898' ,'Littératures des langues indiennes et autochtones d''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('899' ,'Littératures des langues non austronésiennes de l''Océanie, des langues austronésiennes, de diverses autres langues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('899.3' ,'Littérature malgache');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('899.92' ,'Basque');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('899.992' ,'Espéranto');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('900' ,'Généralités sur la Géographie et l’Histoire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('901' ,'Philosophie et théorie de l''histoire');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('902' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('903' ,'Dictionnaires, encyclopédies, concordances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('904' ,'Recueils de récits d''événements');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('905' ,'Publications en série');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('906' ,'Organisations');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('907' ,'Enseignement et recherche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('907.2' ,'Recherche, historiographie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('908' ,'Histoire des différents groupes de personnes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('909' ,'Histoire du monde. Civilisation');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910' ,'Géographie et voyages');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910.2' ,'Ouvrages divers');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910.3' ,'Dictionnaires, encyclopédies, concordances');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910.4' ,'Récits de voyage');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910.7' ,'Étude et enseignement. Recherche');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('910.9' ,'Traitement historique, géographie, biographique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('911' ,'Géographie historique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('912' ,'Représentations graphiques de la surface terrestre et des mondes extraterrestres');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('913' ,'Le monde ancien : géographie et voyages');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('914' ,'Géographie de l''Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('915' ,'Géographie de l''Asie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('916' ,'Géographie de l''Afrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('917' ,'Géographie de l''Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('918' ,'Géographie de l''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('919' ,'Géographie des autres parties du monde et des mondes extra-terrestres');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('920' ,'Biographie, généalogie, emblèmes, insignes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('921' ,'Philosophes et psychologues');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('922' ,'Chefs et penseurs religieux. Religieux');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('923' ,'Politiciens, économistes, juristes, enseignants');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('924' ,'Linguistes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('925' ,'Savants');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('927' ,'Artistes. Sportifs');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('928' ,'Écrivains');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('929' ,'Généalogie, onomastique, emblèmes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('930' ,'Histoire générale du monde ancien, jusqu''à 499 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('931' ,'Chine jusqu''à 420 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('932' ,'Égypte jusqu''à 640 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('933' ,'Palestine jusqu''à 70 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('934' ,'Inde jusqu''à 647 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('935' ,'Mésopotamie et Plateau Iranien jusqu''à 637 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('936' ,'Pays d''Europe sirués au nord et à l''ouest de la péninsule Italique jusqu''à 499 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('937' ,'Péninsule Italique et territoires annexes jusqu''à 476 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('938' ,'Grèce jusqu''à 323 apr. J.-C.');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('939' ,'Autres parties du monde ancien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('940' ,'Histoire générale de l’Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('941' ,'Iles britanniques');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('942' ,'Angleterre et Pays de Galles');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('943' ,'Europe centrale. Allemagne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('944' ,'France & Monaco');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('945' ,'Italie, Saint-Marin, Vatican, Malte');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('946' ,'Péninsule Ibérique. Espagne');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('946.9' ,'Portugal');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('947' ,'Russie et pays d''Europe de l''Est');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('948' ,'Europe du Nord. Scandinavie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('949' ,'Autres pays d''Europe');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('950' ,'Histoire générale de l’Asie. Orient. Extrême-Orient');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('951' ,'Chine et territoires adjacents');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('952' ,'Japon et îles adjacentes');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('953' ,'Péninsule Arabique et territoires adjacents');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('954' ,'Asie du Sud. Inde');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('955' ,'Iran');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('956' ,'Moyen-Orient (Proche-Orient)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('957' ,'Sibérie (Russie d''Asie)');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('958' ,'Asie centrale');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('959' ,'Asie du Sud-Est');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('960' ,'Histoire générale de l’Afrique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('961' ,'Tunisie et Libye');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('962' ,'Égypte et Soudan');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('963' ,'Éthiopie et Érythrée');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('964' ,'Maroc. Côtes du Nord-Ouest africain et îles au large');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('965' ,'Algérie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('966' ,'Afrique occidentale et îles au large');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('967' ,'Afrique centrale et îles au large');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('968' ,'Afrique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('969' ,'Îles du sud de L''Océan Indien');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('970' ,'Histoire générale de l’Amérique du Nord');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('971' ,'Canada');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('972' ,'Amérique centrale. Mexique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('973' ,'États-Unis');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('980' ,'Histoire générale de l’Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('981' ,'Brésil');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('982' ,'Argentine');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('983' ,'Chili');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('984' ,'Bolivie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('985' ,'Pérou');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('986' ,'Nord-Ouest de l''Amérique du Sud');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('987' ,'Vénézuela');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('988' ,'Guyane');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('988.2' ,'Guyane française');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('989' ,'Paraguay & Uruguay');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('990' ,'Histoire générale des autres pays du monde. Océanie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('993' ,'Nouvelle-Zélande');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('994' ,'Australie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('995' ,'Nouvelle-Guinée. Mélanésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('996' ,'Autres régions du Pacifique, Polynésie');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('997' ,'Îles de l''Océan Atlantique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('998' ,'Îles de l''Arctique et de l’Antarctique');
+
+1 row created.
+
+SQL> INSERT INTO THEME (noTheme,intituleTheme) VALUES ('999' ,'Mondes extra-terrestres');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	 Livres 	   --
+SQL> --------------------------------
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (0, '813', 0, '1984');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (1, '813', 1, 'Le Seigneur des anneaux - Intégrale');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (2, '812', 2, 'L''Étranger');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (3, '813', 3, 'Voyage au bout de la nuit ');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (4, '813', 4, 'Les Fleurs du mal');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (5, '813', 5, 'La Horde du contrevent');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (6, '813', 6, 'Le Petit Prince');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (7, '813', 7, 'L''Écume des jours');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (8, '813', 8, 'Harry Potter à l''école des sorciers');
+
+1 row created.
+
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '813', 9, 'Dune');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	Utilisateurs	   --
+SQL> --------------------------------
+SQL> insert into Utilisateur (noPersonne,employe) values(1,1);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(2);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(3);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(4);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(5);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(6);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne,employe) values(7,1);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(8);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(9);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(10);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(11);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(12);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(13);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(14);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(15);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne,employe) values(16,1);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(17);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(18);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(19);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(20);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(21);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(22);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(23);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(24);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(25);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(26);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(27);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(28);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(29);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(30);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(31);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(32);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(33);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(34);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(35);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(36);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(37);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(38);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(39);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(40);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(41);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(42);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(43);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(44);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(45);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(46);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(47);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(48);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(49);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(50);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(51);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(52);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(53);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(54);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(55);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(56);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(57);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(58);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(59);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(60);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(61);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(62);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(63);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(64);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(65);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(66);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(67);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(68);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(69);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(70);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(71);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(72);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(73);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(74);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(75);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(76);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(77);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(78);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(79);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(80);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(81);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(82);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(83);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(84);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(85);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(86);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(87);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(88);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(89);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(90);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(91);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(92);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(93);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(94);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(95);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(96);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(97);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(98);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(99);
+
+1 row created.
+
+SQL> insert into Utilisateur (noPersonne) values(100);
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> --        Utilisateurs	   --
+SQL> --------------------------------
+SQL> CREATE SEQUENCE seq_adherent START WITH 1 INCREMENT BY 1 nomaxvalue;
+
+Sequence created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.21.15.51.86','iseeHeehai8');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.88.70.79.25','phiiweip1iD');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.17.46.14.56','Maighud6nu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.68.54.77.42','ahj7eu3A');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.82.36.99.30','PohBah1eesu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.10.03.31.77','Kaide5keing');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.16.13.25.80','Uosh4ahvei');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.90.49.33.49','zieXoon9ae');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.98.41.82.87','IeT8buzei');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.31.07.65.76','xoo0Yeequ');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.41.66.17.80','ieBaikoo7r');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.22.21.08.56','aequ6ieLoo');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.49.49.33.68','Fi7aewoLi9');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.57.81.87.37','vusahBoy8');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.41.24.34.84','ahf2zai2aG');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.78.27.28.08','oe2AhRiez9Oh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.85.18.54.94','sia6Eigou');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.76.11.09.84','sae0loh8RuTh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.78.27.57.92','pheiPheikee3pu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.94.60.46.38','Tob0yaih');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.13.70.99.34','eethae2feD');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.76.12.89.67','seiNi5og8');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.30.29.77.10','iThonai0');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.11.46.49.68','weJey0ow2A');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.41.87.62.35','Yei6aiN6Ef');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.81.08.86.18','Yekae2iey');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.33.08.44.90','aGuquieg7');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.79.65.76.45','Ieng0ohh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.16.62.89.75','aeMaebae0');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.82.89.28.71','eex3uo9Ze');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.57.27.01.01','Etoh3Eethi');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.96.35.05.05','Nee7aZ2roo');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.48.89.74.96','Queiw0ajohng');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.60.47.03.48','ag5OoniBie');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.76.29.91.49','Thiexie9');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.60.67.36.91','chaiZaeth0');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.84.87.17.51','high8Phu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.86.86.58.57','reHoo3ah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.18.92.18.16','Tai7dahveW');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.88.05.50.03','Jooc1Taikeph');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.44.42.00.77','ahsheisoov9U');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.32.54.87.03','oog6FohG');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.86.66.49.67','Uyuqu4ohsh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.90.78.41.24','Iengah9Pa');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.50.33.24.71','eeVi0egee4');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.88.92.81.87','ieJ0acexai');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.27.74.04.93','AithohNge2ie');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.40.65.43.83','eXu4ieHei5');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.87.99.54.49','Eephoocai8oh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.07.44.63.53','aejeeBae4qu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.79.76.02.62','pi9aez2Wah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.18.85.70.76','Vavie1Deed');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.71.29.87.05','ux5mee3Bah8');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.67.32.06.19','EiFe6quing');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.68.92.55.53','Gai1Tahchah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.57.48.44.00','Ioc9geithap');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.05.99.64.41','ooT2ji0u');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.72.50.26.92','oo5Jae6T');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.52.73.47.92','gu6Ohcie6c');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.91.89.90.49','aiz3EoZ0h');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.78.42.15.72','ru1Iep6sho');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.66.14.93.10','aimee2Ree5t');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.84.34.12.07','iefah7Eeno');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.25.52.59.25','oChohtee3qu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.71.71.06.84','uuKiek7Iewah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.24.97.96.42','viechoo1Ay');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.75.89.70.73','eemavieb3Fai');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.27.31.47.99','YohNg2aequ1');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.86.65.20.70','Zei1zae3');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.57.11.93.90','jo1aiGoo');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.29.33.32.33','taet5EghooD');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.68.70.96.53','Wo3jiF1afei');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.07.12.06.40','Ohrie8ooph');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.28.72.49.89','gi5Ou5riH');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.32.81.66.39','hiNgahfe2ie');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.61.05.66.51','se8ahhuK1th');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.22.33.54.86','ooHah8aeph');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.52.65.65.23','ieGahj4ah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.25.16.20.78','ahch7Exae1sh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.58.55.44.24','ke8leiGo8u');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.50.48.50.59','HahYaYai9v');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.27.70.25.58','shemiiPu9i');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.06.51.46.93','jeeH1chaeTie');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.46.90.70.68','ag6KairooZo');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.96.63.23.04','OF8avai2');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.26.96.17.79','oonae7aQu');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.77.09.67.93','eWee1eewei');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.08.40.67.47','Eel7faihaiw');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.05.19.12.92','Maekohn8ba');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.52.28.10.64','ahR2Cai8acah');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.86.27.26.76','gaelei1Thee');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.53.80.02.28','aixaiVa3ie');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'03.15.24.21.46','OhPh5eelof8');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.80.59.03.51','eiW9ohP6ae');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.77.88.89.82','CeeXui6uj7ee');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.10.67.80.15','goi5LeeTh');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.10.44.80.94','Axeezaid0ai');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'04.28.52.22.44','eureiNg3');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.21.16.83.81','mea8choRoG7I');
+
+1 row created.
+
+SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.88.13.35.76','Joy7equoh5');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	 Dettes 	   --
+SQL> --------------------------------
+SQL> insert into Dette (noDette, noPersonne, montantDette, motifDette, dateDette) values (1, 13, 6.00, '2 jours de retard', '2021-2-14 3:15:48');
+
+1 row created.
+
+SQL> insert into Dette (noDette, noPersonne, montantDette, motifDette, dateDette) values (0, 1, 15.00, 'Livre perdu', '2021-7-27 7:20:14');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> --        Emplacements	   --
+SQL> --------------------------------
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (0, 0, '813');
+
+1 row created.
+
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (1, 0, '100');
+
+1 row created.
+
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (2, 0, '813');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	Employés	   --
+SQL> --------------------------------
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (7, 0, 'BIBLIOTHECAIRE');
+
+1 row created.
+
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (1, 0, 'RESPONSABLE');
+
+1 row created.
+
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (16, 0, 'BIBLIOTHECAIRE');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	Exemplaire	   --
+SQL> --------------------------------
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (1, 0, 7, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (17, 0, 5, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (5, 0, 3, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (3, 0, 8, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (19, 0, 0, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (6, 0, 2, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (0, 0, 1, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (11, 0, 6, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (8, 0, 9, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (18, 0, 5, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (16, 0, 0, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (10, 0, 7, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (15, 0, 6, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (2, 0, 9, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (14, 0, 1, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (4, 0, 3, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (13, 0, 4, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (12, 0, 8, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (9, 0, 2, '');
+
+1 row created.
+
+SQL> insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExemplaire) values (7, 0, 4, '');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	  Prêts 	   --
+SQL> --------------------------------
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (6, '1554-3-6 6:9:54', 1,7 , 7);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (16, '1361-2-17 5:17:51', 17, 5, 51);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (19, '372-11-17 1:46:26', 5, 3, 24);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (1, '547-10-5 2:15:6', 3, 8, 77);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (13, '2009-4-30 8:6:14', 19, 0, 16);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (14, '451-1-17 2:1:59', 6, 2, 12);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (10, '1451-7-25 5:46:14', 0, 1, 8);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (0, '1248-10-11 4:55:26', 11, 6, 11);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (15, '294-4-20 1:11:23', 8, 9, 8);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (3, '187-1-26 1:45:46', 18, 5, 14);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (7, '1753-1-11 7:8:49', 16, 0, 61);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (9, '916-2-12 3:39:26', 10, 7, 14);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (5, '1693-2-7 6:38:53', 15, 6, 6);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (11, '1042-9-19 4:13:26', 2, 9, 6);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (8, '2021-1-1 1:0:0', 14, 1, 47);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (12, '1188-9-25 4:32:47', 4, 3, 15);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (18, '676-4-25 2:45:34', 13, 4, 43);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (17, '820-6-12 3:9:59', 12, 8, 82);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (2, '63-9-3 1:14:39', 9, 2, 25);
+
+1 row created.
+
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (4, '1863-3-3 7:30:36', 7, 4, 28);
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> -- 	Paiements	   --
+SQL> --------------------------------
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (0, 10, '2021-12-2 2:11:50', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (1, 10, '2021-8-19 5:43:48', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (2, 10, '2021-8-3 1:41:1', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (3, 10, '2021-3-14 1:23:6', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (4, 10, '2021-5-1 7:51:57', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (5, 10, '2021-8-17 4:8:57', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (6, 10, '2021-1-25 6:38:40', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (7, 10, '2021-5-12 1:8:41', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (8, 10, '2021-3-23 8:30:24', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (9, 10, '2021-9-29 2:51:27', 'COTIS');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (10, 0, 15, '2021-7-27 7:23:14', 'DETTE');
+
+1 row created.
+
+SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (11, 1, 6, '2021-2-14 4:15:48', 'DETTE');
+
+1 row created.
+
+SQL> 
+SQL> --------------------------------
+SQL> --    Historique des prêts    --
+SQL> --------------------------------
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (1, 6, '1037-4-27 3:51:6');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (8, 16, '733-2-21 2:27:41');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (2, 19, '1192-3-11 4:48:19');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (11, 1, '1774-10-3 7:12:52');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (12, 13, '648-1-16 2:5:28');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (0, 14, '1576-9-7 6:11:43');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (16, 10, '1-1-1 1:0:0');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (15, 0, '135-7-1 1:19:24');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (19, 15, '792-5-16 3:3:10');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (6, 3, '1291-2-25 5:18:46');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (10, 7, '1104-1-7 4:29:17');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (9, 9, '911-9-29 3:19:27');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (5, 5, '532-9-11 1:39:8');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (17, 11, '387-12-4 1:18:31');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (13, 8, '244-5-30 1:33:32');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (3, 12, '329-10-7 1:53:10');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (7, 18, '1434-12-6 5:42:10');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (18, 17, '1903-7-11 7:34:6');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (4, 2, '1669-7-26 6:34:40');
+
+1 row created.
+
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (14, 4, '1037-4-27 3:51:6');
+
+1 row created.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- On interprete  les &  comme variable de substitution
+SQL> set define on
+SQL> @req_bibliotheque.sql
+SQL> --/***************************************************************
+SQL> --Script req_delice_TODO.sql
+SQL> --***************************************************************/
+SQL> -- On interprete  les &  comme variable de substitution
+SQL> set define on
+SQL> 
+SQL> -- affichage des substitutions de variable
+SQL> set verify on
+SQL> 
+SQL> --2.1.1
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par dï¿½faut
+SQL> spool off

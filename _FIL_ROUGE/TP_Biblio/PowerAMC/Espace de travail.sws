@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?PowerDesigner signature="Workspace" version="15.1.0.2850"?>
+<!-- Veuillez ne pas modifier ce fichier -->
+
+<Workspace>
+	<Local Expanded="Yes">
+		<Folder Name="DAB">
+			<Model Expanded="Yes" ID="{9F166057-33D4-4BB5-9E90-2926C9F90A17}" Loaded="No" Name="DAB_MOO" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="TP_DAB/DAB_MOO.moo"/>
+		</Folder>
+		<Folder Expanded="Yes" Name="Biblio">
+			<Model ID="{81D77478-077D-4AEB-AA4A-E98531CE03D5}" Loaded="No" Name="Biblio_MCD" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="TP_Biblio/Biblio_MCD.mcd"/>
+			<Model ID="{1C24C5CE-349A-461D-A996-8C9362B59007}" Loaded="No" Name="BIBLIO_MPD" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="TP_Biblio/BIBLIO_MPD.mpd"/>
+			<Model Expanded="Yes" ID="{142B2DAB-7E77-49B4-9F0B-0B7A9A75C20B}" Name="MOO Bibliothèque" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="TP_Biblio/Bibliotheque.moo"/>
+		</Folder>
+		<Folder Name="StationEssence">
+			<Model ID="{6FE2BF75-A7A6-4A2B-9633-7E93ECDC82A7}" Loaded="No" Name="StationEssence" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="TP_StationEssence/StationEssence.moo"/>
+		</Folder>
+	</Local>
+	<BrowserModule Name="Référentiel"/>
+</Workspace>
