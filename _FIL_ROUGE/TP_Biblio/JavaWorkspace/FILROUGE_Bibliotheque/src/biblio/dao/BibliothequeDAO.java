@@ -35,7 +35,7 @@ public class BibliothequeDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Bibliotheque findBibliothequeByKey(int noBibliotheque) throws SQLException {
+	public Bibliotheque findByKey(int noBibliotheque) throws SQLException {
 		Bibliotheque result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from bibliotheque where noBibliotheque = ?");
@@ -53,7 +53,7 @@ public class BibliothequeDAO {
 		return result;
 	}
 
-	public Collection<Bibliotheque> findAllBibliotheques() throws SQLException {
+	public Collection<Bibliotheque> findAll() throws SQLException {
 		Collection<Bibliotheque> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -69,7 +69,7 @@ public class BibliothequeDAO {
 		return result;
 	}
 
-	public boolean insertBibliotheque(Bibliotheque biblio) throws SQLException {
+	public boolean insert(Bibliotheque biblio) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("INSERT INTO Bibliotheque (noBibliotheque,adresse) VALUES (?,?)");
 		pstmt.setInt(1, biblio.getNoBibliotheque());
 		pstmt.setString(2, biblio.getAdresse());
@@ -78,7 +78,7 @@ public class BibliothequeDAO {
 		return result > 0;
 	}
 
-	public boolean updateBibliotheque(Bibliotheque biblio) throws SQLException {
+	public boolean update(Bibliotheque biblio) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("UPDATE Bibliotheque SET adresse = ? WHERE noBibliotheque = ?");
 		pstmt.setString(1, biblio.getAdresse());
 		pstmt.setInt(2, biblio.getNoBibliotheque());
@@ -87,7 +87,7 @@ public class BibliothequeDAO {
 		return result > 0;
 	}
 
-	public boolean deleteBibliotheque(Bibliotheque biblio) throws SQLException {
+	public boolean delete(Bibliotheque biblio) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("DELETE FROM Bibliotheque WHERE noBibliotheque = ?");
 		pstmt.setInt(1, biblio.getNoBibliotheque());
 		int result = pstmt.executeUpdate();

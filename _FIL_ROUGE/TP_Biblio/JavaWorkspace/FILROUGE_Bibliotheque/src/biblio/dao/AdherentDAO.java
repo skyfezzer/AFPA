@@ -34,11 +34,11 @@ public class AdherentDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Adherent findAdherentByKey(int noPersonne) throws SQLException {
+	public Adherent findByKey(int noPersonne) throws SQLException {
 		Adherent result = null;
 		ResultSet rs = null;
-		String req = "SELECT * FROM ADHERENT A " + "LEFT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = A.NOPERSONNE "
-				+ "WHERE A.NOPERSONNE = ?";
+		String req = "SELECT * FROM ADHERENT A " + "RIGHT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = A.NOPERSONNE "
+				+ "WHERE U.NOPERSONNE = ?";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
 		pstmt.setInt(1, noPersonne);
 
@@ -59,13 +59,11 @@ public class AdherentDAO {
 	}
 
 	// function that returns a List of all Adherents from Adherent table
-	public Collection<Adherent> findAllAdherents() throws SQLException {
+	public Collection<Adherent> findAll() throws SQLException {
 		Collection<Adherent> result = new ArrayList<Adherent>();
 		ResultSet rs = null;
-		String req = "SELECT * FROM ADHERENT A " + "LEFT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = A.NOPERSONNE "
-				+ "WHERE U.EMPLOYE = 0";
+		String req = "SELECT * FROM ADHERENT A " + "RIGHT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = A.NOPERSONNE";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
-
 		if (pstmt.execute()) {
 			rs = pstmt.getResultSet();
 			while (rs.next()) {
@@ -84,7 +82,7 @@ public class AdherentDAO {
 	}
 
 	// function to insert a new Adherent in the database
-	public boolean insertAdherent(Adherent adherent) throws SQLException {
+	public boolean insert(Adherent adherent) throws SQLException {
 		String req = "INSERT INTO UTILISATEUR (NOPERSONNE, NOM, PRENOM) VALUES (?, ?, ?)";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
 		pstmt.setInt(1, adherent.getNoPersonne());
@@ -100,7 +98,6 @@ public class AdherentDAO {
 		pstmt.setInt(1, adherent.getNoPersonne());
 		pstmt.setString(2, adherent.getNoTelAdherent());
 		pstmt.setString(3, adherent.getPin());
-		pstmt.executeUpdate();
 		executed = pstmt.executeUpdate() > 0;
 		pstmt.close();
 		return executed;
@@ -108,7 +105,7 @@ public class AdherentDAO {
 	}
 
 	// function to update an existing Adherent in the database
-	public boolean updateAdherent(Adherent adherent) throws SQLException {
+	public boolean update(Adherent adherent) throws SQLException {
 		String req = "UPDATE UTILISATEUR SET NOM = ?, PRENOM = ? WHERE NOPERSONNE = ?";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
 		pstmt.setString(1, adherent.getNom());
@@ -130,7 +127,11 @@ public class AdherentDAO {
 	}
 
 	// function to delete an existing Adherent from adherent table
-	public boolean deleteAdherent(int noPersonne) throws SQLException {
+	public boolean delete(Adherent adherent) throws SQLException {
+		return delete(adherent.getNoPersonne());
+	}
+	
+	public boolean delete(int noPersonne) throws SQLException {
 		String req = "DELETE FROM ADHERENT WHERE NOPERSONNE = ?";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
 		pstmt.setInt(1, noPersonne);

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import biblio.domain.Bibliotheque;
 import biblio.domain.Emplacement;
 
 
@@ -45,7 +47,7 @@ public class EmplacementDAO {
 		this.cnx = cnx;
 	}
 	
-	public Emplacement findEmplacementByKey(int noEmplacement) throws SQLException {
+	public Emplacement findByKey(int noEmplacement) throws SQLException {
 		Emplacement result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from emplacement where noEmplacement = ?");
@@ -63,8 +65,11 @@ public class EmplacementDAO {
 		return result;
 	}
 	
+	public Collection<Emplacement> findAllByBibliotheque(Bibliotheque bibliotheque) throws SQLException{
+		return findAllByBibliotheque(bibliotheque.getNoBibliotheque());
+	}
 	
-	public Collection<Emplacement> findAllEmplacementsByBibliotheque(int noBibliotheque) throws SQLException{
+	public Collection<Emplacement> findAllByBibliotheque(int noBibliotheque) throws SQLException{
 		Collection<Emplacement> result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from emplacement where noBibliotheque = ?");
@@ -84,7 +89,7 @@ public class EmplacementDAO {
 		return result;
 	}
 	
-	public boolean insertEmplacement(Emplacement emplacement) throws SQLException {
+	public boolean insert(Emplacement emplacement) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("INSERT INTO Emplacement (noEmplacement,noBibliotheque,noTheme) VALUES (?,?,?)");
 		pstmt.setInt(1, emplacement.getNoEmplacement());
 		pstmt.setInt(2, emplacement.getBibliotheque().getNoBibliotheque());
@@ -94,7 +99,7 @@ public class EmplacementDAO {
 		return result > 0;
 	}
 	
-	public boolean updateEmplacement(Emplacement emplacement) throws SQLException {
+	public boolean update(Emplacement emplacement) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("UPDATE Emplacement SET noBibliotheque = ?, noTheme = ? WHERE noEmplacement = ?");
 		pstmt.setInt(1, emplacement.getBibliotheque().getNoBibliotheque());
 		pstmt.setString(2, emplacement.getTheme().getNoTheme());
@@ -104,7 +109,7 @@ public class EmplacementDAO {
 		return result > 0;
 	}
 	
-	public boolean deleteEmplacement(Emplacement emplacement) throws SQLException {
+	public boolean delete(Emplacement emplacement) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("DELETE FROM Emplacement WHERE noEmplacement = ?");
 		pstmt.setInt(1, emplacement.getNoEmplacement());
 		int result = pstmt.executeUpdate();

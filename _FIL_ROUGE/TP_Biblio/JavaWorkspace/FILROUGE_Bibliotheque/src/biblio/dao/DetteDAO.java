@@ -35,7 +35,7 @@ public class DetteDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Dette findDetteByKey(int noDette) throws SQLException {
+	public Dette findByKey(int noDette) throws SQLException {
 		Dette result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from Dette where noDette = ?");
@@ -53,7 +53,7 @@ public class DetteDAO {
 		return result;
 	}
 
-	public Collection<Dette> findAllDettes() throws SQLException {
+	public Collection<Dette> findAll() throws SQLException {
 		Collection<Dette> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -69,7 +69,7 @@ public class DetteDAO {
 		return result;
 	}
 
-	public boolean insertDette(Dette dette) throws SQLException {
+	public boolean insert(Dette dette) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("INSERT INTO Dette (noDette,noPersonne,montantDette,motifDette,dateDette) VALUES (?,?,?,?,?)");
 		pstmt.setInt(1, dette.getNoDette());
 		pstmt.setInt(2, dette.getAdherent().getNoPersonne());
@@ -81,7 +81,7 @@ public class DetteDAO {
 		return result > 0;
 	}
 
-	public boolean updateDette(Dette dette) throws SQLException {
+	public boolean update(Dette dette) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("UPDATE Dette SET noPersonne = ?, montantDette = ?, motifDette = ?, dateDette = ? WHERE noDette = ?");
 		pstmt.setInt(1, dette.getAdherent().getNoPersonne());
 		pstmt.setFloat(2, dette.getMontantDette());
@@ -93,7 +93,7 @@ public class DetteDAO {
 		return result > 0;
 	}
 
-	public boolean deleteDette(Dette dette) throws SQLException {
+	public boolean delete(Dette dette) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("DELETE FROM Dette WHERE noDette = ?");
 		pstmt.setInt(1, dette.getNoDette());
 		int result = pstmt.executeUpdate();

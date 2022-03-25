@@ -14,27 +14,25 @@ public class ChargerPropertiesController {
         this.propertiesFileName = propertiesFileName;
     }
 
-    public boolean loadProperties() {
+    public boolean chargerProperties() throws IOException {
         Properties prop = new Properties();
-		try (InputStream input = MonApp.class.getClassLoader().getResourceAsStream(propertiesFileName)) {
-
-			// load a properties file
-			prop.load(input);
-			this.properties = prop;
-
-			// get the property values
-			this.driver = prop.getProperty("driver");
-			this.url = prop.getProperty("url");
-			this.user = prop.getProperty("user");
-			if ((password = prop.getProperty("pwd")) == null) {
-				password = JOptionPane.showInputDialog("Mot de passe JDBC pour le user " + user + " :");
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			System.err.println("Erreur de chargement du fichier properties.");
-			JOptionPane.showMessageDialog(null, "Erreur de chargement du fichier properties.", "Erreur", JOptionPane.ERROR_MESSAGE);
-			return false;
+		InputStream input = MonApp.class.getClassLoader().getResourceAsStream(propertiesFileName);
+		if(input == null) {
+			JOptionPane.showMessageDialog(null, "Cannot load the properties file", "Error", JOptionPane.ERROR_MESSAGE);
+			throw new IOException("Cannot load the properties file");
 		}
+		// load a properties file
+		prop.load(input);
+		this.properties = prop;
+
+		// get the property values
+		this.driver = prop.getProperty("driver");
+		this.url = prop.getProperty("url");
+		this.user = prop.getProperty("user");
+		if ((password = prop.getProperty("pwd")) == null) {
+			password = JOptionPane.showInputDialog("Mot de passe JDBC pour le user " + user + " :");
+		}
+		
         return true;
 	}
 

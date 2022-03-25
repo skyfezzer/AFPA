@@ -38,7 +38,7 @@ public class AuteurDAO {
 	 * ======================
 	 */
 	
-	public Auteur findAuteurByKey(int noAuteur) throws SQLException {
+	public Auteur findByKey(int noAuteur) throws SQLException {
 		Auteur result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from Auteur where noAuteur = ?");
@@ -56,7 +56,7 @@ public class AuteurDAO {
 		return result;
 	}
 
-	public Collection<Auteur> findAllAuteurs() throws SQLException {
+	public Collection<Auteur> findAll() throws SQLException {
 		Collection<Auteur> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -72,7 +72,7 @@ public class AuteurDAO {
 		return result;
 	}
 	
-	public boolean insertAuteur(Auteur auteur) throws SQLException {
+	public boolean insert(Auteur auteur) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("INSERT INTO Auteur(noAuteur,nomCompletAuteur) VALUES (?,?)");
 		pstmt.setInt(1,auteur.getNoAuteur());
 		pstmt.setString(2, auteur.getNomCompletAuteur());
@@ -81,7 +81,7 @@ public class AuteurDAO {
 		return result > 0;
 	}
 	
-	public boolean updateAuteur(Auteur auteur) throws SQLException {
+	public boolean update(Auteur auteur) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("UPDATE Auteur SET nomCompletAuteur = ? WHERE noAuteur = ?");
 		pstmt.setInt(2, auteur.getNoAuteur());
 		pstmt.setString(1, auteur.getNomCompletAuteur());
@@ -90,7 +90,7 @@ public class AuteurDAO {
 		return result > 0;
 	}
 	
-	public boolean deleteAuteur(Auteur auteur) throws SQLException {
+	public boolean delete(Auteur auteur) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("DELETE FROM Auteur WHERE noAuteur = ?");
 		pstmt.setInt(1,auteur.getNoAuteur());
 		int result = pstmt.executeUpdate();

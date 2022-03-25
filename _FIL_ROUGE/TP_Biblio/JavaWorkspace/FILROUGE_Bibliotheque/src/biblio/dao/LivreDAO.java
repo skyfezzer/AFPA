@@ -41,7 +41,7 @@ public class LivreDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Livre findLivreByKey(Integer ISBNLivre) throws SQLException {
+	public Livre findByKey(Integer ISBNLivre) throws SQLException {
 		Livre result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx
@@ -60,7 +60,7 @@ public class LivreDAO {
 		return result;
 	}
 
-	public Collection<Livre> findAllLivres() throws SQLException {
+	public Collection<Livre> findAll() throws SQLException {
 		Collection<Livre> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -76,7 +76,7 @@ public class LivreDAO {
 		return result;
 	}
 
-	public boolean insertLivre(Livre livre) throws SQLException {
+	public boolean insert(Livre livre) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"INSERT INTO Livre (ISBNLivre,noTheme,noAuteur,titreLivre) VALUES (?,?,?,?)");
 		pstmt.setInt(1, livre.getiSBNLivre());
@@ -89,7 +89,7 @@ public class LivreDAO {
 		return result > 0;
 	}
 
-	public boolean updateLivre(Livre livre) throws SQLException {
+	public boolean update(Livre livre) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"UPDATE Livre SET noTheme=?,noAuteur=?,titreLivre=? WHERE ISBNLivre = ?");
 		pstmt.setString(1, livre.getTheme().getNoTheme());
@@ -102,7 +102,7 @@ public class LivreDAO {
 		return result > 0;
 	}
 
-	public boolean deleteLivre(Livre livre) throws SQLException {
+	public boolean delete(Livre livre) throws SQLException {
 		PreparedStatement pstmt = cnx
 				.prepareStatement("DELETE FROM Livre WHERE ISBNLivre = ?");
 		pstmt.setInt(1, livre.getiSBNLivre());

@@ -36,7 +36,7 @@ public class EmployeDAO {
      * ====================== = METHUDES CRUD = ======================
      */
 
-    public Employe findEmployeByKey(int noPersonne) throws SQLException {
+    public Employe findByKey(int noPersonne) throws SQLException {
         Employe result = null;
         ResultSet rs = null;
         String req = "SELECT * FROM EMPLOYE E " + "LEFT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = E.NOPERSONNE "
@@ -60,7 +60,7 @@ public class EmployeDAO {
     }
 
     // function that return a Collection of all Employe in Employe table.
-    public Collection<Employe> findAllEmploye() throws SQLException {
+    public Collection<Employe> findAll() throws SQLException {
         Collection<Employe> result = new ArrayList<Employe>();
         ResultSet rs = null;
         String req = "SELECT * FROM EMPLOYE E " + "LEFT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = E.NOPERSONNE ";
@@ -84,7 +84,7 @@ public class EmployeDAO {
     }
 
     // insert a new Employe into Employe table.
-    public boolean insertEmploye(Employe employe) throws SQLException {
+    public boolean insert(Employe employe) throws SQLException {
         String req = "INSERT INTO UTILISATEUR (NOPERSONNE, NOM, PRENOM, EMPLOYE) VALUES (?, ?, ?, ?)";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
 		pstmt.setInt(1, employe.getNoPersonne());
@@ -107,7 +107,7 @@ public class EmployeDAO {
     }
 
     // update an Employe in Employe table.
-    public boolean updateEmploye(Employe employe) throws SQLException {
+    public boolean update(Employe employe) throws SQLException {
         String req = "UPDATE UTILISATEUR SET NOM = ?, PRENOM = ? WHERE NOPERSONNE = ?";
         PreparedStatement pstmt = cnx.prepareStatement(req);
         pstmt.setString(1, employe.getNom());
@@ -129,7 +129,7 @@ public class EmployeDAO {
     }
 
     // delete an Employe from Employe then Utilisateur tables.
-    public boolean deleteEmploye(Employe employe) throws SQLException {
+    public boolean delete(Employe employe) throws SQLException {
         String req = "DELETE FROM EMPLOYE WHERE NOPERSONNE = ?";
         PreparedStatement pstmt = cnx.prepareStatement(req);
         pstmt.setInt(1, employe.getNoPersonne());

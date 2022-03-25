@@ -42,7 +42,7 @@ public class PretDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Pret findPretByKey(Integer noPret) throws SQLException {
+	public Pret findByKey(Integer noPret) throws SQLException {
 		Pret result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from Pret where noPret = ?");
@@ -61,7 +61,7 @@ public class PretDAO {
 		return result;
 	}
 
-	public Collection<Pret> findAllPretsByUtilisateur(Utilisateur utilisateur) throws SQLException {
+	public Collection<Pret> findAllByUtilisateur(Utilisateur utilisateur) throws SQLException {
 		Collection<Pret> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -78,7 +78,7 @@ public class PretDAO {
 		return result;
 	}
 	
-	public Collection<Pret> findAllPrets() throws SQLException {
+	public Collection<Pret> findAll() throws SQLException {
 		Collection<Pret> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -95,7 +95,7 @@ public class PretDAO {
 		return result;
 	}
 
-	public boolean insertPret(Pret pret) throws SQLException {
+	public boolean insert(Pret pret) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"INSERT INTO Pret (noPret,dateEmprunt,codeExemplaire,ISBNLivre,noPersonne,dureePret) VALUES (?,?,?,?,?,?)");
 		pstmt.setInt(1, pret.getNoPret());
@@ -109,7 +109,7 @@ public class PretDAO {
 		return result > 0;
 	}
 
-	public boolean updatePret(Pret pret) throws SQLException {
+	public boolean update(Pret pret) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"UPDATE Pret SET dateEmprunt=?,codeExemplaire=?,ISBNLivre=?,noPersonne=?,dureePret=? WHERE noPret = ?");
 		pstmt.setInt(6, pret.getNoPret());
@@ -123,7 +123,7 @@ public class PretDAO {
 		return result > 0;
 	}
 
-	public boolean deletePret(Pret pret) throws SQLException {
+	public boolean delete(Pret pret) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement("DELETE FROM Pret WHERE noPret = ?");
 		pstmt.setInt(1, pret.getNoPret());
 		int result = pstmt.executeUpdate();

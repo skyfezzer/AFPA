@@ -42,11 +42,13 @@ public class ExemplaireDAO {
 	/*
 	 * ====================== = METHUDES CRUD = ======================
 	 */
-	public Exemplaire findExemplaireByKey(Livre livre, Integer codeExemplaire) throws SQLException {
-		return this.findExemplaireByKey(livre.getiSBNLivre(), codeExemplaire);
+	public Exemplaire findByKey(Livre livre, Integer codeExemplaire) throws SQLException {
+		Exemplaire result = this.findByKey(livre.getiSBNLivre(), codeExemplaire);
+		result.setLivre(livre);
+		return result;
 	}
 	
-	public Exemplaire findExemplaireByKey(Integer isbnLivre, Integer codeExemplaire) throws SQLException {
+	public Exemplaire findByKey(Integer isbnLivre, Integer codeExemplaire) throws SQLException {
 		Exemplaire result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx
@@ -67,7 +69,28 @@ public class ExemplaireDAO {
 		return result;
 	}
 
-	public Collection<Exemplaire> findAllExemplaires() throws SQLException {
+	// find All exemplaires with matching ISBN from Livre parameter
+	public List<Exemplaire> findAll(Livre livre) throws SQLException {
+		List<Exemplaire> result = new ArrayList<Exemplaire>();
+		ResultSet rs = null;
+		PreparedStatement pstmt = cnx
+				.prepareStatement("select * from Exemplaire where ISBNLivre = ?");
+		pstmt.setInt(1, livre.getiSBNLivre());
+
+		if (pstmt.execute()) {
+			rs = pstmt.getResultSet();
+			while (rs.next()) {
+				result.add(new Exemplaire(rs.getShort("codeExemplaire"), rs.getString("commentaireExemplaire"), null,
+						null));
+			}
+		}
+		rs.close();
+		pstmt.close();
+
+		return result;
+	}
+
+	public Collection<Exemplaire> findAll() throws SQLException {
 		Collection<Exemplaire> result = null;
 
 		Statement stmt = cnx.createStatement();
@@ -84,7 +107,7 @@ public class ExemplaireDAO {
 		return result;
 	}
 
-	public boolean insertExemplaire(Exemplaire exemplaire) throws SQLException {
+	public boolean insert(Exemplaire exemplaire) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"INSERT INTO Exemplaire (ISBNLivre,codeExemplaire,noEmplacement,commentaireExemplaire) VALUES (?,?,?,?)");
 		pstmt.setInt(1, exemplaire.getLivre().getiSBNLivre());
@@ -97,7 +120,7 @@ public class ExemplaireDAO {
 		return result > 0;
 	}
 
-	public boolean updateExemplaire(Exemplaire exemplaire) throws SQLException {
+	public boolean update(Exemplaire exemplaire) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(
 				"UPDATE Exemplaire SET noEmplacement=?,commentaireExemplaire=? WHERE ISBNLivre = ? AND codeExemplaire = ?");
 		pstmt.setInt(1, exemplaire.getEmplacement().getNoEmplacement());
@@ -110,7 +133,7 @@ public class ExemplaireDAO {
 		return result > 0;
 	}
 
-	public boolean deleteExemplaire(Exemplaire exemplaire) throws SQLException {
+	public boolean delete(Exemplaire exemplaire) throws SQLException {
 		PreparedStatement pstmt = cnx
 				.prepareStatement("DELETE FROM Exemplaire WHERE ISBNLivre = ? AND codeExemplaire = ?");
 		pstmt.setInt(1, exemplaire.getLivre().getiSBNLivre());
