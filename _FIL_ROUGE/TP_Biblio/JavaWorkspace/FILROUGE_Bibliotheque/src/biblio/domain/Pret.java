@@ -51,98 +51,79 @@ public class Pret {
 	 */
 	/** @pdRoleInfo migr=no name=Utilisateur assc=attribuer mult=1..1 */
 	public Utilisateur utilisateur;
-
-	/** @pdGenerated default parent getter */
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
-	}
-
-	/**
-	 * @pdGenerated default parent setter
-	 * @param newUtilisateur
-	 */
-	public void setUtilisateur(Utilisateur newUtilisateur) {
-		if (this.utilisateur == null || !this.utilisateur.equals(newUtilisateur)) {
-			if (this.utilisateur != null) {
-				Utilisateur oldUtilisateur = this.utilisateur;
-				this.utilisateur = null;
-				oldUtilisateur.removeLesPrets(this);
-			}
-			if (newUtilisateur != null) {
-				this.utilisateur = newUtilisateur;
-				this.utilisateur.addLesPrets(this);
-			}
-		}
-	}
-
 	/**
 	 * @return the noPret
 	 */
 	public Integer getNoPret() {
 		return noPret;
 	}
-
 	/**
 	 * @param noPret the noPret to set
 	 */
 	public void setNoPret(Integer noPret) {
 		this.noPret = noPret;
 	}
-
 	/**
 	 * @return the dateEmprunt
 	 */
 	public Date getDateEmprunt() {
 		return dateEmprunt;
 	}
-
 	/**
 	 * @param dateEmprunt the dateEmprunt to set
 	 */
 	public void setDateEmprunt(Date dateEmprunt) {
 		this.dateEmprunt = dateEmprunt;
 	}
-
 	/**
 	 * @return the dureePret
 	 */
 	public Integer getDureePret() {
 		return dureePret;
 	}
-
 	/**
 	 * @param dureePret the dureePret to set
 	 */
 	public void setDureePret(Integer dureePret) {
 		this.dureePret = dureePret;
 	}
-
-	/**
-	 * @return the historique_rendu
-	 */
-	public HistoPret getHistorique_rendu() {
-		return historique_rendu;
-	}
-
-	/**
-	 * @param historique_rendu the historique_rendu to set
-	 */
-	public void setHistorique_rendu(HistoPret historique_rendu) {
-		this.historique_rendu = historique_rendu;
-	}
-
 	/**
 	 * @return the exemplaire
 	 */
 	public Exemplaire getExemplaire() {
 		return exemplaire;
 	}
-
 	/**
 	 * @param exemplaire the exemplaire to set
 	 */
 	public void setExemplaire(Exemplaire exemplaire) {
 		this.exemplaire = exemplaire;
 	}
+	/**
+	 * @return the historique_rendu
+	 */
+	public HistoPret getHistorique_rendu() {
+		return historique_rendu;
+	}
+	/**
+	 * @param historique_rendu the historique_rendu to set
+	 */
+	public void setHistorique_rendu(HistoPret historique_rendu) {
+		this.historique_rendu = historique_rendu;
+	}
+	/**
+	 * @return the utilisateur
+	 */
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+	/**
+	 * @param utilisateur the utilisateur to set
+	 */
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
+	
 
 }

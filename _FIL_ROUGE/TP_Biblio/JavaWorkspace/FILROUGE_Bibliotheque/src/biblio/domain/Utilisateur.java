@@ -9,7 +9,7 @@ package biblio.domain;
 import java.util.*;
 
 /** @pdOid ae25ba2a-475a-4ee4-bed1-0a6b08bf0710 */
-public class Utilisateur extends Personne {
+public abstract class Utilisateur{
 	/**
 	 * Un prêt est attribué à un et un seul utilisateur. Un utilisateur peut
 	 * réaliser de 0 à plusieurs emprunts.
@@ -20,77 +20,35 @@ public class Utilisateur extends Personne {
 	 */
 	public java.util.Collection<Pret> lesPrets;
 	private Short employe;
-
+	private String nom, prenom;
+	private Integer noPersonne;
+	
 	public Utilisateur(Integer noPersonne, String nom, String prenom, Short employe) {
-		super(noPersonne, nom, prenom);
-		this.setEmploye(employe);
+		this(noPersonne,nom,prenom,employe,null);
 	}
-	public Utilisateur(Integer noPersonne, String nom, String prenom) {
-		this(noPersonne,nom,prenom,null);
+	
+	
+	public Utilisateur(Integer noPersonne, String nom, String prenom, Short employe, Collection<Pret> lesPrets) {
+		super();
+		this.noPersonne = noPersonne;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.employe = employe;
+		this.lesPrets = lesPrets;
 	}
-	/** @pdGenerated default getter */
+
+
+	/**
+	 * @return the lesPrets
+	 */
 	public java.util.Collection<Pret> getLesPrets() {
-		if (lesPrets == null)
-			lesPrets = new java.util.ArrayList<Pret>();
 		return lesPrets;
 	}
-
-	/** @pdGenerated default iterator getter */
-	public java.util.Iterator<Pret> getIteratorLesPrets() {
-		if (lesPrets == null)
-			lesPrets = new java.util.ArrayList<Pret>();
-		return lesPrets.iterator();
-	}
-
 	/**
-	 * @pdGenerated default setter
-	 * @param newLesPrets
+	 * @param lesPrets the lesPrets to set
 	 */
-	public void setLesPrets(java.util.Collection<Pret> newLesPrets) {
-		removeAllLesPrets();
-		for (Iterator<Pret> iter = newLesPrets.iterator(); iter.hasNext();)
-			addLesPrets(iter.next());
-	}
-
-	/**
-	 * @pdGenerated default add
-	 * @param newPret
-	 */
-	public void addLesPrets(Pret newPret) {
-		if (newPret == null)
-			return;
-		if (this.lesPrets == null)
-			this.lesPrets = new java.util.ArrayList<Pret>();
-		if (!this.lesPrets.contains(newPret)) {
-			this.lesPrets.add(newPret);
-			newPret.setUtilisateur(this);
-		}
-	}
-
-	/**
-	 * @pdGenerated default remove
-	 * @param oldPret
-	 */
-	public void removeLesPrets(Pret oldPret) {
-		if (oldPret == null)
-			return;
-		if (this.lesPrets != null)
-			if (this.lesPrets.contains(oldPret)) {
-				this.lesPrets.remove(oldPret);
-				oldPret.setUtilisateur((Utilisateur) null);
-			}
-	}
-
-	/** @pdGenerated default removeAll */
-	public void removeAllLesPrets() {
-		if (lesPrets != null) {
-			Pret oldPret;
-			for (java.util.Iterator<Pret> iter = getIteratorLesPrets(); iter.hasNext();) {
-				oldPret = iter.next();
-				iter.remove();
-				oldPret.setUtilisateur((Utilisateur) null);
-			}
-		}
+	public void setLesPrets(java.util.Collection<Pret> lesPrets) {
+		this.lesPrets = lesPrets;
 	}
 	/**
 	 * @return the employe
@@ -104,6 +62,48 @@ public class Utilisateur extends Personne {
 	public void setEmploye(Short employe) {
 		this.employe = employe;
 	}
+	/**
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	/**
+	 * @return the prenom
+	 */
+	public String getPrenom() {
+		return prenom;
+	}
+	/**
+	 * @param prenom the prenom to set
+	 */
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+
+	/**
+	 * @return the noPersonne
+	 */
+	public Integer getNoPersonne() {
+		return noPersonne;
+	}
+
+
+	/**
+	 * @param noPersonne the noPersonne to set
+	 */
+	public void setNoPersonne(Integer noPersonne) {
+		this.noPersonne = noPersonne;
+	}
+
+	
 	
 	
 

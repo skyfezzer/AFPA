@@ -11,7 +11,7 @@ import java.util.*;
 /** @pdOid 8a8d7a07-c165-4871-a32c-3ed3a50450ff */
 public class Adherent extends Utilisateur {
 	public Adherent(Integer noPersonne, String nom, String prenom, String noTelAdherent, String pin) {
-		super(noPersonne, nom, prenom);
+		super(noPersonne, nom, prenom, (short) 0);
 		this.noTelAdherent = noTelAdherent;
 		this.pin = pin;
 	}

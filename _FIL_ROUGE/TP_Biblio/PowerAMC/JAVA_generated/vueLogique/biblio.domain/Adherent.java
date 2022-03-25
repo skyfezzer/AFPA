@@ -4,7 +4,7 @@
  * Purpose: Defines the Class Adherent
  ***********************************************************************/
 
-package biblio.domain;
+package vueLogique.biblio_domain;
 
 import java.util.*;
 

@@ -114,6 +114,13 @@ public class Exemplaire {
 	public void setCommentaireExemplaire(String commentaireExemplaire) {
 		this.commentaireExemplaire = commentaireExemplaire;
 	}
+
+	@Override
+	public String toString() {
+		return "Exemplaire [getEmplacement()=" + getEmplacement() + ", getLivre()=" + getLivre()
+				+ ", getCodeExemplaire()=" + getCodeExemplaire() + ", getCommentaireExemplaire()="
+				+ getCommentaireExemplaire() + "]";
+	}
 	
 
 }

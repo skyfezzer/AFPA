@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.*;
 
 import biblio.domain.Pret;
+import biblio.domain.Utilisateur;
 import biblio.domain.Livre;
 
 /** @pdOid 182fef41-734d-4d62-80ed-0888f633123a */
@@ -61,6 +62,23 @@ public class PretDAO {
 		return result;
 	}
 
+	public Collection<Pret> findAllPretsByUtilisateur(Utilisateur utilisateur) throws SQLException {
+		Collection<Pret> result = null;
+
+		Statement stmt = cnx.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM Pret where noPersonne = " + utilisateur.getNoPersonne());
+		while (rs.next()) {
+			if (result == null) {
+				result = new ArrayList<Pret>();
+			}
+			Pret pret = new Pret(rs.getInt("noPret"), rs.getDate("dateEmprunt"), rs.getInt("dureePret"), null, null,
+					null);
+			result.add(pret);
+		}
+
+		return result;
+	}
+	
 	public Collection<Pret> findAllPrets() throws SQLException {
 		Collection<Pret> result = null;
 

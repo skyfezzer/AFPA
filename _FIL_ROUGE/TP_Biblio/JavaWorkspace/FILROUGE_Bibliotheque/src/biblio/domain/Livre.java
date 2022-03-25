@@ -87,15 +87,6 @@ public class Livre {
 		return lesExemplaires.iterator();
 	}
 
-	/**
-	 * @pdGenerated default setter
-	 * @param newLesExemplaires
-	 */
-	public void setLesExemplaires(java.util.Collection<Exemplaire> newLesExemplaires) {
-		removeAllLesExemplaires();
-		for (java.util.Iterator<Exemplaire> iter = newLesExemplaires.iterator(); iter.hasNext();)
-			addLesExemplaires(iter.next());
-	}
 
 	/**
 	 * @pdGenerated default add
@@ -173,6 +164,19 @@ public class Livre {
 	 */
 	public void setTheme(Theme theme) {
 		this.theme = theme;
+	}
+
+	/**
+	 * @param lesExemplaires the lesExemplaires to set
+	 */
+	public void setLesExemplaires(java.util.Collection<Exemplaire> lesExemplaires) {
+		this.lesExemplaires = lesExemplaires;
+	}
+
+	@Override
+	public String toString() {
+		return "Livre [getiSBNLivre()=" + getiSBNLivre() + ", getTitreLivre()=" + getTitreLivre() + ", getAuteur()="
+				+ getAuteur() + ", getTheme()=" + getTheme() + "]";
 	}
 	
 	

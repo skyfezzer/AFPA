@@ -58,4 +58,11 @@ public class Employe extends Utilisateur {
 		this.gradeEmploye = gradeEmploye;
 	}
 
+	@Override
+	public String toString() {
+		return "Employe [getBiblio()=" + getBiblio() + ", getGradeEmploye()=" + getGradeEmploye() + ", getNoPersonne()="
+				+ getNoPersonne() + ", getNom()=" + getNom() + ", getPrenom()=" + getPrenom() + "]";
+	}
+
+	
 }

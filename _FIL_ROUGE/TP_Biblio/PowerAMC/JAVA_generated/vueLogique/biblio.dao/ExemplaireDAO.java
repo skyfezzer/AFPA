@@ -17,5 +17,13 @@ public class ExemplaireDAO {
       // TODO: implement
       return null;
    }
+   
+   /** @param leLivre 
+    * @param noExemplaire
+    * @pdOid f4874ef9-21ce-4c3f-a120-43cc8d4a4242 */
+   public Exemplaire findExemplaireByKey(Livre leLivre, int noExemplaire) {
+      // TODO: implement
+      return null;
+   }
 
 }

@@ -26,8 +26,8 @@ drop table Employe cascade constraints;
 drop table Utilisateur cascade constraints;
 drop table Personne cascade constraints;
 drop table Bibliotheque cascade constraints;
-drop sequence seq_adherent;
 drop sequence seq_personne;
+drop sequence seq_adherent;
 
 purge recyclebin;
 

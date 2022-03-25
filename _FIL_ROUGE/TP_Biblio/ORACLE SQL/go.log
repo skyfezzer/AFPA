@@ -12,38 +12,24 @@ SQL> --Nom de la base :  xxxxxxxx
 SQL> --Fichier		: xxxxxxx.sql
 SQL> --==============================================================
 SQL> /*==============================================================*/
-SQL> /* Table : Personne					   */
-SQL> /*==============================================================*/
-SQL> create table Personne
-  2  (
-  3  	noPersonne	   INTEGER		not null,
-  4  	nom		   VARCHAR2(30),
-  5  	prenom		   VARCHAR2(30),
-  6  	constraint PK_PERSONNE primary key (noPersonne)
-  7  );
-
-Table created.
-
-SQL> 
-SQL> comment on table Personne is
-  2  'Cette classe conceptualise une personne';
-
-Comment created.
-
-SQL> 
-SQL> /*==============================================================*/
 SQL> /* Table : Utilisateur					   */
 SQL> /*==============================================================*/
 SQL> create table Utilisateur
   2  (
   3  	noPersonne	   INTEGER		not null,
-  4  	employe 	   SMALLINT,
-  5  	constraint PK_UTILISATEUR primary key (noPersonne),
-  6  	constraint FK_UTILISAT_GENERALIS_PERSONNE foreign key (noPersonne)
-  7  	      references Personne (noPersonne)
+  4  	nom		   VARCHAR2(30),
+  5  	prenom		   VARCHAR2(30),
+  6  	employe 	   SMALLINT,
+  7  	constraint PK_UTILISATEUR primary key (noPersonne)
   8  );
 
 Table created.
+
+SQL> 
+SQL> comment on table Utilisateur is
+  2  'Cette classe conceptualise un utilisateur de la bibliotheque';
+
+Comment created.
 
 SQL> 
 SQL> /*==============================================================*/
@@ -120,8 +106,10 @@ SQL> create table Theme
   2  (
   3  	noTheme 	   VARCHAR2(15) 	not null,
   4  	intituleTheme	   VARCHAR2(150),
-  5  	constraint PK_THEME primary key (noTheme)
-  6  );
+  5  	noThemeParent	   VARCHAR2(15),
+  6  	constraint PK_THEME primary key (noTheme),
+  7  	constraint FK_THEMEPARENT_CONTIENT_THEME foreign key (noThemeParent) REFERENCES THEME (noTheme)
+  8  );
 
 Table created.
 
@@ -300,13 +288,10 @@ TABLE_NAME
 ------------------------------------------------------------
 TABLE_TYPE                                                  
 -----------                                                 
-ADHERENT                                                    
-TABLE                                                       
-                                                            
-PERSONNE                                                    
-TABLE                                                       
-                                                            
 UTILISATEUR                                                 
+TABLE                                                       
+                                                            
+ADHERENT                                                    
 TABLE                                                       
                                                             
 AUTEUR                                                      
@@ -343,7 +328,7 @@ PAIEMENT
 TABLE                                                       
                                                             
 
-14 rows selected.
+13 rows selected.
 
 SQL> prompt
 
@@ -374,13 +359,13 @@ CONSTRAINT_NAME      TYP TABLE_NAME
 -------------------- --- ---------------                    
 SEARCH_CONDITION               DELETE_RU STATUS             
 ------------------------------ --------- --------           
-SYS_C0011913         C   ADHERENT                           
+SYS_C0012256         C   ADHERENT                           
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0011916             AUTEUR                             
+SYS_C0012259             AUTEUR                             
 "NOAUTEUR" IS NOT NULL                   ENABLED            
                                                             
-SYS_C0011918             BIBLIOTHEQUE                       
+SYS_C0012261             BIBLIOTHEQUE                       
 "NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
                                                             
 CKC_MONTANTDETTE_DET     DETTE                              
@@ -388,49 +373,49 @@ TE
 montantDette is null or (monta           ENABLED            
 ntDette >= 0)                                               
                                                             
-SYS_C0011921             DETTE                              
+SYS_C0012264             DETTE                              
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0011920             DETTE                              
+SYS_C0012263             DETTE                              
 "NODETTE" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0011928             EMPLACEMENT                        
+SYS_C0012273             EMPLACEMENT                        
+"NOTHEME" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0012272             EMPLACEMENT                        
 "NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0011927             EMPLACEMENT                        
+SYS_C0012271             EMPLACEMENT                        
 "NOEMPLACEMENT" IS NOT NULL              ENABLED            
                                                             
-SYS_C0011929             EMPLACEMENT                        
-"NOTHEME" IS NOT NULL                    ENABLED            
-                                                            
-SYS_C0011934             EMPLOYE                            
+SYS_C0012278             EMPLOYE                            
 "NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0011933             EMPLOYE                            
+SYS_C0012277             EMPLOYE                            
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0011945             EXEMPLAIRE                         
+SYS_C0012288             EXEMPLAIRE                         
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0012289             EXEMPLAIRE                         
 "CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0011944             EXEMPLAIRE                         
-"ISBNLIVRE" IS NOT NULL                  ENABLED            
-                                                            
-SYS_C0011957             HISTOPRET                          
+SYS_C0012301             HISTOPRET                          
 "NOHISTO" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0011958             HISTOPRET                          
+SYS_C0012302             HISTOPRET                          
 "NOPRET" IS NOT NULL                     ENABLED            
                                                             
-SYS_C0011938             LIVRE                              
+SYS_C0012282             LIVRE                              
 "ISBNLIVRE" IS NOT NULL                  ENABLED            
                                                             
-SYS_C0011939             LIVRE                              
+SYS_C0012283             LIVRE                              
 "NOTHEME" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0011940             LIVRE                              
+SYS_C0012284             LIVRE                              
 "NOAUTEUR" IS NOT NULL                   ENABLED            
                                                             
-SYS_C0011961             PAIEMENT                           
+SYS_C0012305             PAIEMENT                           
 "NOPAIEMENT" IS NOT NULL                 ENABLED            
                                                             
 CKC_MONTANTPAIEMENT_     PAIEMENT                           
@@ -443,34 +428,31 @@ EMENT
 typePaiement is null or (typeP           ENABLED            
 aiement in ('DETTE','COTIS'))                               
                                                             
-SYS_C0011908             PERSONNE                           
-"NOPERSONNE" IS NOT NULL                 ENABLED            
-                                                            
-SYS_C0011950             PRET                               
+SYS_C0012294             PRET                               
 "DATEEMPRUNT" IS NOT NULL                ENABLED            
                                                             
-SYS_C0011953             PRET                               
-"NOPERSONNE" IS NOT NULL                 ENABLED            
-                                                            
-SYS_C0011949             PRET                               
+SYS_C0012293             PRET                               
 "NOPRET" IS NOT NULL                     ENABLED            
                                                             
-SYS_C0011952             PRET                               
-"ISBNLIVRE" IS NOT NULL                  ENABLED            
-                                                            
-SYS_C0011951             PRET                               
+SYS_C0012295             PRET                               
 "CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0011925             THEME                              
+SYS_C0012296             PRET                               
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0012297             PRET                               
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0012268             THEME                              
 "NOTHEME" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0011910             UTILISATEUR                        
+SYS_C0012254             UTILISATEUR                        
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
 -------------------- ***                                    
                                                             
                                                             
-                  29 cou                                    
+                  28 cou                                    
                                                             
                                                             
 PK_ADHERENT          P   ADHERENT                           
@@ -503,9 +485,6 @@ PK_LIVRE                 LIVRE
 PK_PAIEMENT              PAIEMENT                           
                                          ENABLED            
                                                             
-PK_PERSONNE              PERSONNE                           
-                                         ENABLED            
-                                                            
 PK_PRET                  PRET                               
                                          ENABLED            
                                                             
@@ -518,7 +497,7 @@ PK_UTILISATEUR           UTILISATEUR
 -------------------- ***                                    
                                                             
                                                             
-                  14 cou                                    
+                  13 cou                                    
                                                             
                                                             
 FK_ADHERENT_GENERALI R   ADHERENT                           
@@ -557,33 +536,33 @@ FK_HISTOPRE_STOCKER_     HISTOPRET
 PRET                                                        
                                NO ACTION ENABLED            
                                                             
-FK_LIVRE_ECRIRE_AUTE     LIVRE                              
-UR                                                          
-                               NO ACTION ENABLED            
-                                                            
 FK_LIVRE_CORRESPON_T     LIVRE                              
 HEME                                                        
+                               NO ACTION ENABLED            
+                                                            
+FK_LIVRE_ECRIRE_AUTE     LIVRE                              
+UR                                                          
                                NO ACTION ENABLED            
                                                             
 FK_PAIEMENT_PAYER_DE     PAIEMENT                           
 TTE                                                         
                                NO ACTION ENABLED            
                                                             
-
-CONSTRAINT_NAME      TYP TABLE_NAME                         
--------------------- --- ---------------                    
-SEARCH_CONDITION               DELETE_RU STATUS             
------------------------------- --------- --------           
-FK_PRET_CONCERNER_EX R   PRET                               
+FK_PRET_CONCERNER_EX     PRET                               
 EMPLAI                                                      
                                NO ACTION ENABLED            
                                                             
 FK_PRET_ATTRIBUER_UT     PRET                               
 ILISAT                                                      
+
+CONSTRAINT_NAME      TYP TABLE_NAME                         
+-------------------- --- ---------------                    
+SEARCH_CONDITION               DELETE_RU STATUS             
+------------------------------ --------- --------           
                                NO ACTION ENABLED            
                                                             
-FK_UTILISAT_GENERALI     UTILISATEUR                        
-S_PERSONNE                                                  
+FK_THEMEPARENT_CONTI R   THEME                              
+ENT_THEME                                                   
                                NO ACTION ENABLED            
                                                             
 -------------------- ***                                    
@@ -593,7 +572,7 @@ S_PERSONNE
                                                             
                                                             
 
-58 rows selected.
+56 rows selected.
 
 SQL> 
 SQL> 
@@ -658,10 +637,6 @@ SQL> delete from Employe;
 0 rows deleted.
 
 SQL> delete from Utilisateur;
-
-0 rows deleted.
-
-SQL> delete from Personne;
 
 0 rows deleted.
 
@@ -738,403 +713,403 @@ SQL> CREATE SEQUENCE seq_personne START WITH 1 INCREMENT BY 1 nomaxvalue;
 
 Sequence created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Guy','Labbé');
+SQL> insert into Utilisateur (noPersonne, nom, prenom, employe) values(seq_personne.nextval,'Guy','Labbé', 1);
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Musette','Chalut');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Musette','Chalut');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Briard');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Briard');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Solaine','Baril');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Solaine','Baril');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Ignace','Bélair');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Ignace','Bélair');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubrey','Moreau');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubrey','Moreau');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Dielle','L''Heureux');
+SQL> insert into Utilisateur (noPersonne, nom, prenom, employe) values(seq_personne.nextval,'Dielle','L''Heureux',1);
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Catherine','LaGrande');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Catherine','LaGrande');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Clavette');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Clavette');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gérard','Vernadeau');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Gérard','Vernadeau');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fabienne','Lemaître');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Fabienne','Lemaître');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aloin','Desnoyer');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Aloin','Desnoyer');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jacquenett','Bellemare');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Jacquenett','Bellemare');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Annette','Dufour');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Annette','Dufour');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Laurette','Pépin');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Laurette','Pépin');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Capucine','Chenard');
+SQL> insert into Utilisateur (noPersonne, nom, prenom, employe) values(seq_personne.nextval,'Capucine','Chenard',1);
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jesper','Gregoire');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Jesper','Gregoire');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Eulalie','Paquette');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Eulalie','Paquette');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Brice','Sorel');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Brice','Sorel');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fiacre','Tardif');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Fiacre','Tardif');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pomeroy','Chouinard');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Pomeroy','Chouinard');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Oriel','Boivin');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Oriel','Boivin');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nouel','De La Ronde');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Nouel','De La Ronde');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Dostie');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Dostie');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Robert','Chassé');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Robert','Chassé');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Viollette','Riquier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Viollette','Riquier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Fifine','Quessy');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Fifine','Quessy');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Morgana','Forest');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Morgana','Forest');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Burkett','Bordeleau');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Burkett','Bordeleau');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marine','Lagacé');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Marine','Lagacé');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Blanchefle','Cuillerier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Blanchefle','Cuillerier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marguerite','Laprise');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Marguerite','Laprise');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Thomas','Labrie');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Thomas','Labrie');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Delmare','Tessier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Delmare','Tessier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Moïse');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Moïse');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Du Trieux');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Adélaïde','Du Trieux');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Parnella','Riquier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Parnella','Riquier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Arnou','Chaussée');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Arnou','Chaussée');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Elita','Houde');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Elita','Houde');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jolie','Lachapelle');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Jolie','Lachapelle');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Dixie','Routhier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Dixie','Routhier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Desaulniers');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Desaulniers');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Laverne','Édouard');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Laverne','Édouard');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Xavier','Thivierge');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Xavier','Thivierge');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christophe','Patenaude');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Christophe','Patenaude');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Mallory','Bourassa');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Mallory','Bourassa');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Vick','Mailhot');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Vick','Mailhot');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Loyal','Carrière');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Loyal','Carrière');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pinabel','Bourgouin');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Pinabel','Bourgouin');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christabel','Meunier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Christabel','Meunier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Zoé','Ruest');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Zoé','Ruest');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Richard','Majory');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Richard','Majory');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Larocque');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Larocque');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'La Roux','Meilleur');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'La Roux','Meilleur');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Claude','Fugère');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Claude','Fugère');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Toussaint','Brunault');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Toussaint','Brunault');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Caresse','Brault');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Caresse','Brault');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Begin');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Phillipa','Begin');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubin','Beaulieu');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Aubin','Beaulieu');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Odo','Étoile');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Odo','Étoile');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aimé','Larivière');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Aimé','Larivière');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Valérie','Caya');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Valérie','Caya');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Chandler','Caouette');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Chandler','Caouette');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Amedee','Doucet');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Amedee','Doucet');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Rosamonde','Louis');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Rosamonde','Louis');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Amabella','Panetier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Amabella','Panetier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Francis','Lacroix');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Francis','Lacroix');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Agathe','Bourassa');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Agathe','Bourassa');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Allyriane','Bousquet');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Allyriane','Bousquet');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sébastien','Legault');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Sébastien','Legault');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marveille','Chouinard');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Marveille','Chouinard');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Philippe','Fugère');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Philippe','Fugère');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Pensee','Majory');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Pensee','Majory');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Provencher');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Gauthier','Provencher');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Mayhew','Cartier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Mayhew','Cartier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Florus','Beaulé');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Florus','Beaulé');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Harriette','Lebrun');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Harriette','Lebrun');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Christian','Arnoux');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Christian','Arnoux');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Hamilton','Hachée');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Hamilton','Hachée');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Aymon','Généreux');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Aymon','Généreux');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Geoffrey','Deslauriers');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Geoffrey','Deslauriers');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Vivienne','Levasseur');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Vivienne','Levasseur');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Charpentier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Sidney','Charpentier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Sabine','Fouquet');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Sabine','Fouquet');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Emmanuel','Douffet');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Emmanuel','Douffet');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jessamine','Paiement');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Jessamine','Paiement');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Tabor','Carrière');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Tabor','Carrière');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Arber','Leblanc');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Arber','Leblanc');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Wyatt','Paré');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Wyatt','Paré');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Anton','Boisvert');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Anton','Boisvert');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Alexandrie','Faure');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Alexandrie','Faure');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Verrill','Meilleur');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Verrill','Meilleur');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Verney','Baril');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Verney','Baril');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Cloridan','Guimond');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Cloridan','Guimond');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Jules','Dubois');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Jules','Dubois');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Franck','Bouvier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Franck','Bouvier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Agate','Couturier');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Agate','Couturier');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marthe','Sauvé');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Marthe','Sauvé');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Marshall','Lacombe');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Marshall','Lacombe');
 
 1 row created.
 
-SQL> insert into Personne (noPersonne, nom, prenom) values(seq_personne.nextval,'Timothée','Létourneau');
+SQL> insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Timothée','Létourneau');
 
 1 row created.
 
@@ -5264,411 +5239,7 @@ SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '81
 
 SQL> 
 SQL> --------------------------------
-SQL> -- 	Utilisateurs	   --
-SQL> --------------------------------
-SQL> insert into Utilisateur (noPersonne,employe) values(1,1);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(2);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(3);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(4);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(5);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(6);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne,employe) values(7,1);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(8);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(9);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(10);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(11);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(12);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(13);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(14);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(15);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne,employe) values(16,1);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(17);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(18);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(19);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(20);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(21);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(22);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(23);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(24);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(25);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(26);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(27);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(28);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(29);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(30);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(31);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(32);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(33);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(34);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(35);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(36);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(37);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(38);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(39);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(40);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(41);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(42);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(43);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(44);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(45);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(46);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(47);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(48);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(49);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(50);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(51);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(52);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(53);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(54);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(55);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(56);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(57);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(58);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(59);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(60);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(61);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(62);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(63);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(64);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(65);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(66);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(67);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(68);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(69);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(70);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(71);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(72);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(73);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(74);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(75);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(76);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(77);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(78);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(79);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(80);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(81);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(82);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(83);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(84);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(85);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(86);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(87);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(88);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(89);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(90);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(91);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(92);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(93);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(94);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(95);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(96);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(97);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(98);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(99);
-
-1 row created.
-
-SQL> insert into Utilisateur (noPersonne) values(100);
-
-1 row created.
-
-SQL> 
-SQL> --------------------------------
-SQL> --        Utilisateurs	   --
+SQL> --        Adhérents	   --
 SQL> --------------------------------
 SQL> CREATE SEQUENCE seq_adherent START WITH 1 INCREMENT BY 1 nomaxvalue;
 
@@ -6418,7 +5989,7 @@ SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (4, 2, '1669-7-2
 
 1 row created.
 
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (14, 4, '1037-4-27 3:51:6');
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (14, 4 , '1037-4-27 3:51:6');
 
 1 row created.
 
@@ -6430,17 +6001,7 @@ Commit complete.
 SQL> 
 SQL> -- On interprete  les &  comme variable de substitution
 SQL> set define on
-SQL> @req_bibliotheque.sql
-SQL> --/***************************************************************
-SQL> --Script req_delice_TODO.sql
-SQL> --***************************************************************/
-SQL> -- On interprete  les &  comme variable de substitution
-SQL> set define on
-SQL> 
-SQL> -- affichage des substitutions de variable
-SQL> set verify on
-SQL> 
-SQL> --2.1.1
+SQL> --@req_bibliotheque.sql
 SQL> 
 SQL> PROMPT	FIN NORMALE DU SCRIPT
 FIN NORMALE DU SCRIPT

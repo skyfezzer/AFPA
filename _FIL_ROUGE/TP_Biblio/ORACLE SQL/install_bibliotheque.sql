@@ -3,30 +3,19 @@
 --Fichier          : xxxxxxx.sql                    
 --==============================================================
 /*==============================================================*/
-/* Table : Personne                                           */
-/*==============================================================*/
-create table Personne 
-(
-   noPersonne         INTEGER              not null,
-   nom                VARCHAR2(30),
-   prenom             VARCHAR2(30),
-   constraint PK_PERSONNE primary key (noPersonne)
-);
-
-comment on table Personne is
-'Cette classe conceptualise une personne';
-
-/*==============================================================*/
 /* Table : Utilisateur                                        */
 /*==============================================================*/
 create table Utilisateur 
 (
    noPersonne         INTEGER              not null,
+   nom                VARCHAR2(30),
+   prenom             VARCHAR2(30),
    employe            SMALLINT,
-   constraint PK_UTILISATEUR primary key (noPersonne),
-   constraint FK_UTILISAT_GENERALIS_PERSONNE foreign key (noPersonne)
-         references Personne (noPersonne)
+   constraint PK_UTILISATEUR primary key (noPersonne)
 );
+
+comment on table Utilisateur is
+'Cette classe conceptualise un utilisateur de la bibliotheque';
 
 /*==============================================================*/
 /* Table : Adherent                                           */
@@ -87,7 +76,9 @@ create table Theme
 (
    noTheme            VARCHAR2(15)         not null,
    intituleTheme      VARCHAR2(150),
-   constraint PK_THEME primary key (noTheme)
+   noThemeParent      VARCHAR2(15),
+   constraint PK_THEME primary key (noTheme),
+   constraint FK_THEMEPARENT_CONTIENT_THEME foreign key (noThemeParent) REFERENCES THEME (noTheme)
 );
 
 /*==============================================================*/
@@ -191,6 +182,7 @@ create table HistoPret
 
 comment on table HistoPret is
 'Cette classe conceptualise la fin d''un prêt';
+
 
 /*==============================================================*/
 /* Table : Paiement                                           */

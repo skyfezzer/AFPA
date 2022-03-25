@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{81D77478-077D-4AEB-AA4A-E98531CE03D5}" Label="" LastModificationDate="1647264840" Name="Biblio_MCD" Objects="235" Symbols="148" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{81D77478-077D-4AEB-AA4A-E98531CE03D5}" Label="" LastModificationDate="1647870652" Name="Biblio_MCD" Objects="231" Symbols="82" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -809,8 +809,8 @@ NameToCode=No</a:ModelOptionsText>
 <c:GenerationOrigins>
 <o:Shortcut Id="o4">
 <a:ObjectID>65B5FD9C-057D-44A6-803F-D0D83A79C838</a:ObjectID>
-<a:Name>MOO Bibliothèque</a:Name>
-<a:Code>MOO_Bibliotheque</a:Code>
+<a:Name>Bibliothèque</a:Name>
+<a:Code>Bibliotheque</a:Code>
 <a:CreationDate>1647264467</a:CreationDate>
 <a:Creator>Sk</a:Creator>
 <a:ModificationDate>1647264467</a:ModificationDate>
@@ -8739,7 +8739,7 @@ Shadow=0
 <c:Symbols>
 <o:AssociationLinkSymbol Id="o87">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((24500,-8263), (27030,2226))</a:Rect>
+<a:Rect>((24462,-8263), (27030,2226))</a:Rect>
 <a:ListOfPoints>((24500,2226),(24500,-3336),(27030,-3336),(27030,-8263))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
@@ -8759,7 +8759,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o91">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((25670,-17168), (27570,-8263))</a:Rect>
+<a:Rect>((25708,-17168), (27570,-8263))</a:Rect>
 <a:ListOfPoints>((27470,-17168),(27470,-8263))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
@@ -8798,7 +8798,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o98">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((-1023,15655), (1007,26304))</a:Rect>
+<a:Rect>((-1023,15655), (972,26304))</a:Rect>
 <a:ListOfPoints>((-558,26304),(-1023,15655))</a:ListOfPoints>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -8875,8 +8875,8 @@ CARD 0 Arial,8,N</a:FontList>
 <o:InheritanceLinkSymbol Id="o111">
 <a:CreationDate>1647264465</a:CreationDate>
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((-14474,-19352), (-8320,-13203))</a:Rect>
-<a:ListOfPoints>((-8320,-19352),(-8320,-13203),(-14474,-13203))</a:ListOfPoints>
+<a:Rect>((-14474,-19351), (-8320,-13203))</a:Rect>
+<a:ListOfPoints>((-8320,-19351),(-8320,-13203),(-14474,-13203))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744576</a:LineColor>
@@ -8950,7 +8950,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o124">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((53060,-15994), (55191,-2107))</a:Rect>
+<a:Rect>((53098,-15994), (55191,-2107))</a:Rect>
 <a:ListOfPoints>((55191,-15994),(53911,-2107))</a:ListOfPoints>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -9178,7 +9178,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o157">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((-15949,-7703), (-13787,-942))</a:Rect>
+<a:Rect>((-15926,-7703), (-13787,-942))</a:Rect>
 <a:ListOfPoints>((-15135,-7703),(-13787,-942))</a:ListOfPoints>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -9235,7 +9235,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o165">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((28088,-25041), (29888,-17168))</a:Rect>
+<a:Rect>((28050,-25041), (29850,-17168))</a:Rect>
 <a:ListOfPoints>((28088,-17168),(28088,-25041))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
@@ -9255,7 +9255,7 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o168">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((10005,-28041), (28266,-23269))</a:Rect>
+<a:Rect>((10043,-28041), (28266,-23269))</a:Rect>
 <a:ListOfPoints>((11805,-28041),(11805,-25041),(28266,-25041))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
@@ -9275,8 +9275,8 @@ CARD 0 Arial,8,N</a:FontList>
 </o:AssociationLinkSymbol>
 <o:AssociationLinkSymbol Id="o171">
 <a:ModificationDate>1647264840</a:ModificationDate>
-<a:Rect>((-8320,-27244), (-5799,-19352))</a:Rect>
-<a:ListOfPoints>((-8320,-19352),(-8320,-23546),(-5799,-23546),(-5799,-27244))</a:ListOfPoints>
+<a:Rect>((-8358,-27244), (-5799,-19351))</a:Rect>
+<a:ListOfPoints>((-8320,-19351),(-8320,-23546),(-5799,-23546),(-5799,-27244))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
 <a:LineColor>16744448</a:LineColor>
@@ -9316,7 +9316,7 @@ CARD 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o118">
 <a:ModificationDate>1647264840</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-36112,-6885), (-20536,-2091))</a:Rect>
+<a:Rect>((-35881,-6885), (-20767,-2091))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:FillColor>16770222</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -9336,7 +9336,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o112">
 <a:ModificationDate>1647264840</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-16068,-21351), (-570,-17353))</a:Rect>
+<a:Rect>((-15837,-21350), (-801,-17352))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:FillColor>16770222</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -9356,7 +9356,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o160">
 <a:ModificationDate>1647264840</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((57179,21467), (78445,26261))</a:Rect>
+<a:Rect>((57410,21467), (78214,26261))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:FillColor>16770222</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -9476,7 +9476,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o138">
 <a:ModificationDate>1647264840</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-78444,23696), (-57718,30438))</a:Rect>
+<a:Rect>((-77981,23696), (-58181,30438))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:FillColor>16770222</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -9516,7 +9516,7 @@ Identifiers 0 Arial,8,N</a:FontList>
 <o:EntitySymbol Id="o103">
 <a:ModificationDate>1647264840</a:ModificationDate>
 <a:IconMode>-1</a:IconMode>
-<a:Rect>((-37556,-24309), (-19070,-18541))</a:Rect>
+<a:Rect>((-37325,-24309), (-19301,-18541))</a:Rect>
 <a:LineColor>16744448</a:LineColor>
 <a:FillColor>16770222</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -13700,7 +13700,7 @@ Shadow=0</a:DisplayPreferences>
 <a:Creator>Sk</a:Creator>
 <a:ModificationDate>1646730428</a:ModificationDate>
 <a:Modifier>Sk</a:Modifier>
-<a:TargetModelURL>file:///C|/_AFPA/_FIL_ROUGE/TP_Biblio/BIBLIO_MPD.mpd</a:TargetModelURL>
+<a:TargetModelURL>file:///C|/_AFPA/_FIL_ROUGE/TP_Biblio/PowerAMC/BIBLIO_MPD.mpd</a:TargetModelURL>
 <a:TargetModelID>1C24C5CE-349A-461D-A996-8C9362B59007</a:TargetModelID>
 <a:TargetModelClassID>CDE44E21-9669-11D1-9914-006097355D9B</a:TargetModelClassID>
 <c:SessionShortcuts>
@@ -13709,13 +13709,13 @@ Shadow=0</a:DisplayPreferences>
 </o:TargetModel>
 <o:TargetModel Id="o313">
 <a:ObjectID>B515B393-7CDD-4CF3-AE2D-5F96C100FD73</a:ObjectID>
-<a:Name>MOO Bibliothèque</a:Name>
-<a:Code>MOO_Bibliotheque</a:Code>
+<a:Name>Bibliothèque</a:Name>
+<a:Code>Bibliotheque</a:Code>
 <a:CreationDate>1646813146</a:CreationDate>
 <a:Creator>Sk</a:Creator>
-<a:ModificationDate>1646813146</a:ModificationDate>
+<a:ModificationDate>1647870652</a:ModificationDate>
 <a:Modifier>Sk</a:Modifier>
-<a:TargetModelURL>file:///C|/_AFPA/_FIL_ROUGE/TP_Biblio/Bibliotheque.moo</a:TargetModelURL>
+<a:TargetModelURL>file:///C|/_AFPA/_FIL_ROUGE/TP_Biblio/PowerAMC/Bibliotheque.moo</a:TargetModelURL>
 <a:TargetModelID>142B2DAB-7E77-49B4-9F0B-0B7A9A75C20B</a:TargetModelID>
 <a:TargetModelClassID>18112060-1A4B-11D1-83D9-444553540000</a:TargetModelClassID>
 <c:SessionShortcuts>

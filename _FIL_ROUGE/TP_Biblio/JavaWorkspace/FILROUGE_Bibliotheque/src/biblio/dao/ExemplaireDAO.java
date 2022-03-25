@@ -47,17 +47,21 @@ public class ExemplaireDAO {
 	 * ====================== = METHUDES CRUD = ======================
 	 */
 	public Exemplaire findExemplaireByKey(Livre livre, Integer codeExemplaire) throws SQLException {
+		return this.findExemplaireByKey(livre.getiSBNLivre(), codeExemplaire);
+	}
+	
+	public Exemplaire findExemplaireByKey(Integer isbnLivre, Integer codeExemplaire) throws SQLException {
 		Exemplaire result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx
 				.prepareStatement("select * from Exemplaire where ISBNLivre = ? AND codeExemplaire = ?");
-		pstmt.setInt(1, livre.getiSBNLivre());
+		pstmt.setInt(1, isbnLivre);
 		pstmt.setInt(2, codeExemplaire);
 
 		if (pstmt.execute()) {
 			rs = pstmt.getResultSet();
 			if (rs.next()) {
-				result = new Exemplaire(rs.getShort("codeExeplaire"), rs.getString("commentaireExemplaire"), null,
+				result = new Exemplaire(rs.getShort("codeExemplaire"), rs.getString("commentaireExemplaire"), null,
 						null);
 			}
 		}
@@ -76,7 +80,7 @@ public class ExemplaireDAO {
 			if (result == null) {
 				result = new ArrayList<Exemplaire>();
 			}
-			Exemplaire exemplaire = new Exemplaire(rs.getShort("codeExeplaire"), rs.getString("commentaireExemplaire"),
+			Exemplaire exemplaire = new Exemplaire(rs.getShort("codeExemplaire"), rs.getString("commentaireExemplaire"),
 					null, null);
 			result.add(exemplaire);
 		}

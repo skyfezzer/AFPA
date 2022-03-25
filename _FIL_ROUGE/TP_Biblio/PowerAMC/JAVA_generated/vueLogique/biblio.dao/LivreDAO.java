@@ -17,5 +17,12 @@ public class LivreDAO {
       // TODO: implement
       return null;
    }
+   
+   /** @param isbn
+    * @pdOid 355c38d6-a303-4c8c-9fee-2729abf3e96f */
+   public Livre findLivreByKey(int isbn) {
+      // TODO: implement
+      return null;
+   }
 
 }

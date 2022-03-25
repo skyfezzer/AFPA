@@ -18,7 +18,7 @@ set pagesize 200
 
 @install_bibliotheque.sql
 @install_data_bibliotheque.sql
-@req_bibliotheque.sql
+--@req_bibliotheque.sql
 
 PROMPT     FIN NORMALE DU SCRIPT
 
