@@ -6,8 +6,6 @@
 
 package biblio.domain;
 
-import java.util.*;
-
 /** @pdOid e0efbe89-e2a1-4d06-85e9-723a70336213 */
 public class Emplacement {
 	public Emplacement(Integer noEmplacement, Bibliotheque bibliotheque, Theme theme) {

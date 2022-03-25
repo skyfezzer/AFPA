@@ -7,7 +7,6 @@
 package biblio.dao;
 
 import biblio.domain.Livre;
-import biblio.domain.Livre;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

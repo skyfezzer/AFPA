@@ -7,7 +7,6 @@
 package biblio.dao;
 
 import biblio.domain.Exemplaire;
-import biblio.domain.Exemplaire;
 import biblio.domain.Livre;
 
 import java.sql.Connection;
@@ -19,9 +18,6 @@ import java.util.*;
 
 /** @pdOid 497bdfbf-e909-4a15-a7ff-c9b904c05060 */
 public class ExemplaireDAO {
-	private Exemplaire[] exemplairesDB = {
-
-	};
 	private Connection cnx = null;
 
 	public ExemplaireDAO(Connection cnx) {

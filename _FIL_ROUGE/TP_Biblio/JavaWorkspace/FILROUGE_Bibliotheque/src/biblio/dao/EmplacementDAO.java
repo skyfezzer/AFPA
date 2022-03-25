@@ -10,14 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import biblio.domain.Adherent;
-import biblio.domain.Dette;
 import biblio.domain.Emplacement;
-import biblio.domain.Theme;
+
 
 /** @pdOid 199890c8-a608-4cb8-b5a6-e71cf9cd76f3 */
 public class EmplacementDAO {

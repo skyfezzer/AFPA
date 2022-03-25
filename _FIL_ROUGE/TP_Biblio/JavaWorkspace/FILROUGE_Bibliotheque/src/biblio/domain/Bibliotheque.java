@@ -6,7 +6,6 @@
 
 package biblio.domain;
 
-import java.util.*;
 
 /** @pdOid 08d0b88b-b332-4f4e-859a-9b0faff3c704 */
 public class Bibliotheque {
@@ -40,7 +39,7 @@ public class Bibliotheque {
 	}
 
 	/** @pdGenerated default iterator getter */
-	public java.util.Iterator getIteratorLesEmplacements() {
+	public java.util.Iterator<Emplacement> getIteratorLesEmplacements() {
 		if (lesEmplacements == null)
 			lesEmplacements = new java.util.ArrayList<Emplacement>();
 		return lesEmplacements.iterator();
@@ -52,8 +51,8 @@ public class Bibliotheque {
 	 */
 	public void setLesEmplacements(java.util.Collection<Emplacement> newLesEmplacements) {
 		removeAllLesEmplacements();
-		for (java.util.Iterator iter = newLesEmplacements.iterator(); iter.hasNext();)
-			addLesEmplacements((Emplacement) iter.next());
+		for (java.util.Iterator<Emplacement> iter = newLesEmplacements.iterator(); iter.hasNext();)
+			addLesEmplacements(iter.next());
 	}
 
 	/**
@@ -89,8 +88,8 @@ public class Bibliotheque {
 	public void removeAllLesEmplacements() {
 		if (lesEmplacements != null) {
 			Emplacement oldEmplacement;
-			for (java.util.Iterator iter = getIteratorLesEmplacements(); iter.hasNext();) {
-				oldEmplacement = (Emplacement) iter.next();
+			for (java.util.Iterator<Emplacement> iter = getIteratorLesEmplacements(); iter.hasNext();) {
+				oldEmplacement = iter.next();
 				iter.remove();
 				oldEmplacement.setBibliotheque((Bibliotheque) null);
 			}
@@ -105,7 +104,7 @@ public class Bibliotheque {
 	}
 
 	/** @pdGenerated default iterator getter */
-	public java.util.Iterator getIteratorLesEmployes() {
+	public java.util.Iterator<Employe> getIteratorLesEmployes() {
 		if (lesEmployes == null)
 			lesEmployes = new java.util.ArrayList<Employe>();
 		return lesEmployes.iterator();
@@ -117,8 +116,8 @@ public class Bibliotheque {
 	 */
 	public void setLesEmployes(java.util.Collection<Employe> newLesEmployes) {
 		removeAllLesEmployes();
-		for (java.util.Iterator iter = newLesEmployes.iterator(); iter.hasNext();)
-			addLesEmployes((Employe) iter.next());
+		for (java.util.Iterator<Employe> iter = newLesEmployes.iterator(); iter.hasNext();)
+			addLesEmployes(iter.next());
 	}
 
 	/**
@@ -154,8 +153,8 @@ public class Bibliotheque {
 	public void removeAllLesEmployes() {
 		if (lesEmployes != null) {
 			Employe oldEmploye;
-			for (java.util.Iterator iter = getIteratorLesEmployes(); iter.hasNext();) {
-				oldEmploye = (Employe) iter.next();
+			for (java.util.Iterator<Employe> iter = getIteratorLesEmployes(); iter.hasNext();) {
+				oldEmploye = iter.next();
 				iter.remove();
 				oldEmploye.setBiblio((Bibliotheque) null);
 			}

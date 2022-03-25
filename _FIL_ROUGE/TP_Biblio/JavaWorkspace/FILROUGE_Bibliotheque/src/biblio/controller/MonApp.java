@@ -36,7 +36,7 @@ public class MonApp {
 
 	public static void main(String[] args) {
 		MonApp app = new MonApp();
-		app.loadProperties();
+		ChargerPropertiesController cpc = new ChargerPropertiesController("jdbc.properties");
 		app.start();
 	}
 
@@ -59,6 +59,8 @@ public class MonApp {
 
 		}
 
+		// instanciate every DAO.
+		utilisateurDAO = new UtilisateurDAO(cnx);
 		auteurDAO = new AuteurDAO(cnx);
 		biblioDAO = new BibliothequeDAO(cnx);
 		detteDAO = new DetteDAO(cnx);
@@ -66,7 +68,8 @@ public class MonApp {
 		exemplaireDAO = new ExemplaireDAO(cnx);
 		livreDAO = new LivreDAO(cnx);
 		pretDAO = new PretDAO(cnx);
-		utilisateurDAO = new UtilisateurDAO(cnx);
+
+
 		Adherent adh = new Adherent(1000, "JeSuisUn", "Test", "fakeTel", "fakePin");
 		testNewAdherent(adh);
 
@@ -83,7 +86,6 @@ public class MonApp {
 		try {
 			employe = utilisateurDAO.findUtilisateurByKey(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Employé pour idUtilisateur 1 : \n\t" + employe);
@@ -98,7 +100,6 @@ public class MonApp {
 		try {
 			adherent = utilisateurDAO.findUtilisateurByKey(25);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Adhérent pour idUtilisateur 25 : \n\t" + adherent);
@@ -117,7 +118,6 @@ public class MonApp {
 			exemplaire2 = exemplaireDAO.findExemplaireByKey(0,19);
 			exemplaire2.setLivre(livreOrigine);	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Exemplaire 1 : \n\t"+exemplaire1);
@@ -164,7 +164,6 @@ public class MonApp {
 			System.out.println("= ======== =\n");
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -6,8 +6,6 @@
 
 package biblio.domain;
 
-import java.util.*;
-
 /** @pdOid 9d5d6f1d-93eb-463b-b328-28ade5346507 */
 public class Auteur {
 	public Auteur(Integer noAuteur, String nomCompletAuteur) {
@@ -39,7 +37,7 @@ public class Auteur {
 	}
 
 	/** @pdGenerated default iterator getter */
-	public java.util.Iterator getIteratorRealisations() {
+	public java.util.Iterator<Livre> getIteratorRealisations() {
 		if (realisations == null)
 			realisations = new java.util.HashSet<Livre>();
 		return realisations.iterator();
@@ -51,8 +49,8 @@ public class Auteur {
 	 */
 	public void setRealisations(java.util.Collection<Livre> newRealisations) {
 		removeAllRealisations();
-		for (java.util.Iterator iter = newRealisations.iterator(); iter.hasNext();)
-			addRealisations((Livre) iter.next());
+		for (java.util.Iterator<Livre> iter = newRealisations.iterator(); iter.hasNext();)
+			addRealisations(iter.next());
 	}
 
 	/**
@@ -88,8 +86,8 @@ public class Auteur {
 	public void removeAllRealisations() {
 		if (realisations != null) {
 			Livre oldLivre;
-			for (java.util.Iterator iter = getIteratorRealisations(); iter.hasNext();) {
-				oldLivre = (Livre) iter.next();
+			for (java.util.Iterator<Livre> iter = getIteratorRealisations(); iter.hasNext();) {
+				oldLivre = iter.next();
 				iter.remove();
 				oldLivre.setAuteur((Auteur) null);
 			}

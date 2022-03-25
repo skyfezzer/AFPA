@@ -6,8 +6,6 @@
 
 package biblio.domain;
 
-import java.util.*;
-
 /**
  * Cette classe conceptualise l'exemplaire d'un livre.
  * 

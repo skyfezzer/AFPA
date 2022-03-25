@@ -15,7 +15,6 @@ import java.util.*;
 
 import biblio.domain.Pret;
 import biblio.domain.Utilisateur;
-import biblio.domain.Livre;
 
 /** @pdOid 182fef41-734d-4d62-80ed-0888f633123a */
 public class PretDAO {
