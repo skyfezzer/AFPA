@@ -30,26 +30,26 @@ ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH12:MI:SS';
 --------------------------------
 --          Auteur            --
 --------------------------------
-insert into Auteur (noAuteur, nomCompletAuteur) values (0, 'George Orwell');
-insert into Auteur (noAuteur, nomCompletAuteur) values (1, 'J.R.R. Tolkien');
-insert into Auteur (noAuteur, nomCompletAuteur) values (2, 'Albert Camus');
-insert into Auteur (noAuteur, nomCompletAuteur) values (3, 'Louis-Ferdinand Céline');
-insert into Auteur (noAuteur, nomCompletAuteur) values (4, 'Charles Baudelaire');
-insert into Auteur (noAuteur, nomCompletAuteur) values (5, ' Alain Damasio');
-insert into Auteur (noAuteur, nomCompletAuteur) values (6, 'Antoine de Saint-Exupéry');
-insert into Auteur (noAuteur, nomCompletAuteur) values (7, 'Boris Vian');
-insert into Auteur (noAuteur, nomCompletAuteur) values (8, 'J. K. Rowling');
-insert into Auteur (noAuteur, nomCompletAuteur) values (9, 'Frank Herbert');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'George Orwell');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'J.R.R. Tolkien');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Albert Camus');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Louis-Ferdinand Céline');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Charles Baudelaire');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, ' Alain Damasio');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Antoine de Saint-Exupéry');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Boris Vian');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'J. K. Rowling');
+insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Frank Herbert');
 
 --------------------------------
 --          Biblio            --
 --------------------------------
-insert into Bibliotheque (noBibliotheque, adresse) values (0, 'Centre Culturel des Marmusots, 1 rue de l''égalité, 12345 Uneville');
+insert into Bibliotheque (noBibliotheque, adresse) values (SEQ_BIBLIOTHEQUE.nextval, 'Centre Culturel des Marmusots, 1 rue de l''égalité, 12345 Uneville');
 
 --------------------------------
 --          Personne          --
 --------------------------------
-CREATE SEQUENCE seq_personne START WITH 1 INCREMENT BY 1 nomaxvalue;
+
 insert into Utilisateur (noPersonne, nom, prenom, employe) values(seq_personne.nextval,'Guy','Labbé', 1);
 insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Musette','Chalut');
 insert into Utilisateur (noPersonne, nom, prenom) values(seq_personne.nextval,'Nathalie','Briard');
@@ -1177,21 +1177,20 @@ INSERT INTO THEME (noTheme,intituleTheme) VALUES ('999' ,'Mondes extra-terrestre
 --------------------------------
 --          Livres            --
 --------------------------------
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (0, '813', 0, '1984');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (1, '813', 1, 'Le Seigneur des anneaux - Intégrale');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (2, '812', 2, 'L''Étranger');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (3, '813', 3, 'Voyage au bout de la nuit ');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (4, '813', 4, 'Les Fleurs du mal');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (5, '813', 5, 'La Horde du contrevent');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (6, '813', 6, 'Le Petit Prince');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (7, '813', 7, 'L''Écume des jours');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (8, '813', 8, 'Harry Potter à l''école des sorciers');
-insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '813', 9, 'Dune');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (0, '813', 1, '1984');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (1, '813', 2, 'Le Seigneur des anneaux - Intégrale');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (2, '812', 3, 'L''Étranger');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (3, '813', 4, 'Voyage au bout de la nuit ');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (4, '813', 5, 'Les Fleurs du mal');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (5, '813', 6, 'La Horde du contrevent');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (6, '813', 7, 'Le Petit Prince');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (7, '813', 8, 'L''Écume des jours');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (8, '813', 9, 'Harry Potter à l''école des sorciers');
+insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '813', 10, 'Dune');
 
 --------------------------------
 --        Adhérents           --
 --------------------------------
-CREATE SEQUENCE seq_adherent START WITH 1 INCREMENT BY 1 nomaxvalue;
 insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.21.15.51.86','iseeHeehai8');
 insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'01.88.70.79.25','phiiweip1iD');
 insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'02.17.46.14.56','Maighud6nu');
@@ -1302,16 +1301,16 @@ insert into Dette (noDette, noPersonne, montantDette, motifDette, dateDette) val
 --------------------------------
 --        Emplacements        --
 --------------------------------
-insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (0, 0, '813');
-insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (1, 0, '100');
-insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (2, 0, '813');
+insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (0, 1, '813');
+insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (1, 1, '100');
+insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (2, 1, '813');
 
 --------------------------------
 --         Employés           --
 --------------------------------
-insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (7, 0, 'BIBLIOTHECAIRE');
-insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (1, 0, 'RESPONSABLE');
-insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (16, 0, 'BIBLIOTHECAIRE');
+insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (7, 1, 'BIBLIOTHECAIRE');
+insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (1, 1, 'RESPONSABLE');
+insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (16, 1, 'BIBLIOTHECAIRE');
 
 --------------------------------
 --         Exemplaire         --
@@ -1340,66 +1339,33 @@ insert into Exemplaire (codeExemplaire, noEmplacement, iSBNLivre, commentaireExe
 --------------------------------
 --           Prêts            --
 --------------------------------
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (6, '1554-3-6 6:9:54', 1,7 , 7);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (16, '1361-2-17 5:17:51', 17, 5, 51);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (19, '372-11-17 1:46:26', 5, 3, 24);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (1, '547-10-5 2:15:6', 3, 8, 77);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (13, '2009-4-30 8:6:14', 19, 0, 16);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (14, '451-1-17 2:1:59', 6, 2, 12);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (10, '1451-7-25 5:46:14', 0, 1, 8);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (0, '1248-10-11 4:55:26', 11, 6, 11);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (15, '294-4-20 1:11:23', 8, 9, 8);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (3, '187-1-26 1:45:46', 18, 5, 14);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (7, '1753-1-11 7:8:49', 16, 0, 61);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (9, '916-2-12 3:39:26', 10, 7, 14);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (5, '1693-2-7 6:38:53', 15, 6, 6);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (11, '1042-9-19 4:13:26', 2, 9, 6);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (8, '2021-1-1 1:0:0', 14, 1, 47);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (12, '1188-9-25 4:32:47', 4, 3, 15);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (18, '676-4-25 2:45:34', 13, 4, 43);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (17, '820-6-12 3:9:59', 12, 8, 82);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (2, '63-9-3 1:14:39', 9, 2, 25);
-insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (4, '1863-3-3 7:30:36', 7, 4, 28);
+insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-6 6:9:54', 1,7 , 7);
+insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-2-17 5:17:51', 17, 5, 51);
+insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-21 1:46:26', 5, 3, 24);
+insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-3 2:15:6', 3, 8, 77);
+insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-11 2:15:6', 1, 7, 7);
 
 --------------------------------
 --         Paiements          --
 --------------------------------
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (0, 10, '2021-12-2 2:11:50', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (1, 10, '2021-8-19 5:43:48', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (2, 10, '2021-8-3 1:41:1', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (3, 10, '2021-3-14 1:23:6', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (4, 10, '2021-5-1 7:51:57', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (5, 10, '2021-8-17 4:8:57', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (6, 10, '2021-1-25 6:38:40', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (7, 10, '2021-5-12 1:8:41', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (8, 10, '2021-3-23 8:30:24', 'COTIS');
-insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (9, 10, '2021-9-29 2:51:27', 'COTIS');
-insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (10, 0, 15, '2021-7-27 7:23:14', 'DETTE');
-insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (11, 1, 6, '2021-2-14 4:15:48', 'DETTE');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-12-2 2:11:50', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-19 5:43:48', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-3 1:41:1', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-3-14 1:23:6', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-5-1 7:51:57', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-17 4:8:57', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-1-25 6:38:40', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-5-12 1:8:41', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-3-23 8:30:24', 'COTIS');
+insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-9-29 2:51:27', 'COTIS');
+insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 0, 15, '2021-7-27 7:23:14', 'DETTE');
+insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 1, 6, '2021-2-14 4:15:48', 'DETTE');
 
 --------------------------------
 --    Historique des prêts    --
 --------------------------------
-insert into HistoPret (noHisto, noPret, dateRemise) values (1, 6, '1037-4-27 3:51:6');
-insert into HistoPret (noHisto, noPret, dateRemise) values (8, 16, '733-2-21 2:27:41');
-insert into HistoPret (noHisto, noPret, dateRemise) values (2, 19, '1192-3-11 4:48:19');
-insert into HistoPret (noHisto, noPret, dateRemise) values (11, 1, '1774-10-3 7:12:52');
-insert into HistoPret (noHisto, noPret, dateRemise) values (12, 13, '648-1-16 2:5:28');
-insert into HistoPret (noHisto, noPret, dateRemise) values (0, 14, '1576-9-7 6:11:43');
-insert into HistoPret (noHisto, noPret, dateRemise) values (16, 10, '1-1-1 1:0:0');
-insert into HistoPret (noHisto, noPret, dateRemise) values (15, 0, '135-7-1 1:19:24');
-insert into HistoPret (noHisto, noPret, dateRemise) values (19, 15, '792-5-16 3:3:10');
-insert into HistoPret (noHisto, noPret, dateRemise) values (6, 3, '1291-2-25 5:18:46');
-insert into HistoPret (noHisto, noPret, dateRemise) values (10, 7, '1104-1-7 4:29:17');
-insert into HistoPret (noHisto, noPret, dateRemise) values (9, 9, '911-9-29 3:19:27');
-insert into HistoPret (noHisto, noPret, dateRemise) values (5, 5, '532-9-11 1:39:8');
-insert into HistoPret (noHisto, noPret, dateRemise) values (17, 11, '387-12-4 1:18:31');
-insert into HistoPret (noHisto, noPret, dateRemise) values (13, 8, '244-5-30 1:33:32');
-insert into HistoPret (noHisto, noPret, dateRemise) values (3, 12, '329-10-7 1:53:10');
-insert into HistoPret (noHisto, noPret, dateRemise) values (7, 18, '1434-12-6 5:42:10');
-insert into HistoPret (noHisto, noPret, dateRemise) values (18, 17, '1903-7-11 7:34:6');
-insert into HistoPret (noHisto, noPret, dateRemise) values (4, 2, '1669-7-26 6:34:40');
-insert into HistoPret (noHisto, noPret, dateRemise) values (14, 4 , '1037-4-27 3:51:6');
+insert into HistoPret (noHisto, noPret, dateRemise) values (SEQ_HISTOPRET.nextval, 2, '2022-2-18 5:17:51');
+insert into HistoPret (noHisto, noPret, dateRemise) values (SEQ_HISTOPRET.nextval, 1, '2022-3-7 6:9:54');
 	
 COMMIT;
 

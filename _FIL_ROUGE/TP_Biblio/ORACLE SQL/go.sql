@@ -29,3 +29,5 @@ set verify on
 
 -- Comportement par d�faut: ne pas sortir en cas d'erreur SQL
 WHENEVER SQLERROR continue none
+COMMIT;
+/
