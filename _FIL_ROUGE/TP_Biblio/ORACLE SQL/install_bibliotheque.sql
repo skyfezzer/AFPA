@@ -242,10 +242,10 @@ BEGIN
 END;
 /
 /*==============================================================*/
-/* Fonction : SMALLINT is_adherent_en_retard                    */
+/* Fonction : SMALLINT is_adherent_autorise_pret                */
 /*          ( noPersonne NUMBER )                               */
 /*==============================================================*/
-CREATE OR REPLACE FUNCTION is_adherent_en_regle(
+CREATE OR REPLACE FUNCTION is_adherent_autorise_pret(
     in_noPersonne adherent.nopersonne%TYPE)
 RETURN SMALLINT
 IS 
@@ -276,6 +276,65 @@ BEGIN
     CLOSE cur_dateEmprunts;
     RETURN l_result;
 END;
+/
+/*==============================================================*/
+/*         PRIVILEGES                                           */
+/*                 ET SYNONYMES                                 */
+/*==============================================================*/
+revoke all on Adherent from public;
+revoke all on Auteur from public;
+revoke all on Bibliotheque from public;
+revoke all on Dette from public;
+revoke all on Emplacement from public;
+revoke all on Employe from public;
+revoke all on Exemplaire from public;
+revoke all on Histopret from public;
+revoke all on Livre from public;
+revoke all on Paiement from public;
+revoke all on Pret from public;
+revoke all on Theme from public;
+revoke all on Utilisateur from public;
+revoke all on is_exemplaire_disponible from public;
+revoke all on is_adherent_autorise_pret from public;
+grant select, update on Adherent to public;
+grant select, update, insert on Auteur to public;
+grant select on Bibliotheque to public;
+grant select on Dette to public;
+grant select, update on Emplacement to public;
+grant select on Employe to public;
+grant select, insert, update on Exemplaire to public;
+grant select, insert on Histopret to public;
+grant select on Livre to public;
+grant select on Paiement to public;
+grant select, insert, update on Pret to public;
+grant select on Theme to public;
+grant select, insert, update on Utilisateur to public;
+grant EXECUTE on is_exemplaire_disponible to public;
+grant EXECUTE on is_adherent_autorise_pret to public;
+create or replace public synonym Adherent for bibliotheque.Adherent;
+create or replace public synonym Auteur for bibliotheque.Auteur;
+create or replace public synonym Bibliotheque for bibliotheque.Bibliotheque;
+create or replace public synonym Dette for bibliotheque.Dette;
+create or replace public synonym Emplacement for bibliotheque.Emplacement;
+create or replace public synonym Employe for bibliotheque.Employe;
+create or replace public synonym Exemplaire for bibliotheque.Exemplaire;
+create or replace public synonym Histopret for bibliotheque.Histopret;
+create or replace public synonym Livre for bibliotheque.Livre;
+create or replace public synonym Paiement for bibliotheque.Paiement;
+create or replace public synonym Pret for bibliotheque.Pret;
+create or replace public synonym Theme for bibliotheque.Theme;
+create or replace public synonym Utilisateur for bibliotheque.Utilisateur;
+create or replace public synonym is_exemplaire_disponible for bibliotheque.is_exemplaire_disponible;
+create or replace public synonym is_adherent_autorise_pret for bibliotheque.is_adherent_autorise_pret;
+create or replace public synonym SEQ_ADHERENT for bibliotheque.SEQ_ADHERENT;
+create or replace public synonym SEQ_AUTEUR for bibliotheque.SEQ_AUTEUR;
+create or replace public synonym SEQ_BIBLIOTHEQUE for bibliotheque.SEQ_BIBLIOTHEQUE;
+create or replace public synonym SEQ_DETTE for bibliotheque.SEQ_DETTE;
+create or replace public synonym SEQ_EMPLACEMENT for bibliotheque.SEQ_EMPLACEMENT;
+create or replace public synonym SEQ_HISTOPRET for bibliotheque.SEQ_HISTOPRET;
+create or replace public synonym SEQ_PAIEMENT for bibliotheque.SEQ_PAIEMENT;
+create or replace public synonym SEQ_PERSONNE for bibliotheque.SEQ_PERSONNE;
+create or replace public synonym SEQ_PRET for bibliotheque.SEQ_PRET;
 /
 prompt
 prompt

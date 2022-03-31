@@ -151,7 +151,7 @@ public class AdherentDAO {
 	}
 	
 	public boolean isEnRegle(Adherent adherent) throws SQLException {
-		CallableStatement cstmt = cnx.prepareCall("{? = call is_adherent_en_regle(?)}");
+		CallableStatement cstmt = cnx.prepareCall("{? = call is_adherent_autorise_pret(?)}");
 		cstmt.registerOutParameter(1, Types.SMALLINT);
 		cstmt.setInt(2, adherent.getNoPersonne());
 		cstmt.execute();

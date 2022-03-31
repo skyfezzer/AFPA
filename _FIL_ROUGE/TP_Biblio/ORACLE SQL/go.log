@@ -25,7 +25,10 @@ SQL> create table Utilisateur
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE seq_personne START WITH 1 INCREMENT BY 1 nomaxvalue;
+
+Sequence created.
+
 SQL> comment on table Utilisateur is
   2  'Cette classe conceptualise un utilisateur de la bibliotheque';
 
@@ -47,7 +50,10 @@ SQL> create table Adherent
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE seq_adherent START WITH 1 INCREMENT BY 1 nomaxvalue;
+
+Sequence created.
+
 SQL> /*==============================================================*/
 SQL> /* Table : Auteur						   */
 SQL> /*==============================================================*/
@@ -60,7 +66,10 @@ SQL> create table Auteur
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_AUTEUR START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> /*==============================================================*/
 SQL> /* Table : Bibliotheque					   */
 SQL> /*==============================================================*/
@@ -73,7 +82,10 @@ SQL> create table Bibliotheque
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_BIBLIOTHEQUE START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> /*==============================================================*/
 SQL> /* Table : Dette						   */
 SQL> /*==============================================================*/
@@ -92,7 +104,10 @@ SQL> create table Dette
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_DETTE START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> comment on table Dette is
   2  'Cette classe conceptualise les dettes (amendes).';
 
@@ -131,7 +146,10 @@ SQL> create table Emplacement
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_EMPLACEMENT START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> /*==============================================================*/
 SQL> /* Table : Employe 					   */
 SQL> /*==============================================================*/
@@ -205,18 +223,22 @@ SQL> create table Pret
   6  	iSBNLivre	   INTEGER		not null,
   7  	noPersonne	   INTEGER		not null,
   8  	dureePret	   INTEGER,
-  9  	constraint PK_PRET primary key (noPret),
- 10  	constraint FK_PRET_ATTRIBUER_UTILISAT foreign key (noPersonne)
- 11  	      references Utilisateur (noPersonne),
- 12  	constraint FK_PRET_CONCERNER_EXEMPLAI foreign key (iSBNLivre, codeExemplaire)
- 13  	      references Exemplaire (iSBNLivre, codeExemplaire)
- 14  );
+  9  	noHisto 	   INTEGER,
+ 10  	constraint PK_PRET primary key (noPret),
+ 11  	constraint FK_PRET_ATTRIBUER_UTILISAT foreign key (noPersonne)
+ 12  	      references Utilisateur (noPersonne),
+ 13  	constraint FK_PRET_CONCERNER_EXEMPLAI foreign key (iSBNLivre, codeExemplaire)
+ 14  	      references Exemplaire (iSBNLivre, codeExemplaire)
+ 15  );
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_PRET START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> comment on table Pret is
-  2  'Cette classe conceptualise les prÃªts d''exemplaires.';
+  2  'Cette classe conceptualise les pr?ts d''exemplaires.';
 
 Comment created.
 
@@ -236,12 +258,20 @@ SQL> create table HistoPret
 
 Table created.
 
-SQL> 
+SQL> alter table PRET add constraint FK_PRET_RENDU_HISTO foreign key (noHisto) references HistoPret (noHisto);
+
+Table altered.
+
+SQL> CREATE SEQUENCE SEQ_HISTOPRET START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> comment on table HistoPret is
-  2  'Cette classe conceptualise la fin d''un prÃªt';
+  2  'Cette classe conceptualise la fin d''un pr?t';
 
 Comment created.
 
+SQL> 
 SQL> 
 SQL> /*==============================================================*/
 SQL> /* Table : Paiement					   */
@@ -262,14 +292,320 @@ SQL> create table Paiement
 
 Table created.
 
-SQL> 
+SQL> CREATE SEQUENCE SEQ_PAIEMENT START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
 SQL> comment on table Paiement is
   2  'Cette classe conceptualise les paiements de cotisations ainsi que les amendes.';
 
 Comment created.
 
 SQL> 
+SQL> /*==============================================================*/
+SQL> /* Table : HistoPret, TRIGGER				     */
+SQL> /*==============================================================*/
+SQL> CREATE OR REPLACE TRIGGER HISTOPRET_AFTER_INSERT
+  2  AFTER INSERT ON HISTOPRET
+  3  FOR EACH ROW
+  4  BEGIN
+  5  	 UPDATE PRET SET PRET.NOHISTO = :new.NOHISTO WHERE PRET.NOPRET = :new.NOPRET;
+  6  	 dbms_output.put_line('Pret <'||:new.noPret||'>.noHisto updated');
+  7  END;
+  8  /
+
+Trigger created.
+
 SQL> 
+SQL> /*==============================================================*/
+SQL> /* Fonction : SMALLINT is_Exemplaire_Disponible		     */
+SQL> /* 	 ( noISBN NUMBER, codeExemplaire NUMBER )	     */
+SQL> /*==============================================================*/
+SQL> CREATE OR REPLACE FUNCTION is_exemplaire_disponible(
+  2  	 in_noISBN NUMBER,
+  3  	 in_codeExemplaire NUMBER)
+  4  RETURN SMALLINT
+  5  IS
+  6  	 l_nbEmpruntsEnCours SMALLINT;
+  7  BEGIN
+  8  	 SELECT COUNT(*) INTO l_nbempruntsencours FROM EXEMPLAIRE, PRET
+  9  		     WHERE in_noISBN = exemplaire.isbnlivre AND in_codeExemplaire = exemplaire.codeexemplaire
+ 10  		     AND exemplaire.codeexemplaire = pret.codeexemplaire
+ 11  		     AND exemplaire.isbnlivre = pret.isbnlivre
+ 12  		     AND PRET.noPret IS NOT NULL AND PRET.noHisto IS NULL;
+ 13  	 IF l_nbempruntsencours = 0
+ 14  	 THEN
+ 15  	     RETURN 1;
+ 16  	 END IF;
+ 17  	 RETURN 0;
+ 18  END;
+ 19  /
+
+Function created.
+
+SQL> /*==============================================================*/
+SQL> /* Fonction : SMALLINT is_adherent_autorise_pret		     */
+SQL> /* 	 ( noPersonne NUMBER )				     */
+SQL> /*==============================================================*/
+SQL> CREATE OR REPLACE FUNCTION is_adherent_autorise_pret(
+  2  	 in_noPersonne adherent.nopersonne%TYPE)
+  3  RETURN SMALLINT
+  4  IS
+  5  	 CURSOR cur_dateEmprunts IS
+  6  	     SELECT PRET.DATEEMPRUNT, PRET.DUREEPRET FROM PRET
+  7  	     WHERE pret.nohisto IS NULL AND PRET.NOPERSONNE = in_noPersonne;
+  8  	 rec_dateEmprunts cur_dateEmprunts%ROWTYPE;
+  9  	 l_result SMALLINT := 1;
+ 10  	 calculated_date PRET.DATEEMPRUNT%TYPE;
+ 11  BEGIN
+ 12  	 OPEN cur_dateEmprunts;
+ 13  	 LOOP
+ 14  	     FETCH cur_dateEmprunts INTO rec_dateEmprunts;
+ 15  	     EXIT WHEN cur_dateEmprunts%NOTFOUND OR cur_dateEmprunts%ROWCOUNT > 3;
+ 16  	     -- add (either dureePret or 15) days to DateEmprunt.
+ 17  	     -- set l_result to 1 (true) if the new calculated Date is before right now.
+ 18  	     calculated_date := rec_dateEmprunts.DATEEMPRUNT +
+ 19  		 CASE WHEN rec_dateEmprunts.DUREEPRET IS NOT NULL
+ 20  		     THEN rec_dateEmprunts.DUREEPRET
+ 21  		     ELSE 15
+ 22  		 END;
+ 23  	     IF calculated_date < sysdate OR cur_dateEmprunts%ROWCOUNT >= 3
+ 24  	     THEN
+ 25  		 l_result := 0;
+ 26  	     END IF;
+ 27  
+ 28  	 END LOOP;
+ 29  	 CLOSE cur_dateEmprunts;
+ 30  	 RETURN l_result;
+ 31  END;
+ 32  /
+
+Function created.
+
+SQL> /*==============================================================*/
+SQL> /* 	PRIVILEGES					     */
+SQL> /* 		ET SYNONYMES				     */
+SQL> /*==============================================================*/
+SQL> revoke all on Adherent from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Auteur from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Bibliotheque from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Dette from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Emplacement from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Employe from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Exemplaire from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Histopret from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Livre from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Paiement from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Pret from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Theme from public;
+
+Revoke succeeded.
+
+SQL> revoke all on Utilisateur from public;
+
+Revoke succeeded.
+
+SQL> revoke all on is_exemplaire_disponible from public;
+
+Revoke succeeded.
+
+SQL> revoke all on is_adherent_autorise_pret from public;
+
+Revoke succeeded.
+
+SQL> grant select, update on Adherent to public;
+
+Grant succeeded.
+
+SQL> grant select, update, insert on Auteur to public;
+
+Grant succeeded.
+
+SQL> grant select on Bibliotheque to public;
+
+Grant succeeded.
+
+SQL> grant select on Dette to public;
+
+Grant succeeded.
+
+SQL> grant select, update on Emplacement to public;
+
+Grant succeeded.
+
+SQL> grant select on Employe to public;
+
+Grant succeeded.
+
+SQL> grant select, insert, update on Exemplaire to public;
+
+Grant succeeded.
+
+SQL> grant select, insert on Histopret to public;
+
+Grant succeeded.
+
+SQL> grant select on Livre to public;
+
+Grant succeeded.
+
+SQL> grant select on Paiement to public;
+
+Grant succeeded.
+
+SQL> grant select, insert, update on Pret to public;
+
+Grant succeeded.
+
+SQL> grant select on Theme to public;
+
+Grant succeeded.
+
+SQL> grant select, insert, update on Utilisateur to public;
+
+Grant succeeded.
+
+SQL> grant EXECUTE on is_exemplaire_disponible to public;
+
+Grant succeeded.
+
+SQL> grant EXECUTE on is_adherent_autorise_pret to public;
+
+Grant succeeded.
+
+SQL> create or replace public synonym Adherent for bibliotheque.Adherent;
+
+Synonym created.
+
+SQL> create or replace public synonym Auteur for bibliotheque.Auteur;
+
+Synonym created.
+
+SQL> create or replace public synonym Bibliotheque for bibliotheque.Bibliotheque;
+
+Synonym created.
+
+SQL> create or replace public synonym Dette for bibliotheque.Dette;
+
+Synonym created.
+
+SQL> create or replace public synonym Emplacement for bibliotheque.Emplacement;
+
+Synonym created.
+
+SQL> create or replace public synonym Employe for bibliotheque.Employe;
+
+Synonym created.
+
+SQL> create or replace public synonym Exemplaire for bibliotheque.Exemplaire;
+
+Synonym created.
+
+SQL> create or replace public synonym Histopret for bibliotheque.Histopret;
+
+Synonym created.
+
+SQL> create or replace public synonym Livre for bibliotheque.Livre;
+
+Synonym created.
+
+SQL> create or replace public synonym Paiement for bibliotheque.Paiement;
+
+Synonym created.
+
+SQL> create or replace public synonym Pret for bibliotheque.Pret;
+
+Synonym created.
+
+SQL> create or replace public synonym Theme for bibliotheque.Theme;
+
+Synonym created.
+
+SQL> create or replace public synonym Utilisateur for bibliotheque.Utilisateur;
+
+Synonym created.
+
+SQL> create or replace public synonym is_exemplaire_disponible for bibliotheque.is_exemplaire_disponible;
+
+Synonym created.
+
+SQL> create or replace public synonym is_adherent_autorise_pret for bibliotheque.is_adherent_autorise_pret;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_ADHERENT for bibliotheque.SEQ_ADHERENT;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_AUTEUR for bibliotheque.SEQ_AUTEUR;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_BIBLIOTHEQUE for bibliotheque.SEQ_BIBLIOTHEQUE;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_DETTE for bibliotheque.SEQ_DETTE;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_EMPLACEMENT for bibliotheque.SEQ_EMPLACEMENT;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_HISTOPRET for bibliotheque.SEQ_HISTOPRET;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_PAIEMENT for bibliotheque.SEQ_PAIEMENT;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_PERSONNE for bibliotheque.SEQ_PERSONNE;
+
+Synonym created.
+
+SQL> create or replace public synonym SEQ_PRET for bibliotheque.SEQ_PRET;
+
+Synonym created.
+
+SQL> /
+
+Synonym created.
+
 SQL> prompt
 
 SQL> prompt
@@ -278,8 +614,8 @@ SQL> prompt
 
 SQL> Prompt ******************************
 ******************************
-SQL> prompt Recapitulatif des Objets crï¿½ï¿½s
-Recapitulatif des Objets crï¿½ï¿½s
+SQL> prompt Recapitulatif des Objets cr??s
+Recapitulatif des Objets cr??s
 SQL> Prompt ******************************
 ******************************
 SQL> select * from user_catalog;
@@ -291,23 +627,41 @@ TABLE_TYPE
 UTILISATEUR                                                 
 TABLE                                                       
                                                             
+SEQ_PERSONNE                                                
+SEQUENCE                                                    
+                                                            
 ADHERENT                                                    
 TABLE                                                       
+                                                            
+SEQ_ADHERENT                                                
+SEQUENCE                                                    
                                                             
 AUTEUR                                                      
 TABLE                                                       
                                                             
+SEQ_AUTEUR                                                  
+SEQUENCE                                                    
+                                                            
 BIBLIOTHEQUE                                                
 TABLE                                                       
                                                             
+SEQ_BIBLIOTHEQUE                                            
+SEQUENCE                                                    
+                                                            
 DETTE                                                       
 TABLE                                                       
+                                                            
+SEQ_DETTE                                                   
+SEQUENCE                                                    
                                                             
 THEME                                                       
 TABLE                                                       
                                                             
 EMPLACEMENT                                                 
 TABLE                                                       
+                                                            
+SEQ_EMPLACEMENT                                             
+SEQUENCE                                                    
                                                             
 EMPLOYE                                                     
 TABLE                                                       
@@ -321,14 +675,23 @@ TABLE
 PRET                                                        
 TABLE                                                       
                                                             
+SEQ_PRET                                                    
+SEQUENCE                                                    
+                                                            
 HISTOPRET                                                   
 TABLE                                                       
+                                                            
+SEQ_HISTOPRET                                               
+SEQUENCE                                                    
                                                             
 PAIEMENT                                                    
 TABLE                                                       
                                                             
+SEQ_PAIEMENT                                                
+SEQUENCE                                                    
+                                                            
 
-13 rows selected.
+22 rows selected.
 
 SQL> prompt
 
@@ -338,8 +701,8 @@ SQL> prompt
 
 SQL> prompt ************************************
 ************************************
-SQL> prompt Recapitulatif des contraintes posï¿½es
-Recapitulatif des contraintes posï¿½es
+SQL> prompt Recapitulatif des contraintes pos?es
+Recapitulatif des contraintes pos?es
 SQL> prompt ************************************
 ************************************
 SQL> 
@@ -359,13 +722,13 @@ CONSTRAINT_NAME      TYP TABLE_NAME
 -------------------- --- ---------------                    
 SEARCH_CONDITION               DELETE_RU STATUS             
 ------------------------------ --------- --------           
-SYS_C0012256         C   ADHERENT                           
+SYS_C0013694         C   ADHERENT                           
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0012259             AUTEUR                             
+SYS_C0013697             AUTEUR                             
 "NOAUTEUR" IS NOT NULL                   ENABLED            
                                                             
-SYS_C0012261             BIBLIOTHEQUE                       
+SYS_C0013699             BIBLIOTHEQUE                       
 "NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
                                                             
 CKC_MONTANTDETTE_DET     DETTE                              
@@ -373,80 +736,80 @@ TE
 montantDette is null or (monta           ENABLED            
 ntDette >= 0)                                               
                                                             
-SYS_C0012264             DETTE                              
-"NOPERSONNE" IS NOT NULL                 ENABLED            
-                                                            
-SYS_C0012263             DETTE                              
+SYS_C0013701             DETTE                              
 "NODETTE" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0012273             EMPLACEMENT                        
-"NOTHEME" IS NOT NULL                    ENABLED            
-                                                            
-SYS_C0012272             EMPLACEMENT                        
-"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
-                                                            
-SYS_C0012271             EMPLACEMENT                        
-"NOEMPLACEMENT" IS NOT NULL              ENABLED            
-                                                            
-SYS_C0012278             EMPLOYE                            
-"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
-                                                            
-SYS_C0012277             EMPLOYE                            
+SYS_C0013702             DETTE                              
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0012288             EXEMPLAIRE                         
-"ISBNLIVRE" IS NOT NULL                  ENABLED            
+SYS_C0013710             EMPLACEMENT                        
+"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0012289             EXEMPLAIRE                         
-"CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
-                                                            
-SYS_C0012301             HISTOPRET                          
-"NOHISTO" IS NOT NULL                    ENABLED            
-                                                            
-SYS_C0012302             HISTOPRET                          
-"NOPRET" IS NOT NULL                     ENABLED            
-                                                            
-SYS_C0012282             LIVRE                              
-"ISBNLIVRE" IS NOT NULL                  ENABLED            
-                                                            
-SYS_C0012283             LIVRE                              
+SYS_C0013711             EMPLACEMENT                        
 "NOTHEME" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0012284             LIVRE                              
+SYS_C0013709             EMPLACEMENT                        
+"NOEMPLACEMENT" IS NOT NULL              ENABLED            
+                                                            
+SYS_C0013716             EMPLOYE                            
+"NOBIBLIOTHEQUE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0013715             EMPLOYE                            
+"NOPERSONNE" IS NOT NULL                 ENABLED            
+                                                            
+SYS_C0013727             EXEMPLAIRE                         
+"CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
+                                                            
+SYS_C0013726             EXEMPLAIRE                         
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
+                                                            
+SYS_C0013739             HISTOPRET                          
+"NOHISTO" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0013740             HISTOPRET                          
+"NOPRET" IS NOT NULL                     ENABLED            
+                                                            
+SYS_C0013722             LIVRE                              
 "NOAUTEUR" IS NOT NULL                   ENABLED            
                                                             
-SYS_C0012305             PAIEMENT                           
-"NOPAIEMENT" IS NOT NULL                 ENABLED            
+SYS_C0013720             LIVRE                              
+"ISBNLIVRE" IS NOT NULL                  ENABLED            
                                                             
-CKC_MONTANTPAIEMENT_     PAIEMENT                           
-PAIEMENT                                                    
-montantPaiement is null or (mo           ENABLED            
-ntantPaiement >= 0)                                         
+SYS_C0013721             LIVRE                              
+"NOTHEME" IS NOT NULL                    ENABLED            
+                                                            
+SYS_C0013744             PAIEMENT                           
+"NOPAIEMENT" IS NOT NULL                 ENABLED            
                                                             
 CKC_TYPEPAIEMENT_PAI     PAIEMENT                           
 EMENT                                                       
 typePaiement is null or (typeP           ENABLED            
 aiement in ('DETTE','COTIS'))                               
                                                             
-SYS_C0012294             PRET                               
+CKC_MONTANTPAIEMENT_     PAIEMENT                           
+PAIEMENT                                                    
+montantPaiement is null or (mo           ENABLED            
+ntantPaiement >= 0)                                         
+                                                            
+SYS_C0013732             PRET                               
 "DATEEMPRUNT" IS NOT NULL                ENABLED            
                                                             
-SYS_C0012293             PRET                               
+SYS_C0013731             PRET                               
 "NOPRET" IS NOT NULL                     ENABLED            
                                                             
-SYS_C0012295             PRET                               
+SYS_C0013733             PRET                               
 "CODEEXEMPLAIRE" IS NOT NULL             ENABLED            
                                                             
-SYS_C0012296             PRET                               
+SYS_C0013734             PRET                               
 "ISBNLIVRE" IS NOT NULL                  ENABLED            
                                                             
-SYS_C0012297             PRET                               
+SYS_C0013735             PRET                               
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
-SYS_C0012268             THEME                              
+SYS_C0013706             THEME                              
 "NOTHEME" IS NOT NULL                    ENABLED            
                                                             
-SYS_C0012254             UTILISATEUR                        
+SYS_C0013692             UTILISATEUR                        
 "NOPERSONNE" IS NOT NULL                 ENABLED            
                                                             
 -------------------- ***                                    
@@ -508,12 +871,12 @@ FK_DETTE_PUNIR_ADHER     DETTE
 ENT                                                         
                                NO ACTION ENABLED            
                                                             
-FK_EMPLACEM_LOCALISE     EMPLACEMENT                        
-R_BIBLIOTH                                                  
-                               NO ACTION ENABLED            
-                                                            
 FK_EMPLACEM_TRIER_TH     EMPLACEMENT                        
 EME                                                         
+                               NO ACTION ENABLED            
+                                                            
+FK_EMPLACEM_LOCALISE     EMPLACEMENT                        
+R_BIBLIOTH                                                  
                                NO ACTION ENABLED            
                                                             
 FK_EMPLOYE_GENERALIS     EMPLOYE                            
@@ -561,18 +924,21 @@ SEARCH_CONDITION               DELETE_RU STATUS
 ------------------------------ --------- --------           
                                NO ACTION ENABLED            
                                                             
-FK_THEMEPARENT_CONTI R   THEME                              
+FK_PRET_RENDU_HISTO  R   PRET                               
+                               NO ACTION ENABLED            
+                                                            
+FK_THEMEPARENT_CONTI     THEME                              
 ENT_THEME                                                   
                                NO ACTION ENABLED            
                                                             
 -------------------- ***                                    
                                                             
                                                             
-                  15 cou                                    
+                  16 cou                                    
                                                             
                                                             
 
-56 rows selected.
+57 rows selected.
 
 SQL> 
 SQL> 
@@ -657,43 +1023,43 @@ Session altered.
 SQL> --------------------------------
 SQL> -- 	 Auteur 	   --
 SQL> --------------------------------
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (0, 'George Orwell');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'George Orwell');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (1, 'J.R.R. Tolkien');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'J.R.R. Tolkien');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (2, 'Albert Camus');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Albert Camus');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (3, 'Louis-Ferdinand Céline');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Louis-Ferdinand Céline');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (4, 'Charles Baudelaire');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Charles Baudelaire');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (5, ' Alain Damasio');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, ' Alain Damasio');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (6, 'Antoine de Saint-Exupéry');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Antoine de Saint-Exupéry');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (7, 'Boris Vian');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Boris Vian');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (8, 'J. K. Rowling');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'J. K. Rowling');
 
 1 row created.
 
-SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (9, 'Frank Herbert');
+SQL> insert into Auteur (noAuteur, nomCompletAuteur) values (SEQ_AUTEUR.nextval, 'Frank Herbert');
 
 1 row created.
 
@@ -701,7 +1067,7 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	 Biblio 	   --
 SQL> --------------------------------
-SQL> insert into Bibliotheque (noBibliotheque, adresse) values (0, 'Centre Culturel des Marmusots, 1 rue de l''égalité, 12345 Uneville');
+SQL> insert into Bibliotheque (noBibliotheque, adresse) values (SEQ_BIBLIOTHEQUE.nextval, 'Centre Culturel des Marmusots, 1 rue de l''égalité, 12345 Uneville');
 
 1 row created.
 
@@ -709,10 +1075,7 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	 Personne	   --
 SQL> --------------------------------
-SQL> CREATE SEQUENCE seq_personne START WITH 1 INCREMENT BY 1 nomaxvalue;
-
-Sequence created.
-
+SQL> 
 SQL> insert into Utilisateur (noPersonne, nom, prenom, employe) values(seq_personne.nextval,'Guy','Labbé', 1);
 
 1 row created.
@@ -5197,43 +5560,43 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	 Livres 	   --
 SQL> --------------------------------
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (0, '813', 0, '1984');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (0, '813', 1, '1984');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (1, '813', 1, 'Le Seigneur des anneaux - Intégrale');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (1, '813', 2, 'Le Seigneur des anneaux - Intégrale');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (2, '812', 2, 'L''Étranger');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (2, '812', 3, 'L''Étranger');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (3, '813', 3, 'Voyage au bout de la nuit ');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (3, '813', 4, 'Voyage au bout de la nuit ');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (4, '813', 4, 'Les Fleurs du mal');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (4, '813', 5, 'Les Fleurs du mal');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (5, '813', 5, 'La Horde du contrevent');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (5, '813', 6, 'La Horde du contrevent');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (6, '813', 6, 'Le Petit Prince');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (6, '813', 7, 'Le Petit Prince');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (7, '813', 7, 'L''Écume des jours');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (7, '813', 8, 'L''Écume des jours');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (8, '813', 8, 'Harry Potter à l''école des sorciers');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (8, '813', 9, 'Harry Potter à l''école des sorciers');
 
 1 row created.
 
-SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '813', 9, 'Dune');
+SQL> insert into Livre (iSBNLivre, noTheme, noAuteur, titreLivre) values (9, '813', 10, 'Dune');
 
 1 row created.
 
@@ -5241,10 +5604,6 @@ SQL>
 SQL> --------------------------------
 SQL> --        Adhérents	   --
 SQL> --------------------------------
-SQL> CREATE SEQUENCE seq_adherent START WITH 1 INCREMENT BY 1 nomaxvalue;
-
-Sequence created.
-
 SQL> insert into Adherent (noPersonne, noTelAdherent, pin) values(seq_adherent.nextval,'05.21.15.51.86','iseeHeehai8');
 
 1 row created.
@@ -5661,15 +6020,15 @@ SQL>
 SQL> --------------------------------
 SQL> --        Emplacements	   --
 SQL> --------------------------------
-SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (0, 0, '813');
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (0, 1, '813');
 
 1 row created.
 
-SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (1, 0, '100');
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (1, 1, '100');
 
 1 row created.
 
-SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (2, 0, '813');
+SQL> insert into Emplacement (noEmplacement, noBibliotheque, noTheme) values (2, 1, '813');
 
 1 row created.
 
@@ -5677,15 +6036,15 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	Employés	   --
 SQL> --------------------------------
-SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (7, 0, 'BIBLIOTHECAIRE');
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (7, 1, 'BIBLIOTHECAIRE');
 
 1 row created.
 
-SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (1, 0, 'RESPONSABLE');
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (1, 1, 'RESPONSABLE');
 
 1 row created.
 
-SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (16, 0, 'BIBLIOTHECAIRE');
+SQL> insert into Employe (noPersonne, noBibliotheque, gradeEmploye) values (16, 1, 'BIBLIOTHECAIRE');
 
 1 row created.
 
@@ -5777,83 +6136,23 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	  Prêts 	   --
 SQL> --------------------------------
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (6, '1554-3-6 6:9:54', 1,7 , 7);
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-6 6:9:54', 1,7 , 7);
 
 1 row created.
 
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (16, '1361-2-17 5:17:51', 17, 5, 51);
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-2-17 5:17:51', 17, 5, 51);
 
 1 row created.
 
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (19, '372-11-17 1:46:26', 5, 3, 24);
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-21 1:46:26', 5, 3, 24);
 
 1 row created.
 
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (1, '547-10-5 2:15:6', 3, 8, 77);
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-3 2:15:6', 3, 8, 77);
 
 1 row created.
 
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (13, '2009-4-30 8:6:14', 19, 0, 16);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (14, '451-1-17 2:1:59', 6, 2, 12);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (10, '1451-7-25 5:46:14', 0, 1, 8);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (0, '1248-10-11 4:55:26', 11, 6, 11);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (15, '294-4-20 1:11:23', 8, 9, 8);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (3, '187-1-26 1:45:46', 18, 5, 14);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (7, '1753-1-11 7:8:49', 16, 0, 61);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (9, '916-2-12 3:39:26', 10, 7, 14);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (5, '1693-2-7 6:38:53', 15, 6, 6);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (11, '1042-9-19 4:13:26', 2, 9, 6);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (8, '2021-1-1 1:0:0', 14, 1, 47);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (12, '1188-9-25 4:32:47', 4, 3, 15);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (18, '676-4-25 2:45:34', 13, 4, 43);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (17, '820-6-12 3:9:59', 12, 8, 82);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (2, '63-9-3 1:14:39', 9, 2, 25);
-
-1 row created.
-
-SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (4, '1863-3-3 7:30:36', 7, 4, 28);
+SQL> insert into Pret (noPret, dateEmprunt, codeExemplaire, iSBNLivre, noPersonne) values (seq_pret.nextval, '2022-3-11 2:15:6', 1, 7, 7);
 
 1 row created.
 
@@ -5861,51 +6160,51 @@ SQL>
 SQL> --------------------------------
 SQL> -- 	Paiements	   --
 SQL> --------------------------------
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (0, 10, '2021-12-2 2:11:50', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-12-2 2:11:50', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (1, 10, '2021-8-19 5:43:48', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-19 5:43:48', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (2, 10, '2021-8-3 1:41:1', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-3 1:41:1', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (3, 10, '2021-3-14 1:23:6', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-3-14 1:23:6', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (4, 10, '2021-5-1 7:51:57', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-5-1 7:51:57', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (5, 10, '2021-8-17 4:8:57', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-8-17 4:8:57', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (6, 10, '2021-1-25 6:38:40', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-1-25 6:38:40', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (7, 10, '2021-5-12 1:8:41', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-5-12 1:8:41', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (8, 10, '2021-3-23 8:30:24', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-3-23 8:30:24', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (9, 10, '2021-9-29 2:51:27', 'COTIS');
+SQL> insert into Paiement (noPaiement, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 10, '2021-9-29 2:51:27', 'COTIS');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (10, 0, 15, '2021-7-27 7:23:14', 'DETTE');
+SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 0, 15, '2021-7-27 7:23:14', 'DETTE');
 
 1 row created.
 
-SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (11, 1, 6, '2021-2-14 4:15:48', 'DETTE');
+SQL> insert into Paiement (noPaiement, noDette, montantPaiement, datePaiement, typePaiement) values (SEQ_PAIEMENT.nextval, 1, 6, '2021-2-14 4:15:48', 'DETTE');
 
 1 row created.
 
@@ -5913,83 +6212,11 @@ SQL>
 SQL> --------------------------------
 SQL> --    Historique des prêts    --
 SQL> --------------------------------
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (1, 6, '1037-4-27 3:51:6');
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (SEQ_HISTOPRET.nextval, 2, '2022-2-18 5:17:51');
 
 1 row created.
 
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (8, 16, '733-2-21 2:27:41');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (2, 19, '1192-3-11 4:48:19');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (11, 1, '1774-10-3 7:12:52');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (12, 13, '648-1-16 2:5:28');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (0, 14, '1576-9-7 6:11:43');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (16, 10, '1-1-1 1:0:0');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (15, 0, '135-7-1 1:19:24');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (19, 15, '792-5-16 3:3:10');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (6, 3, '1291-2-25 5:18:46');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (10, 7, '1104-1-7 4:29:17');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (9, 9, '911-9-29 3:19:27');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (5, 5, '532-9-11 1:39:8');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (17, 11, '387-12-4 1:18:31');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (13, 8, '244-5-30 1:33:32');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (3, 12, '329-10-7 1:53:10');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (7, 18, '1434-12-6 5:42:10');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (18, 17, '1903-7-11 7:34:6');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (4, 2, '1669-7-26 6:34:40');
-
-1 row created.
-
-SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (14, 4 , '1037-4-27 3:51:6');
+SQL> insert into HistoPret (noHisto, noPret, dateRemise) values (SEQ_HISTOPRET.nextval, 1, '2022-3-7 6:9:54');
 
 1 row created.
 
