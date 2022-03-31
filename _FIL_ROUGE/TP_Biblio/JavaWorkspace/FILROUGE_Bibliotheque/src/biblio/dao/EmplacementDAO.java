@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Bibliotheque;
 import biblio.domain.Emplacement;
@@ -65,12 +65,12 @@ public class EmplacementDAO {
 		return result;
 	}
 	
-	public Collection<Emplacement> findAllByBibliotheque(Bibliotheque bibliotheque) throws SQLException{
+	public List<Emplacement> findAllByBibliotheque(Bibliotheque bibliotheque) throws SQLException{
 		return findAllByBibliotheque(bibliotheque.getNoBibliotheque());
 	}
 	
-	public Collection<Emplacement> findAllByBibliotheque(int noBibliotheque) throws SQLException{
-		Collection<Emplacement> result = null;
+	public List<Emplacement> findAllByBibliotheque(int noBibliotheque) throws SQLException{
+		List<Emplacement> result = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = cnx.prepareStatement("select * from emplacement where noBibliotheque = ?");
 		pstmt.setInt(1, noBibliotheque);

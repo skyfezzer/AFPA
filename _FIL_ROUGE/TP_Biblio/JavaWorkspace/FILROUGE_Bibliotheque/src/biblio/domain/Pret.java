@@ -13,15 +13,14 @@ import java.sql.Date;
  * 
  * @pdOid 09e251f1-51fa-4bba-b70b-5199423c6d0b
  */
-public class Pret {	
-	
+public class Pret {
 
 	public Pret(Integer noPret, Date dateEmprunt, Integer dureePret, Exemplaire exemplaire, HistoPret historique_rendu,
 			Utilisateur utilisateur) {
 		super();
 		this.setNoPret(noPret);
 		this.setDateEmprunt(dateEmprunt);
-		this.setDureePret(dureePret==null?DEFAULT_DUREE_PRET:dureePret);
+		this.setDureePret(dureePret == null ? DEFAULT_DUREE_PRET : dureePret);
 		this.setHistorique_rendu(historique_rendu);
 		this.setUtilisateur(utilisateur);
 		this.setExemplaire(exemplaire);
@@ -33,12 +32,11 @@ public class Pret {
 	private Date dateEmprunt;
 	/** @pdOid 5ecaa4eb-856c-453e-8d39-0d141096b253 */
 	private Integer dureePret;
-	
+
 	private Exemplaire exemplaire;
-	
 
 	public static final Integer DEFAULT_DUREE_PRET = 15;
-	
+
 	/**
 	 * Un historique stocke un et un seul prêt Un prêt peut être stocké ou non par
 	 * un historique.
@@ -51,72 +49,84 @@ public class Pret {
 	 */
 	/** @pdRoleInfo migr=no name=Utilisateur assc=attribuer mult=1..1 */
 	public Utilisateur utilisateur;
+
 	/**
 	 * @return the noPret
 	 */
 	public Integer getNoPret() {
 		return noPret;
 	}
+
 	/**
 	 * @param noPret the noPret to set
 	 */
 	public void setNoPret(Integer noPret) {
 		this.noPret = noPret;
 	}
+
 	/**
 	 * @return the dateEmprunt
 	 */
 	public Date getDateEmprunt() {
 		return dateEmprunt;
 	}
+
 	/**
 	 * @param dateEmprunt the dateEmprunt to set
 	 */
 	public void setDateEmprunt(Date dateEmprunt) {
 		this.dateEmprunt = dateEmprunt;
 	}
+
 	/**
 	 * @return the dureePret
 	 */
 	public Integer getDureePret() {
 		return dureePret;
 	}
+
 	/**
 	 * @param dureePret the dureePret to set
 	 */
 	public void setDureePret(Integer dureePret) {
 		this.dureePret = dureePret;
 	}
+
 	/**
 	 * @return the exemplaire
 	 */
 	public Exemplaire getExemplaire() {
 		return exemplaire;
 	}
+
 	/**
 	 * @param exemplaire the exemplaire to set
 	 */
 	public void setExemplaire(Exemplaire exemplaire) {
 		this.exemplaire = exemplaire;
 	}
+
 	/**
 	 * @return the historique_rendu
 	 */
 	public HistoPret getHistorique_rendu() {
 		return historique_rendu;
 	}
+
 	/**
 	 * @param historique_rendu the historique_rendu to set
 	 */
 	public void setHistorique_rendu(HistoPret historique_rendu) {
 		this.historique_rendu = historique_rendu;
 	}
+
 	/**
 	 * @return the utilisateur
 	 */
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
+
 	/**
 	 * @param utilisateur the utilisateur to set
 	 */
@@ -124,6 +134,12 @@ public class Pret {
 		this.utilisateur = utilisateur;
 	}
 
+	@Override
+	public String toString() {
+		return "Pret [getNoPret()=" + getNoPret() + ", getDateEmprunt()=" + getDateEmprunt() + ", getDureePret()="
+				+ getDureePret() + ", getExemplaire()=" + getExemplaire() + ", getUtilisateur()=" + getUtilisateur()
+				+ "]";
+	}
 	
-
+	
 }

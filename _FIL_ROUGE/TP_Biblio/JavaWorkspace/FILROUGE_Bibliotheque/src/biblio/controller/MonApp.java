@@ -16,7 +16,6 @@ import biblio.dao.ExemplaireDAO;
 import biblio.dao.LivreDAO;
 import biblio.dao.PretDAO;
 import biblio.dao.UtilisateurDAO;
-import biblio.domain.Adherent;
 import biblio.domain.Exemplaire;
 import biblio.domain.Livre;
 import biblio.domain.Utilisateur;
@@ -78,49 +77,51 @@ public class MonApp {
 		pretDAO = new PretDAO(cnx);
 		adherentDAO = new AdherentDAO(cnx);
 
-		Adherent adh = new Adherent(1000, "JeSuisUn", "Test", "fakeTel", "fakePin");
-		testNewAdherent(adh);
 
 		deuxExemplairesParId();
 		unAdherentParId();
 		unEmployeParId();
+
+
 		try {
 			System.out.println("On rollback, fin du test.");
 			cnx.rollback();
 			System.out.println("On ferme la connexion.");
 			cnx.close();
 			System.out.println("Fin de l'app.");
+			System.exit(0);
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
 		
 	}
 
+	// DEMANDE D'UN EMPLOYE PAR SON ID AUX DAO
 	private void unEmployeParId() {
 		System.out.println();
 		System.out.println("> Demande d'un employé par son id aux DAO :");
-		Utilisateur employe = null;
+		Utilisateur user = null;
 		try {
-			employe = utilisateurDAO.findByKey(1);
+			user = utilisateurDAO.findByKey(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Employé pour idUtilisateur 1 : \n\t" + employe);
+		System.out.println("Employé pour idUtilisateur 1 : \n\t" + user);
 		System.out.println("\n");
 
 	}
 
+	// DEMANDE D'UN ADHERENT PAR SON ID AUX DAO
 	private void unAdherentParId() {
 		System.out.println();
 		System.out.println("> Demande d'un adhérent par son id aux DAO :");
-		Utilisateur adherent = null;
+		Utilisateur user = null;
 		try {
-			adherent = utilisateurDAO.findByKey(25);
+			user = utilisateurDAO.findByKey(25);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Adhérent pour idUtilisateur 25 : \n\t" + adherent);
+		System.out.println("Adhérent pour idUtilisateur 25 : \n\t" + user);
 		
 	}
 
@@ -140,36 +141,6 @@ public class MonApp {
 		}
 		System.out.println("Exemplaire 1 : \n\t"+exemplaire1);
 		System.out.println("Exemplaire 2 : \n\t"+exemplaire2);
-	}
-	
-	private void testNewAdherent(Adherent testAdherent) {
-
-		if (testAdherent == null)
-			testAdherent = new Adherent(1000, "JeSuisUn", "Test", "fakeTel", "fakePin");
-
-		System.out.println("On crée un adhérent, prêt à être inséré et manipulé :\n\t" + testAdherent);
-		System.out.println("= ======== =\n");
-
-		try {
-			
-			System.out.println("INSERT UTILISATEUR : " + utilisateurDAO.insert(testAdherent));
-			System.out.println("SELECT UTILISATEUR : " + utilisateurDAO.findByKey(1000));
-			System.out.println("DELETE UTILISATEUR : " + utilisateurDAO.delete(testAdherent));
-			System.out.println("SELECT UTILISATEUR : " + (testAdherent = (Adherent) utilisateurDAO.findByKey(1000)));
-			System.out.println(testAdherent==null?"TEST UU OK":"TEST NOK");
-			System.out.println("= ======== =\n");
-			testAdherent = new Adherent(1000, "JeSuisUn", "Test", "fakeTel", "fakePin");
-			System.out.println("INSERT ADHERENT : " + adherentDAO.insert(testAdherent));
-			System.out.println("SELECT ADHERENT : " + adherentDAO.findByKey(1000));
-			System.out.println("DELETE ADHERENT : " + adherentDAO.delete(testAdherent));
-			System.out.println("SELECT ADHERENT : " + (testAdherent = adherentDAO.findByKey(1000)));
-			System.out.println(testAdherent==null?"TEST AA OK":"TEST NOK");
-			System.out.println("= ======== =\n");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 }

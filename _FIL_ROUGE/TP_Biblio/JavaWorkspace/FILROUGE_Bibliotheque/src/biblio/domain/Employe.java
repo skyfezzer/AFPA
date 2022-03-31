@@ -7,7 +7,7 @@
 package biblio.domain;
 
 /** @pdOid 72a03d2c-4871-4eed-9cb8-e1134ef5776b */
-public class Employe extends Utilisateur {
+public class Employe extends Utilisateur{
 	public Employe(Integer noPersonne, String nom, String prenom, String gradeEmploye, Bibliotheque biblio) {
 		super(noPersonne, nom, prenom, (short) 1);
 		this.setGradeEmploye(gradeEmploye);

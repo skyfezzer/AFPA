@@ -127,8 +127,6 @@ public class Adherent extends Utilisateur {
 		return "Adherent [getNoTelAdherent()=" + getNoTelAdherent() + ", getPin()=" + getPin() + ", getLesDettes()="
 				+ getLesDettes() + ", getNoPersonne()=" + getNoPersonne() + ", getNom()=" + getNom() + ", getPrenom()="
 				+ getPrenom() + "]";
-	}
-	
-	
+	}	
 
 }

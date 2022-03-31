@@ -6,9 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Auteur;
+import biblio.domain.Livre;
 
 public class AuteurDAO {
 	private Connection cnx = null;
@@ -41,13 +42,13 @@ public class AuteurDAO {
 	public Auteur findByKey(int noAuteur) throws SQLException {
 		Auteur result = null;
 		ResultSet rs = null;
-		PreparedStatement pstmt = cnx.prepareStatement("select * from Auteur where noAuteur = ?");
+		PreparedStatement pstmt = cnx.prepareStatement("select noAuteur, nomCompletAuteur from Auteur where noAuteur = ?");
 		pstmt.setInt(1, noAuteur);
 
 		if (pstmt.execute()) {
 			rs = pstmt.getResultSet();
 			if (rs.next()) {
-				result = new Auteur(rs.getInt("noAuteur"), null);
+				result = new Auteur(rs.getInt("noAuteur"), rs.getString("nomCompletAuteur"));
 			}
 		}
 		rs.close();
@@ -56,11 +57,33 @@ public class AuteurDAO {
 		return result;
 	}
 
-	public Collection<Auteur> findAll() throws SQLException {
-		Collection<Auteur> result = null;
+	// Search the noAuteur of the Livre in the Livre table
+	// then return this.findByKey(noAuteur)
+	public Auteur findByLivre(Livre livre) throws SQLException {
+		Auteur result = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = cnx.prepareStatement("select noAuteur from Livre where ISBNLivre = ?");
+		pstmt.setInt(1, livre.getiSBNLivre());
+
+		if (pstmt.execute()) {
+			rs = pstmt.getResultSet();
+			if (rs.next()) {
+				result = this.findByKey(rs.getInt("noAuteur"));
+			}
+		}
+		rs.close();
+		pstmt.close();
+
+		return result;
+	}
+
+
+
+	public List<Auteur> findAll() throws SQLException {
+		List<Auteur> result = null;
 
 		Statement stmt = cnx.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM Auteur");
+		ResultSet rs = stmt.executeQuery("SELECT noAuteur, nomCompletAuteur FROM Auteur");
 		while (rs.next()) {
 			if(result == null) {
 				result = new ArrayList<Auteur>();

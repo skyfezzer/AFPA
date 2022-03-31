@@ -1,11 +1,13 @@
 package biblio.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Adherent;
 
@@ -59,8 +61,8 @@ public class AdherentDAO {
 	}
 
 	// function that returns a List of all Adherents from Adherent table
-	public Collection<Adherent> findAll() throws SQLException {
-		Collection<Adherent> result = new ArrayList<Adherent>();
+	public List<Adherent> findAll() throws SQLException {
+		List<Adherent> result = new ArrayList<Adherent>();
 		ResultSet rs = null;
 		String req = "SELECT * FROM ADHERENT A " + "RIGHT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = A.NOPERSONNE";
 		PreparedStatement pstmt = cnx.prepareStatement(req);
@@ -146,6 +148,14 @@ public class AdherentDAO {
 		executed = pstmt.executeUpdate() > 0;
 		pstmt.close();
 		return executed;
+	}
+	
+	public boolean isEnRegle(Adherent adherent) throws SQLException {
+		CallableStatement cstmt = cnx.prepareCall("{? = call is_adherent_en_regle(?)}");
+		cstmt.registerOutParameter(1, Types.SMALLINT);
+		cstmt.setInt(2, adherent.getNoPersonne());
+		cstmt.execute();
+		return cstmt.getShort(1) == 1;
 	}
 
 }

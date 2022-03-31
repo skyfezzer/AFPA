@@ -124,7 +124,7 @@ public class Auteur {
 
 	@Override
 	public String toString() {
-		return "Auteur [getRealisations()=" + getRealisations() + ", getNoAuteur()=" + getNoAuteur()
+		return "Auteur [getNoAuteur()=" + getNoAuteur()
 				+ ", getNomCompletAuteur()=" + getNomCompletAuteur() + "]";
 	}
 	

@@ -9,11 +9,13 @@ package biblio.dao;
 import biblio.domain.Exemplaire;
 import biblio.domain.Livre;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.*;
 
 /** @pdOid 497bdfbf-e909-4a15-a7ff-c9b904c05060 */
@@ -81,7 +83,7 @@ public class ExemplaireDAO {
 			rs = pstmt.getResultSet();
 			while (rs.next()) {
 				result.add(new Exemplaire(rs.getShort("codeExemplaire"), rs.getString("commentaireExemplaire"), null,
-						null));
+						livre));
 			}
 		}
 		rs.close();
@@ -90,8 +92,8 @@ public class ExemplaireDAO {
 		return result;
 	}
 
-	public Collection<Exemplaire> findAll() throws SQLException {
-		Collection<Exemplaire> result = null;
+	public List<Exemplaire> findAll() throws SQLException {
+		List<Exemplaire> result = null;
 
 		Statement stmt = cnx.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Exemplaire");
@@ -143,4 +145,12 @@ public class ExemplaireDAO {
 		return result > 0;
 	}
 
+	public boolean isDisponible(Exemplaire exemplaire) throws SQLException {
+		CallableStatement cstmt = cnx.prepareCall("{? = call is_exemplaire_disponible(?,?)}");
+		cstmt.registerOutParameter(1, Types.SMALLINT);
+		cstmt.setInt(2, exemplaire.getLivre().getiSBNLivre());
+		cstmt.setInt(3, exemplaire.getCodeExemplaire());
+		cstmt.execute();
+		return cstmt.getShort(1) == 1;
+	}
 }

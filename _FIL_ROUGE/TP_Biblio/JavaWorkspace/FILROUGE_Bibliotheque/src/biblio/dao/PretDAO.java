@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Pret;
 import biblio.domain.Utilisateur;
@@ -61,8 +63,8 @@ public class PretDAO {
 		return result;
 	}
 
-	public Collection<Pret> findAllByUtilisateur(Utilisateur utilisateur) throws SQLException {
-		Collection<Pret> result = null;
+	public List<Pret> findAllByUtilisateur(Utilisateur utilisateur) throws SQLException {
+		List<Pret> result = null;
 
 		Statement stmt = cnx.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Pret where noPersonne = " + utilisateur.getNoPersonne());
@@ -95,19 +97,32 @@ public class PretDAO {
 		return result;
 	}
 
-	public boolean insert(Pret pret) throws SQLException {
-		PreparedStatement pstmt = cnx.prepareStatement(
-				"INSERT INTO Pret (noPret,dateEmprunt,codeExemplaire,ISBNLivre,noPersonne,dureePret) VALUES (?,?,?,?,?,?)");
-		pstmt.setInt(1, pret.getNoPret());
-		pstmt.setDate(2, pret.getDateEmprunt());
-		pstmt.setInt(3, pret.getExemplaire().getCodeExemplaire());
+	public Integer insert(Pret pret) throws SQLException {
+		if(pret == null){
+			return null;
+		}
+		
+		if(pret.getUtilisateur() == null || pret.getExemplaire() == null || pret.getDateEmprunt() == null){
+			return null;
+		}
+
+		Integer result = null;
+		PreparedStatement pstmt = cnx.prepareStatement("insert into Pret (dateEmprunt, dureePret, noPersonne, ISBNLivre, codeExemplaire, noPret) values (?, ?, ?, ?, ?, seq_pret.nextval)", new String[] {"noPret"});
+		pstmt.setDate(1, pret.getDateEmprunt());
+		pstmt.setInt(2, pret.getDureePret());
+		pstmt.setInt(3, pret.getUtilisateur().getNoPersonne());
 		pstmt.setInt(4, pret.getExemplaire().getLivre().getiSBNLivre());
-		pstmt.setInt(5, pret.getUtilisateur().getNoPersonne());
-		pstmt.setInt(6, pret.getDureePret());
-		int result = pstmt.executeUpdate();
+		pstmt.setInt(5, pret.getExemplaire().getCodeExemplaire());
+		pstmt.executeUpdate();
+		ResultSet rs = pstmt.getGeneratedKeys();
+		if (rs.next()) {
+			result = rs.getInt(1);
+		}
+		rs.close();
 		pstmt.close();
-		return result > 0;
+		return result;
 	}
+
 
 	public boolean update(Pret pret) throws SQLException {
 		PreparedStatement pstmt = cnx.prepareStatement(

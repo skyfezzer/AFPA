@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Dette;
 
@@ -53,8 +53,8 @@ public class DetteDAO {
 		return result;
 	}
 
-	public Collection<Dette> findAll() throws SQLException {
-		Collection<Dette> result = null;
+	public List<Dette> findAll() throws SQLException {
+		List<Dette> result = null;
 
 		Statement stmt = cnx.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Dette");

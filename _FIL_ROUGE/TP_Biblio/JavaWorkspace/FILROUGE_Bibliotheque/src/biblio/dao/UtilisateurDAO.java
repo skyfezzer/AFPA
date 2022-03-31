@@ -11,11 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import biblio.domain.Utilisateur;
 import biblio.domain.Adherent;
 import biblio.domain.Employe;
+import biblio.domain.Utilisateur;
 
 /** @pdOid 182fef41-734d-4d62-80ed-0888f633123a */
 public class UtilisateurDAO {
@@ -72,8 +73,8 @@ public class UtilisateurDAO {
 		return result;
 	}
 
-	public Collection<Utilisateur> findAll() throws SQLException {
-		Collection<Utilisateur> result = null;
+	public List<Utilisateur> findAll() throws SQLException {
+		List<Utilisateur> result = null;
 		String req = "SELECT * FROM UTILISATEUR U " + "LEFT OUTER JOIN EMPLOYE E ON E.NOPERSONNE = U.NOPERSONNE "
 				+ "LEFT OUTER JOIN ADHERENT A ON A.NOPERSONNE = U.NOPERSONNE ";
 		Statement stmt = cnx.createStatement();
@@ -110,29 +111,29 @@ public class UtilisateurDAO {
 			pstmt.setShort(4, utilisateur.getEmploye());
 		}
 		boolean executed = pstmt.executeUpdate() > 0;
-		pstmt.close();
 		if (executed) {
 			// insert the Adherent data into the database.
 			if (utilisateur instanceof Adherent) {
 				Adherent adherent = (Adherent) utilisateur;
 				req = "INSERT INTO ADHERENT (NOPERSONNE, NOTELADHERENT, PIN) VALUES (?, ?, ?)";
+				pstmt.close();
 				pstmt = cnx.prepareStatement(req);
 				pstmt.setInt(1, adherent.getNoPersonne());
 				pstmt.setString(2, adherent.getNoTelAdherent());
 				pstmt.setString(3, adherent.getPin());
-				executed = pstmt.executeUpdate() > 0;
-				pstmt.close();
+				
 			} else {
 				Employe employe = (Employe) utilisateur;
 				req = "INSERT INTO EMPLOYE (NOPERSONNE, NOBIBLIOTHEQUE, GRADEEMPLOYE) VALUES (?, ?)";
+				pstmt.close();
 				pstmt = cnx.prepareStatement(req);
 				pstmt.setInt(1, employe.getNoPersonne());
 				pstmt.setInt(2, employe.getBiblio().getNoBibliotheque());
 				pstmt.setString(3, employe.getGradeEmploye());
-				executed = pstmt.executeUpdate() > 0;
-				pstmt.close();
+				
 			}
-
+			executed = pstmt.executeUpdate() > 0;
+			pstmt.close();
 		}
 		return executed;
 	}
@@ -147,28 +148,27 @@ public class UtilisateurDAO {
 		pstmt.setInt(3, utilisateur.getEmploye());
 		pstmt.setInt(4, utilisateur.getNoPersonne());
 		boolean result = pstmt.executeUpdate() > 0;
-		pstmt.close();
 		if (result) {
 			// update the Adherent data into the database.
 			if (utilisateur instanceof Adherent) {
 				Adherent adherent = (Adherent) utilisateur;
 				req = "UPDATE ADHERENT SET NOTELADHERENT = ?, PIN = ? WHERE NOPERSONNE = ?";
+				pstmt.close();
 				pstmt = cnx.prepareStatement(req);
 				pstmt.setString(1, adherent.getNoTelAdherent());
 				pstmt.setString(2, adherent.getPin());
 				pstmt.setInt(3, adherent.getNoPersonne());
-				result = pstmt.executeUpdate() > 0;
-				pstmt.close();
 			} else {
 				Employe employe = (Employe) utilisateur;
 				req = "UPDATE EMPLOYE SET NOBIBLIOTHEQUE = ?, GRADEEMPLOYE = ? WHERE NOPERSONNE = ?";
+				pstmt.close();
 				pstmt = cnx.prepareStatement(req);
 				pstmt.setInt(1, employe.getBiblio().getNoBibliotheque());
 				pstmt.setString(2, employe.getGradeEmploye());
 				pstmt.setInt(3, employe.getNoPersonne());
-				result = pstmt.executeUpdate() > 0;
-				pstmt.close();
 			}
+			result = pstmt.executeUpdate() > 0;
+			pstmt.close();
 		}
 		return result;
 	}

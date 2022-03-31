@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Employe;
 
@@ -60,8 +60,8 @@ public class EmployeDAO {
     }
 
     // function that return a Collection of all Employe in Employe table.
-    public Collection<Employe> findAll() throws SQLException {
-        Collection<Employe> result = new ArrayList<Employe>();
+    public List<Employe> findAll() throws SQLException {
+        List<Employe> result = new ArrayList<Employe>();
         ResultSet rs = null;
         String req = "SELECT * FROM EMPLOYE E " + "LEFT OUTER JOIN UTILISATEUR U ON U.NOPERSONNE = E.NOPERSONNE ";
         PreparedStatement pstmt = cnx.prepareStatement(req);

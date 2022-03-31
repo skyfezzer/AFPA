@@ -6,14 +6,17 @@
 
 package biblio.dao;
 
-import biblio.domain.Livre;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import biblio.domain.Livre;
+
+
 
 /** @pdOid 16fc22dd-2cd2-438d-b256-b30356e219ed */
 public class LivreDAO {
@@ -60,8 +63,8 @@ public class LivreDAO {
 		return result;
 	}
 
-	public Collection<Livre> findAll() throws SQLException {
-		Collection<Livre> result = null;
+	public List<Livre> findAll() throws SQLException {
+		List<Livre> result = null;
 
 		Statement stmt = cnx.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Livre");

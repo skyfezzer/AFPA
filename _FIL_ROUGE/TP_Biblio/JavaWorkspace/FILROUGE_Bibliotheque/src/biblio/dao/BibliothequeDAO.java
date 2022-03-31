@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import biblio.domain.Bibliotheque;
 
@@ -53,8 +53,8 @@ public class BibliothequeDAO {
 		return result;
 	}
 
-	public Collection<Bibliotheque> findAll() throws SQLException {
-		Collection<Bibliotheque> result = null;
+	public List<Bibliotheque> findAll() throws SQLException {
+		List<Bibliotheque> result = null;
 
 		Statement stmt = cnx.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM Bibliotheque");

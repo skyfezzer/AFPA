@@ -103,8 +103,43 @@ public abstract class Utilisateur{
 		this.noPersonne = noPersonne;
 	}
 
-	
-	
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((noPersonne == null) ? 0 : noPersonne.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Utilisateur other = (Utilisateur) obj;
+		if (noPersonne == null) {
+			if (other.noPersonne != null)
+				return false;
+		} else if (!noPersonne.equals(other.noPersonne))
+			return false;
+		return true;
+	}
+
+
+	public boolean isEmploye() {
+		if(getEmploye()!=null) {
+			if(getEmploye()==1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	
 }
