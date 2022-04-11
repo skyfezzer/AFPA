@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -15,13 +17,12 @@ import biblio.dao.LivreDAO;
 import biblio.dao.PretDAO;
 import biblio.dao.UtilisateurDAO;
 import biblio.domain.Adherent;
-import biblio.domain.Employe;
 import biblio.domain.Exemplaire;
 import biblio.domain.Livre;
 import biblio.domain.Pret;
 import biblio.domain.Utilisateur;
 
-public class TestEnRetard {
+public class Test3Emprunts {
 	UtilisateurDAO utilisateurDAO = null;
 	LivreDAO livreDAO = null;
 	ExemplaireDAO exemplaireDAO = null;
@@ -37,7 +38,7 @@ public class TestEnRetard {
 	Exemplaire exemp2 = null;
 
 	public static void main(String[] args) {
-		TestEnRetard testProgram = new TestEnRetard();
+		Test3Emprunts testProgram = new Test3Emprunts();
 		testProgram.init();
 		if (testProgram.cnx != null) {
 			testProgram.start();
@@ -62,46 +63,10 @@ public class TestEnRetard {
 	}
 
 	private void start() {
-		System.out.println("On va créer un emprunt avec un Adhérent qui a un emprunt en retard.");
-		showCreationPretDialog();
-		System.out.println("\n==========");
-		System.out.println("Même test avec un employé :");
-		showCreationPretDialog();
-
-	}
-
-	private void init() {
-		ChargerPropertiesController cpc = new ChargerPropertiesController("jdbc.properties");
-		try {
-			cpc.chargerProperties();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		while (JOptionPane.showConfirmDialog(null, "Créer un nouvel emprunt ?", "Nouvel emprunt",
+				JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+			showCreationPretDialog();
 		}
-
-		// On commence par récupérer l'instance de la connexion SANS AUTO-COMMITS vers
-		// la DB Oracle.
-		ConnectionFactory cf = new ConnectionFactory();
-		try {
-			cnx = cf.getConnectionSansAutoCommit(cpc.getDriver(), cpc.getUrl(), cpc.getUser(), cpc.getPassword());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			// cannot load the driver, exit app.
-			JOptionPane.showMessageDialog(null, "Cannot load the driver", "Error", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			// cannot connect to the database, exit app.
-			JOptionPane.showMessageDialog(null, "Cannot connect to the database", "Error", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-
-		}
-
-		utilisateurDAO = new UtilisateurDAO(cnx);
-		pretDAO = new PretDAO(cnx);
-		exemplaireDAO = new ExemplaireDAO(cnx);
-		livreDAO = new LivreDAO(cnx);
-		adherentDAO = new AdherentDAO(cnx);
 	}
 
 	private void showCreationPretDialog() {
@@ -124,28 +89,6 @@ public class TestEnRetard {
 		Exemplaire ex = showExemplaireParIDDialog();
 
 		creaEmprunt(ex, user);
-	}
-
-	private void showEmployeParIDDialog() {
-		//
-		//
-		// Un Employé par son ID (TEST : 1)
-		//
-		JOptionPane.showMessageDialog(null, "Sélection d'un Employé.");
-		Integer noEmp = null;
-		do {
-			String input = JOptionPane.showInputDialog(null, "Entrez le n°Employé.", "Séléction d'un employé",
-					JOptionPane.QUESTION_MESSAGE);
-			if (input == null)
-				break;
-
-			try {
-				noEmp = Integer.parseInt(input);
-				unEmployeParId(noEmp);
-			} catch (NumberFormatException e) {
-				System.err.println("Impossible de parser le no Employé.");
-			}
-		} while (noEmp == null);
 	}
 
 	private Utilisateur showUtilisateurParIDDialog() {
@@ -172,30 +115,6 @@ public class TestEnRetard {
 			}
 		} while (noUtil == null);
 		return result;
-	}
-
-	private void showAdherentParIDDialog() {
-		//
-		//
-		// Un Adherent par son ID (TEST : 25)
-		JOptionPane.showMessageDialog(null, "Sélection d'un adhérent par son ID.");
-		Integer noAdh = null;
-		do {
-			String input = JOptionPane.showInputDialog(null, "Entrez le n°Adhérent.", "Séléction d'un adhérent",
-					JOptionPane.QUESTION_MESSAGE);
-			if (input == null)
-				break;
-
-			try {
-				noAdh = Integer.parseInt(input);
-				unAdherentParId(noAdh);
-			} catch (NumberFormatException e) {
-				System.err.println("Impossible de parser le no Adhérent.");
-			} catch (SQLException e) {
-				System.err.println("Erreur SQL :");
-				e.printStackTrace();
-			}
-		} while (noAdh == null);
 	}
 
 	private Exemplaire showExemplaireParIDDialog() {
@@ -226,40 +145,12 @@ public class TestEnRetard {
 		return result;
 	}
 
-	// DEMANDE D'UN EMPLOYE PAR SON ID AUX DAO
-	private Utilisateur unEmployeParId(int id) {
-		Utilisateur emp = null;
-		System.out.println();
-		System.out.println("> Demande d'un employé par son id (" + id + ") aux DAO :");
-		try {
-			emp = utilisateurDAO.findByKey(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Employé pour idUtilisateur (" + id + ") : \n\t" + emp);
-		System.out.println("\n");
-
-		return emp;
-
-	}
-
 	private Utilisateur unUtilisateurParId(int id) throws SQLException {
 		System.out.println();
 		System.out.println("> Demande d'un utilisateur par son id (" + id + ") aux DAO :");
 		Utilisateur adh = utilisateurDAO.findByKey(id);
 
 		System.out.println("Utilisateur pour idUtilisateur (" + id + ") : \n\t" + adh);
-		return adh;
-
-	}
-
-	// DEMANDE D'UN ADHERENT PAR SON ID AUX DAO
-	private Utilisateur unAdherentParId(int id) throws SQLException {
-		System.out.println();
-		System.out.println("> Demande d'un adhérent par son id (" + id + ") aux DAO :");
-
-		Utilisateur adh = utilisateurDAO.findByKey(id);
-		System.out.println("Adhérent pour idUtilisateur (" + id + ") : \n\t" + adh);
 		return adh;
 
 	}
@@ -309,4 +200,39 @@ public class TestEnRetard {
 		}
 		
 	}
+	
+	private void init() {
+		ChargerPropertiesController cpc = new ChargerPropertiesController("jdbc.properties");
+		try {
+			cpc.chargerProperties();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// On commence par récupérer l'instance de la connexion SANS AUTO-COMMITS vers
+		// la DB Oracle.
+		ConnectionFactory cf = new ConnectionFactory();
+		try {
+			cnx = cf.getConnectionSansAutoCommit(cpc.getDriver(), cpc.getUrl(), cpc.getUser(), cpc.getPassword());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			// cannot load the driver, exit app.
+			JOptionPane.showMessageDialog(null, "Cannot load the driver", "Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// cannot connect to the database, exit app.
+			JOptionPane.showMessageDialog(null, "Cannot connect to the database", "Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+
+		}
+
+		utilisateurDAO = new UtilisateurDAO(cnx);
+		pretDAO = new PretDAO(cnx);
+		exemplaireDAO = new ExemplaireDAO(cnx);
+		livreDAO = new LivreDAO(cnx);
+		adherentDAO = new AdherentDAO(cnx);
+	}
+
 }

@@ -76,7 +76,8 @@ public class PretDAO {
 					null);
 			result.add(pret);
 		}
-
+		rs.close();
+		stmt.close();
 		return result;
 	}
 	

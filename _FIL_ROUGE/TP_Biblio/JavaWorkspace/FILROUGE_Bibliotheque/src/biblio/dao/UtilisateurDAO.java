@@ -100,18 +100,23 @@ public class UtilisateurDAO {
 	}
 
 	// insert the Utilisateur superclass data into the database.
-	public boolean insert(Utilisateur utilisateur) throws SQLException {
-		String req = "INSERT INTO UTILISATEUR (NOPERSONNE, NOM, PRENOM, EMPLOYE) VALUES (?, ?, ?, ?)";
-		PreparedStatement pstmt = cnx.prepareStatement(req);
+	public Integer insert(Utilisateur utilisateur) throws SQLException {
+		String req = "INSERT INTO UTILISATEUR (NOPERSONNE, NOM, PRENOM, EMPLOYE) VALUES (seq_personne.nextval, ?, ?, ?)";
+		PreparedStatement pstmt = cnx.prepareStatement(req, new String[] { "NOPERSONNE" });
 		pstmt.setInt(1, utilisateur.getNoPersonne());
-		pstmt.setString(2, utilisateur.getNom());
-		pstmt.setString(3, utilisateur.getPrenom());
-		pstmt.setNull(4, java.sql.Types.SMALLINT);
-		if(utilisateur.getEmploye() != null) {
-			pstmt.setShort(4, utilisateur.getEmploye());
+		pstmt.setString(1, utilisateur.getNom());
+		pstmt.setString(2, utilisateur.getPrenom());
+		pstmt.setNull(3, java.sql.Types.SMALLINT);
+		if (utilisateur.getEmploye() != null) {
+			pstmt.setShort(3, utilisateur.getEmploye());
 		}
 		boolean executed = pstmt.executeUpdate() > 0;
+
 		if (executed) {
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				utilisateur.setNoPersonne(rs.getInt(1));
+			}
 			// insert the Adherent data into the database.
 			if (utilisateur instanceof Adherent) {
 				Adherent adherent = (Adherent) utilisateur;
@@ -121,7 +126,7 @@ public class UtilisateurDAO {
 				pstmt.setInt(1, adherent.getNoPersonne());
 				pstmt.setString(2, adherent.getNoTelAdherent());
 				pstmt.setString(3, adherent.getPin());
-				
+
 			} else {
 				Employe employe = (Employe) utilisateur;
 				req = "INSERT INTO EMPLOYE (NOPERSONNE, NOBIBLIOTHEQUE, GRADEEMPLOYE) VALUES (?, ?)";
@@ -130,12 +135,12 @@ public class UtilisateurDAO {
 				pstmt.setInt(1, employe.getNoPersonne());
 				pstmt.setInt(2, employe.getBiblio().getNoBibliotheque());
 				pstmt.setString(3, employe.getGradeEmploye());
-				
+
 			}
-			executed = pstmt.executeUpdate() > 0;
+			pstmt.executeUpdate();
 			pstmt.close();
 		}
-		return executed;
+		return utilisateur.getNoPersonne();
 	}
 
 	// update the Utilisateur superclass data into the database using his primary

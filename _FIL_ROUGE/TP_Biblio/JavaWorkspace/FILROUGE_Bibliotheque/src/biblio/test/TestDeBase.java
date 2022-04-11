@@ -51,9 +51,8 @@ public class TestDeBase {
 		showEmployeParIDDialog();
 
 		// On créé un emprunt pour un utilisateur x2
-		for (int i = 1; i < 3; i++) {
-			showCreationPretDialog();
-		}
+		showCreationPretDialog();
+		showCreationPretDialog();
 	}
 
 	private void showCreationPretDialog() {
