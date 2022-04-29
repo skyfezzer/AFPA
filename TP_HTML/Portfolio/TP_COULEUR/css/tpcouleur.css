@@ -1,0 +1,24 @@
+body{
+    padding: auto;
+}
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
+.blue{
+    color:white;
+    background-color: blue;
+}
+input[type="button"]{
+    display:block;
+    margin:auto;
+
+    text-align: center;
+}
+
+table{
+    margin: auto;
+    padding-bottom: 100px;
+}

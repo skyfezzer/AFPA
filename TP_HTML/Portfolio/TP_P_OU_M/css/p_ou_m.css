@@ -1,0 +1,22 @@
+body {
+    background-color: orange;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.centered {
+    text-align: center;
+}
+
+table {
+    margin-left: 50px;
+}
+td{
+    text-align: right;
+}
+form input[type="button"],input[type="reset"]{
+    width: 100%;
+}
+
+.hidden{
+    display:none;
+}

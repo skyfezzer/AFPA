@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/tpcouleur.css'>
+
+</head>
+<body>
+    <table>
+        <caption>Pour modifier la couleur du fond d'écran, cliquez sur les boutons !</caption>
+        <tbody>
+            <tr>
+                <td class="red">Rouge:<br/><input type="text" id="tred" value="FF" maxlength="2" /></td>
+                <td class="green">Vert:<br/><input type="text" id="tgreen" value="FF" maxlength="2" /></td>
+                <td class="blue">Bleu:<br/><input type="text" id="tblue" value="FF" maxlength="2" /></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="red" id="btRed" value="Rouge" data-selfcolor="FF0000"/></td>
+                <td><input type="button" class="green" id="btGreen" value="Vert" data-selfcolor="00FF00"/></td>
+                <td><input type="button" class="blue" id="btBlue" value="Bleu" data-selfcolor="0000FF"/></td>
+            </tr>
+            
+        </tbody>
+    </table>
+    <script src='js/tpcouleur.js'></script>
+</body>
+</html>

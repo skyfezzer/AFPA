@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Formulaire d'inscription</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/tpform.css'>
+</head>
+
+<body>
+    <form id="form" action="#" method="GET">
+        <h1>Formulaire d'inscription</h1>
+        <table>
+            <tbody>
+                <tr>
+                    <td> Entrez votre nom </td>
+                    <td><input type="text" id="nom" name="nom" required /></td>
+                </tr>
+                <tr>
+                    <td> Entrez votre prénom </td>
+                    <td><input type="text" id="prenom" name="prenom" required /></td>
+                </tr>
+                <tr>
+                    <td> Entrez votre âge </td>
+                    <td><input type="number" id="age" name="age" required /></td>
+                </tr>
+                <tr>
+                    <td class="mt-2" colspan="2">Entrez votre sexe </td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="sexeHomme" name="sexe" value="Homme"
+                            checked><label>Homme</label></input></td>
+                    <td><input type="radio" id="sexeFemme" name="sexe" value="Femme"><label>Femme</label></input></td>
+                </tr>
+                <tr>
+                    <td><input type="reset" id="reset" class="w100" value="RESET"></td>
+                    <td><input type="submit" id="submit" class="w100" value="VALIDEZ" onclick="return callback(false);"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <caption><em>DEBUG</em></caption>
+            <tbody>
+                <tr>
+                    <td><input type="button" id="preremp" value="pré-remplir"></td>
+                    <td><input type="button" id="forcesend"  value="envoi sans verif."></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <script src='js/tpform.js'></script>
+</body>
+
+</html>

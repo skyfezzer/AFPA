@@ -1,0 +1,10 @@
+td img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centered {
+    text-align: center;
+    vertical-align: middle;
+}

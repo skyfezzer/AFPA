@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/p_ou_m.css'>
+
+</head>
+
+<body>
+    <h1 class="centered">Plus ou moins ?</h1>
+    <p>Bonjour.</p>
+    <p>Le but du jeu est de découvrir un nombre aléatoire entre 1 et 500 compris.</p>
+    <form>
+        <table>
+            <tbody>
+                <tr>
+                    <td> Dernière proposition : </td>
+                    <td><input type="text" id="tDerniereProp" readonly></td>
+                </tr>
+                <tr>
+                    <td> Essai n° : </td>
+                    <td><input type="text" id="tEssaiNum" readonly></td>
+                </tr>
+                <tr>
+                    <td> Réponse : </td>
+                    <td><input type="text" id="tRep" readonly></td>
+                </tr>
+                <tr>
+                    <td><input type="button" id="btJouer" value="Jouer !"></td>
+                    <td><input type="reset" id="btReset" value="Réinitialiser"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="hidden centered" id="reponseJoueur">
+        <div id="playerinput">
+            <h2 id="subtitle">C'est parti !</h2>
+            <p>Entrez un nombre : </p>
+            <input id="tReponse" type="number" value=""></input>
+            <input type="button" value="OK !" id="btReponse" />
+        </div>
+    </div>
+    <br/>
+
+    </div>
+    <script src='js/p_ou_m.js'></script>
+</body>
+
+</html>

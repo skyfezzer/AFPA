@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Formulaire de contact</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/tp2.css'>
+</head>
+
+<body>
+    <p>Formulaire de contact</p>
+    <form action="" method="get">
+        <p>Nom</p>
+        <input type="text" name="nom" />
+        <p>Mail</p>
+        <input type="text" name="mail" />
+        <p>Pays</p>
+        <select>
+            <option>France</option>
+            <option>Suisse</option>
+            <option>Belgique</option>
+        </select>
+        <p>Le motif de votre message</p>
+        <input type="radio" name="motif" value="renseignement">Renseignement</input><br/>
+        <input type="radio" name="motif" value="probtech">Probleme technique</input><br/>
+        <input type="radio" name="motif" value="partenariat">Partenariat</input><br/>
+        <p>Votre message</p>
+        <textarea style="width: 300px;height: 200px;"></textarea><br/>
+        <input type="reset" name="annuler" value="Annuler"/>
+        <input type="submit" value="Envoyer"/>
+    </form>
+</body>
+
+</html>

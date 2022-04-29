@@ -1,0 +1,12 @@
+<div class="footer">
+    <p>Pour toute question ou remarque concernant cette page, envoyez un mail à <a href="mailto:alexisragot77@gmail.com">alexisragot77@gmail.com</a></p>
+    <p>Copyright &copy; 2022 Alexis RAGOT - Dernière modification <strong id="dateModif"></strong></p>
+</div>
+
+<script>
+    var d = document.lastModified.substring(0,10).split("/");
+    var e = d[1];
+    var m = d[0];
+    var y = d[2];
+    document.getElementById("dateModif").textContent = e + "/" + m + "/" + y;
+</script>"

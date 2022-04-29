@@ -4,7 +4,9 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{E717CB09-A39B-4AEB-B768-B8129169F05C}" Name="BANQUE" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="banque.mpd"/>
+		<Model Expanded="Yes" ID="{E717CB09-A39B-4AEB-B768-B8129169F05C}" Loaded="No" Name="BANQUE" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="banque.mpd"/>
+		<Model Expanded="Yes" ID="{B2CAC5C5-F333-4046-80D6-10560C23507A}" Name="concours_moo" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="file:///C|/Users/77011-05-10/Desktop/concours/concours_moo.moo"/>
+		<Model Expanded="Yes" ID="{915FAAD3-888B-41F2-BF37-E9C577A0888A}" Name="concours_mpd" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="file:///C|/Users/77011-05-10/Desktop/concours/concours_mpd.mpd"/>
 	</Local>
 	<BrowserModule Name="Référentiel"/>
 </Workspace>

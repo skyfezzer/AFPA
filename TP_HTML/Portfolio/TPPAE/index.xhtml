@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Rapport de suivi de la Période en Entreprise</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link rel='stylesheet' type='text/css' media='screen' href='css/pae.css' />
+</head>
+
+<body>
+
+    <form action="#" method="get">
+        <h1>Rapport de Suivi de la Période en Entreprise</h1>
+        <section>
+            <h3>Stagiaire</h3>
+            <table>
+                <tr>
+                    <td>Nom et Prénom *</td>
+                    <td><input type="text" name="nomprenom" required="true"/></td>
+                </tr>
+                <tr>
+                    <td>Formation *</td>
+                    <td><input type="text" name="formation" required="true" /></td>
+                </tr>
+            </table>
+        </section>
+        <section>
+            <h3>Entreprise</h3>
+            <table>
+                <tr>
+                    <td>Nom *</td>
+                    <td><input type="text" name="nomEntreprise" required="true" /></td>
+                </tr>
+                <tr>
+                    <td>Adresse *</td>
+                    <td><input type="text" name="adrEntreprise" required="true" /></td>
+                </tr>
+                <tr>
+                    <td>Nom du tuteur *</td>
+                    <td><input type="text" name="nomTuteur" required="true" /></td>
+                    <td>Fonction *</td>
+                    <td><input type="text" name="fncTuteur" required="true" /></td>
+                </tr>
+                <tr>
+                    <td>Tél *</td>
+                    <td><input type="tel" name="numTelFixeEntreprise" required="true" /></td>
+                    <td>Port. *</td>
+                    <td><input type="tel" name="numPortEntreprise" required="true" /></td>
+                    <td>Email *</td>
+                    <td><input type="text" name="mailEntreprise" required="true" /></td>
+                </tr>
+                <tr>
+                    <td>Secteur d'activité *</td>
+                    <td><input type="text" name="secteurEntreprise" required="true" /></td>
+                </tr>
+            </table>
+        </section>
+        <section>
+            <h3>Observation sur le déroulement de la PAE</h3>
+            <table>
+                <tr>
+                    <td>Objectifs d'acquisitions atteints *</td>
+                    <td><input type="radio" id="objTotal" name="objectifs" value="1" required="true" /> <label
+                            for="objTotal">totalement</label></td>
+                    <td><input type="radio" id="objPart" name="objectifs" value="2" required="true" /> <label
+                            for="objPart">partiellement</label></td>
+                    <td><input type="radio" id="objNon" name="objectifs" value="3" required="true" /> <label for="objNon">non</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Comportement en milieu de travail *</td>
+                    <td><input type="radio" id="compTotal" name="comportement" value="1" required="true" /> <label
+                            for="compAdapte">adapté</label></td>
+                    <td><input type="radio" id="compPart" name="comportement" value="2" required="true" /> <label for="compEnProg">en
+                            progression</label></td>
+                    <td><input type="radio" id="compNon" name="comportement" value="3" required="true" /> <label for="compNon">peu
+                            adapté</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Satisfaction de l'entreprise *</td>
+                    <td><input type="radio" id="satisTotal" name="satisfaction" value="1" required="true" /> <label
+                            for="satisTotal">satisfait</label></td>
+                    <td><input type="radio" id="satisPart" name="satisfaction" value="2" required="true"/> <label for="satisPart">peu
+                            satisfait</label></td>
+                    <td><input type="radio" id="satisNon" name="satisfaction" value="3" required="true" /> <label for="satisNon">pas
+                            satisfait</label>
+                    </td>
+                </tr>
+            </table>
+            <p class="nomargin-bot">Remarques</p>
+            <input type="text" name="remarquesPAE" />
+            <table>
+                <tr>
+                    <td>Perspective d'embauche *</td>
+                    <td><input type="checkbox" id="emCDD" name="embauche" value="cdd" /><label
+                            for="emCDD">C.D.D.</label>
+                        <input type="checkbox" id="emCDI" name="embauche" value="cdi" /><label
+                            for="emCDI">C.D.I.</label>
+                        <input type="checkbox" id="emAlter" name="embauche" value="alter" /><label
+                            for="emAlter">Alternance</label>
+                        <input type="checkbox" id="emNeant" name="embauche" value="neant" /><label
+                            for="emNeant">Néant</label>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h3>Informations concernant l'activité de l'enteprise et les possibilités d'intervention</h3>
+            <table>
+                <tr>
+                    <td>Taille de l'entreprise</td>
+                    <td><input type="radio" id="m10" name="nbsalaries" value="10" /> <label for="m10">-10
+                            pers.</label></td>
+                    <td><input type="radio" id="m50" name="nbsalaries" value="50" /> <label for="m50">-50
+                            pers.</label></td>
+                    <td><input type="radio" id="m100" name="nbsalaries" value="100" /> <label for="m100">-100
+                            pers.</label>
+                    </td>
+                    <td><input type="radio" id="p100" name="nbsalaries" value="101" /> <label for="p100">+100
+                            pers.</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">L'entreprise a-t'elle des projets de développement</td>
+                    <td><input type="radio" id="projDevY" name="projdev" value="yes" /> <label
+                            for="projDevY">oui</label></td>
+                    <td><input type="radio" id="projDevN" name="projdev" value="no" /> <label for="projDevN">non</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="nomargin-bot">Remarques</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="remarquesActivite" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Emission d'une fiche Prospect/Client</td>
+                    <td><input type="radio" id="fichePCY" name="fichePC" value="yes" /> <label
+                            for="fichePCY">oui</label></td>
+                    <td><input type="radio" id="fichePCN" name="fichePC" value="no" /> <label for="fichePCN">non</label>
+                    </td>
+                    <td><label for="datePC">date </label><input type="date" id="datePC" name="datePC" /></td>
+                </tr>
+            </table>
+        </section>
+        <section>
+            <h3>Formateur</h3>
+            <table>
+                <tr>
+                    <td>Nom et Prénom *</td>
+                    <td colspan="2"><input type="text" name="nomFormateur" required="true" /></td>
+                </tr>
+                <tr>
+                    <td>Date de la visite</td>
+                    <td><input type="date" name="dateVisiteFormateur" /></td>
+                    <td>Date du contact téléphonique</td>
+                    <td><input type="date" name="dateContactFormateur" /></td>
+                </tr>
+            </table>
+        </section><br />
+        <section style="display:inline">
+            <input type="submit" value="Soumettre" />
+            <input type="reset" value="Reset" />
+            <input type="button" value="Annuler" />
+            
+        </section>
+        
+        <section>
+            <p style="margin-bottom: 0;"><em>DEBUG</em></p>
+            <input type="button" value="Pré-Remplir"/>
+            <input type="button" value="Envoi sans vérif"/>
+        </section>
+        <section></section>
+    </form>
+</body>
+
+</html>

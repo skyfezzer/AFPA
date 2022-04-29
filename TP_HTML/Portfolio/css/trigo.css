@@ -1,0 +1,15 @@
+table, td, th{
+    border: 1px solid black;
+}
+
+.footer{
+    margin-top: 1%;
+    border-top-left-radius: 30%;
+    border-top-right-radius: 30%;
+    border-top : 2px solid grey;
+    text-align: center;
+}
+
+.footer p{
+    margin: 0px;
+}
